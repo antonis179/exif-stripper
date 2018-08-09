@@ -1,0 +1,69 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+	compileSdkVersion compileVersion
+	buildToolsVersion buildToolsVersion
+
+
+	defaultConfig {
+		minSdkVersion minVersion
+		targetSdkVersion targetVersion
+		versionCode 1000
+		versionName "0.1"
+
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt')
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+}
+
+
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+	//Inner modules
+	implementation project(":utils_android")
+
+	//Support
+	implementation "com.android.support:appcompat-v7:${SUPPORT}"
+
+	//Retrofit
+	implementation "com.squareup.retrofit2:retrofit:${RETROFIT}"
+
+	//RX
+	implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: "${RX_JAVA}"
+	implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: "${RX_ANDROID}"
+
+	//Retrofit
+	implementation "com.squareup.retrofit2:retrofit:${RETROFIT}"
+//	implementation "com.squareup.retrofit2:converter-scalars:${RETROFIT}"
+	implementation "com.squareup.retrofit2:converter-gson:${RETROFIT}"
+	implementation "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT}"
+	implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: "${OKHTTP}"
+
+	//GSON
+	implementation "com.google.code.gson:gson:${GSON}"
+
+	//Timber
+	implementation "com.jakewharton.timber:timber:${TIMBER}"
+
+	//Kotlin
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:${KOTLIN}"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KOTLIN}"
+
+	//Network tools - https://github.com/stealthcopter/AndroidNetworkTools/releases/
+//	implementation 'com.github.stealthcopter:AndroidNetworkTools:0.3.08'
+}

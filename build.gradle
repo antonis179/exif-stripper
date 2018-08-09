@@ -1,0 +1,104 @@
+allprojects {
+	repositories {
+		jcenter()
+		mavenCentral()
+		google()
+		maven { url 'https://jitpack.io' }
+		maven {	url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
+	}
+}
+
+ext {
+	//Build
+	compileVersion = 27
+	minVersion = 21
+	targetVersion = 27
+	buildToolsVersion = '27.0.3'
+
+	//Support
+	PLAY_SERVICES = '15.0.1'
+	SUPPORT = '27.1.1'
+	CONSTRAINT_LAYOUT = '1.1.2'
+	LIFECYCLE = '1.1.1'
+	LIFECYCLE_JAVA8 = '1.1.0'
+
+	//Annotation processors - injection - RX
+	DAGGER = '2.15'
+	RETROFIT = '2.4.0'
+	RX_JAVA = '2.1.12'
+	RX_KOTLIN = '2.2.0'
+	RX_ANDROID = '2.0.2'
+	BUTTERKNIFE = '8.8.1'
+
+	//Realm
+	REALM_ANDROID_ADAPTERS = '2.1.1'
+	KOTLIN_REALM_EXT = '2.1.1'
+
+	//Net
+	GSON = '2.8.3'
+	OKHTTP = '3.10.0'
+
+	//Logging
+	TIMBER = '4.6.0'
+
+	//Testing
+	ESPRESSO = '2.2.2'
+	JUNIT = '4.12'
+
+	//Analytics
+	CRASHLYTICS = '2.9.4'
+	FIREBASE_INDEX = '16.0.1'
+	FIREBASE_CORE = '16.0.1'
+	FIREBASE_PERF = '16.0.0'
+
+	//Job dispatcher
+	JOB_DISPATCHER = '0.8.5'
+
+	//Bus
+	EVENT_BUS = '3.1.1'
+}
+
+buildscript {
+	repositories {
+		jcenter()
+		mavenCentral()
+		google()
+		maven {	url 'https://plugins.gradle.org/m2/' }
+		maven {	url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
+	}
+
+	ext {
+		KOTLIN = '1.2.60'
+		REALM = '5.4.0'
+
+		//Analytics
+		FIREBASE = '3.2.0'
+		FIREBASE_PERFORMANCE = '1.1.5'
+		FABRIC = '1.25.1'
+	}
+
+	dependencies {
+		classpath 'com.android.tools.build:gradle:3.1.4'
+
+		//Kotlin
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN}"
+		classpath "org.jetbrains.kotlin:kotlin-android-extensions:${KOTLIN}"
+
+		//Realm
+		classpath "io.realm:realm-gradle-plugin:${REALM}"
+
+		//Analytics
+//		classpath "com.google.gms:google-services:${FIREBASE}"
+//		classpath "com.google.firebase:firebase-plugins:${FIREBASE_PERFORMANCE}"
+
+		//Gradle caching fixes - https://github.com/gradle/android-cache-fix-gradle-plugin
+//		classpath "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:0.3.8"
+	}
+}
+
+//apply plugin: "org.gradle.android.cache-fix"
+
+
+task clean(type: Delete) {
+	delete rootProject.buildDir
+}

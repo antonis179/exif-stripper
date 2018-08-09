@@ -1,0 +1,62 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'realm-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+	compileSdkVersion compileVersion
+	buildToolsVersion buildToolsVersion
+
+
+	defaultConfig {
+		minSdkVersion minVersion
+		targetSdkVersion targetVersion
+		versionCode 1000
+		versionName "0.1"
+
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt')
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+}
+
+kapt {
+	useBuildCache true
+}
+
+dependencies {
+	implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+	implementation "com.android.support:support-v4:${SUPPORT}"
+
+	//RX
+	implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: "${RX_JAVA}"
+	implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: "${RX_ANDROID}"
+
+	//Realm
+	compileOnly "io.realm:realm-android-library:${REALM}"
+	implementation "io.realm:android-adapters:${REALM_ANDROID_ADAPTERS}"
+	implementation "com.github.vicpinm:krealmextensions:${KOTLIN_REALM_EXT}"
+
+	//Timber
+	implementation "com.jakewharton.timber:timber:${TIMBER}"
+
+	//Kotlin
+	implementation "org.jetbrains.kotlin:kotlin-stdlib:${KOTLIN}"
+	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KOTLIN}"
+
+	//Bus
+	implementation "org.greenrobot:eventbus:${EVENT_BUS}"
+}

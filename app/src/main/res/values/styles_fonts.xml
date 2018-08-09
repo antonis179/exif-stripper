@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextInputLayoutErrorStyle" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:fontFamily">@font/roboto_slab_bold</item>
+    </style>
+
+    <style name="Text.Regular" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_slab</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Text.Bold" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_slab_bold</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.Italic" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/roboto_slab_light</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <!-- X Small variants -->
+    <style name="Text.Regular.ExtraSmall" parent="@style/Text.Regular">
+        <item name="android:textSize">@dimen/text_xsmall</item>
+    </style>
+    <style name="Text.Bold.ExtraSmall" parent="@style/Text.Bold">
+        <item name="android:textSize">@dimen/text_xsmall</item>
+    </style>
+    <style name="Text.Italic.ExtraSmall" parent="@style/Text.Italic">
+        <item name="android:textSize">@dimen/text_xsmall</item>
+    </style>
+
+    <!-- Small variants -->
+    <style name="Text.Regular.Small" parent="@style/Text.Regular">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="Text.Bold.Small" parent="@style/Text.Bold">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+    <style name="Text.Italic.Small" parent="@style/Text.Italic">
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+
+    <!-- Large variants -->
+    <style name="Text.Regular.Large" parent="@style/Text.Regular">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="Text.Bold.Large" parent="@style/Text.Bold">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+    <style name="Text.Italic.Large" parent="@style/Text.Italic">
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+
+    <!-- XLarge variants -->
+    <style name="Text.Regular.XLarge" parent="@style/Text.Regular">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="Text.Bold.XLarge" parent="@style/Text.Bold">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+    <style name="Text.Italic.XLarge" parent="@style/Text.Italic">
+        <item name="android:textSize">@dimen/text_xlarge</item>
+    </style>
+
+
+    <!--
+        Specific Fonts
+    -->
+
+    <!-- Dashboard coin card -->
+    <style name="Text.Regular.Activity.Description" parent="@style/Text.Regular">
+        <item name="android:textColor">@color/gray_light</item>
+        <item name="android:textSize">@dimen/text_small</item>
+    </style>
+
+
+</resources>

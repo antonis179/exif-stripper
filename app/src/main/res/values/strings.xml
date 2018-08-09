@@ -1,0 +1,10 @@
+<resources>
+
+
+    <!-- Toasts -->
+    <string name="toast_back_to_exit">Click back once again to exit</string>
+
+    <!-- Google Assistant -->
+    <string name="search_hint">Search for flights</string>
+
+</resources>
