@@ -43,14 +43,14 @@ class ActivityListingPresenter(
 						models.add(model)
 					}
 
-					Timber.i("Found " + activities.size + " classes")
+					Timber.i("Found ${activities.size} classes")
 
 					models
 				}
 				.doOnError { Timber.i(it) }
 				.onErrorReturn { ArrayList() }
 				.observeOn(AndroidSchedulers.mainThread())
-				.doOnNext { mView.onItemsCollected(it) }
+				.doOnNext { view().onItemsCollected(it) }
 				.subscribe())
 	}
 

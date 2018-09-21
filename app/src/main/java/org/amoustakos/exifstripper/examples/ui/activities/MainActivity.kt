@@ -16,6 +16,7 @@ import org.amoustakos.exifstripper.examples.ui.presenters.ActivityListingPresent
 import org.amoustakos.exifstripper.examples.view.adapters.ActivityListingAdapter
 import org.amoustakos.exifstripper.examples.view.models.ActivityListingModel
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
+import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 import timber.log.Timber
 import java.util.*
 
@@ -28,37 +29,44 @@ import java.util.*
 class MainActivity : BaseActivity(), ActivityListingView {
 
 	private var isDoubleBackToExitPressedOnce = false
-	private var mPresenter: ActivityListingActions? = null
+	private var presenter: ActivityListingActions? = null
 
-	private var exampleAdapter: ActivityListingAdapter? = null
+	private var adapter: ActivityListingAdapter? = null
+
+	private val toolbar = BasicToolbar(R.id.toolbar)
+
 
 	@LayoutRes override fun layoutId() = R.layout.activity_main
 
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		activityComponent().inject(this)
 
-		Timber.d(intent.action + " | " + intent.dataString)
+		setupViewComponent(toolbar)
+		toolbar.setTitle(R.string.title_activity_main)
+		toolbar.setAsActionbar(this)
 
-		toolbar?.setTitle(R.string.title_activity_main)
+		Timber.d("${intent.action} | ${intent.dataString}")
 
-		if (mPresenter == null) {
-			mPresenter = ActivityListingPresenter(
+		if (presenter == null) {
+			presenter = ActivityListingPresenter(
 					this,
 					packageName,
 					packageManager)
-			mPresenter!!.subscribeToLifecycle(lifecycle)
+			presenter!!.subscribeToLifecycle(lifecycle)
 		}
 
 		setupRecycler()
-		mPresenter!!.load()
+		presenter!!.load()
 
 		handleVoiceSearch(intent)
 	}
 
+
 	override fun onDestroy() {
 		super.onDestroy()
-		mPresenter?.unsubscribeToLifecycle(lifecycle)
+		presenter?.unsubscribeFromLifecycle(lifecycle)
 	}
 
 	override fun onNewIntent(intent: Intent) {
@@ -99,9 +107,9 @@ class MainActivity : BaseActivity(), ActivityListingView {
 	}
 
 	private fun refreshAdapter(items: List<ActivityListingModel>) {
-		exampleAdapter!!.clean()
-		exampleAdapter!!.addAll(items)
-		exampleAdapter!!.notifyDataSetChanged()
+		adapter!!.clean()
+		adapter!!.addAll(items)
+		adapter!!.notifyDataSetChanged()
 	}
 
 	// =========================================================================================
@@ -109,9 +117,9 @@ class MainActivity : BaseActivity(), ActivityListingView {
 	// =========================================================================================
 
 	private fun setupRecycler() {
-		if (exampleAdapter == null)
-			exampleAdapter = ActivityListingAdapter(ArrayList())
-		rv_activity_pool.adapter = exampleAdapter
+		if (adapter == null)
+			adapter = ActivityListingAdapter(ArrayList())
+		rv_activity_pool.adapter = adapter
 	}
 
 

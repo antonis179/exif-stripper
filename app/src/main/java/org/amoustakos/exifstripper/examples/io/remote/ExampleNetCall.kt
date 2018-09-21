@@ -1,6 +1,7 @@
 package org.amoustakos.exifstripper.examples.io.remote
 
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import org.amoustakos.exifstripper.net.BaseCall
 import org.amoustakos.models.network.NetEvent
 import org.amoustakos.utils.network.Headers.HEADER_CONTENT_TYPE
@@ -20,6 +21,7 @@ class ExampleNetCall @Inject constructor(
 
 	fun call(): Observable<NetEvent<JSONObject>> {
         return service.makeCall()
+                .observeOn(Schedulers.io())
                 .compose(applyTransformations(RETRIES))
                 .compose(applyErrorLogging())
                 .map { resp ->

@@ -30,7 +30,7 @@ class Environment @Inject constructor(
 
         //Get config here or realm config will be requested before realm init = crash
         Realm.setDefaultConfiguration(
-                ExifStripperApplication[context].component.defaultRealmConfig()
+                BoilerplateApplication[context].component.defaultRealmConfig()
         )
     }
 

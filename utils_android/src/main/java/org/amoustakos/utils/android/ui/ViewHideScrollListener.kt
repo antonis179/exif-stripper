@@ -1,6 +1,5 @@
 package org.amoustakos.utils.android.ui
 
-import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -14,8 +13,8 @@ import org.amoustakos.utils.android.enums.Orientation.VERTICAL
 import timber.log.Timber
 
 
-class FabHideScrollListener(
-        private val fab: FloatingActionButton,
+class ViewHideScrollListener(
+        private val view: View,
         private val threshold: Int = 20,
         private val orientation: Orientation = VERTICAL,
         private val animFactor: Float = 2F,
@@ -32,7 +31,7 @@ class FabHideScrollListener(
     }
 
 
-    override fun onScrolled(rv: RecyclerView?, dx: Int, dy: Int) {
+    override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(rv, dx, dy)
 
         chooseAnimation(rv)
@@ -54,14 +53,14 @@ class FabHideScrollListener(
 
     private fun shouldShow()    = scrolledDistance < -threshold && !isVisible()
     private fun isVertical()    = orientation == VERTICAL
-    private fun isVisible()     = fab.visibility == VISIBLE
+    private fun isVisible()     = view.visibility == VISIBLE
 
     private fun RecyclerView.isAtTop(): Boolean {
         return try {
             val linearLayoutManager = this.layoutManager as LinearLayoutManager
             val pos = linearLayoutManager.findFirstVisibleItemPosition()
 
-            linearLayoutManager.findViewByPosition(pos).top == 0 && pos == 0
+            linearLayoutManager.findViewByPosition(pos)?.top == 0 && pos == 0
         }
         catch (e: ClassCastException){
             Timber.e(e)
@@ -94,10 +93,10 @@ class FabHideScrollListener(
         if (isAnimatorActive)
             return
         isAnimatorActive = true
-        var animator = fab.animate()
+        var animator = view.animate()
                 .setInterpolator(DecelerateInterpolator(animFactor))
                 .setDuration(animTime)
-                .withStartAction { fab.visibility = View.VISIBLE }
+                .withStartAction { view.visibility = View.VISIBLE }
                 .withEndAction { isAnimatorActive = false }
 
         animator =  if (isVertical())
@@ -114,22 +113,22 @@ class FabHideScrollListener(
         isAnimatorActive = true
 
         val fabMargin = when {
-            fab.layoutParams is RelativeLayout.LayoutParams ->
-                (fab.layoutParams as RelativeLayout.LayoutParams).bottomMargin
+            view.layoutParams is RelativeLayout.LayoutParams ->
+                (view.layoutParams as RelativeLayout.LayoutParams).bottomMargin
 
-            fab.layoutParams is LinearLayout.LayoutParams ->
-                (fab.layoutParams as LinearLayout.LayoutParams).bottomMargin
+            view.layoutParams is LinearLayout.LayoutParams ->
+                (view.layoutParams as LinearLayout.LayoutParams).bottomMargin
 
             else -> 0
         }
 
-        val d = (fab.height + fabMargin).toFloat()
-        var animator = fab.animate()
+        val d = (view.height + fabMargin).toFloat()
+        var animator = view.animate()
                 .setInterpolator(AccelerateInterpolator(animFactor))
                 .setDuration(animTime)
                 .withEndAction {
                     isAnimatorActive = false
-                    fab.visibility = View.GONE
+                    view.visibility = View.GONE
                 }
 
         animator =  if (isVertical())

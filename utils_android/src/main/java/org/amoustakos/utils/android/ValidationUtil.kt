@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.util
+package org.amoustakos.utils.android
 
 import android.text.TextUtils
 import timber.log.Timber

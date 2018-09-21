@@ -11,7 +11,7 @@ import org.amoustakos.exifstripper.injection.module.NetworkModule
 import timber.log.Timber
 
 
-class ExifStripperApplication : Application() {
+class BoilerplateApplication : Application() {
 
 	lateinit var component: ApplicationComponent
 
@@ -43,8 +43,8 @@ class ExifStripperApplication : Application() {
 
 
 	companion object {
-		@JvmStatic operator fun get(context: Context): ExifStripperApplication {
-			return context.applicationContext as ExifStripperApplication
+		@JvmStatic operator fun get(context: Context): BoilerplateApplication {
+			return context.applicationContext as BoilerplateApplication
 		}
 	}
 

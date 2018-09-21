@@ -6,7 +6,7 @@ interface BaseContractActions {
 	fun init() {}
 
 	fun subscribeToLifecycle(lifecycle: Lifecycle)
-	fun unsubscribeToLifecycle(lifecycle: Lifecycle)
+	fun unsubscribeFromLifecycle(lifecycle: Lifecycle)
 }
 
 interface BaseContractView

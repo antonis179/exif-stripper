@@ -1,11 +1,10 @@
-package org.amoustakos.exifstripper.util.ui
+package org.amoustakos.utils.android.ui
 
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import org.amoustakos.exifstripper.injection.annotations.context.ActivityContext
 
 
 object ViewUtil {
@@ -31,7 +30,7 @@ object ViewUtil {
     /**
      * Hide the keyboard
      */
-    fun hideKeyboard(@ActivityContext activity: Activity) {
+    fun hideKeyboard(activity: Activity) {
         val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(activity.window.decorView.windowToken, 0)
     }

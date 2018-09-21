@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
 import android.util.LongSparseArray
-import android.view.View
-import android.view.ViewGroup
-import org.amoustakos.exifstripper.ExifStripperApplication
-import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.BoilerplateApplication
 import org.amoustakos.exifstripper.injection.component.ActivityComponent
 import org.amoustakos.exifstripper.injection.component.ConfigPersistentComponent
 import org.amoustakos.exifstripper.injection.component.DaggerConfigPersistentComponent
 import org.amoustakos.exifstripper.injection.module.injectors.ActivityModule
+import org.amoustakos.exifstripper.view.base.IActivityViewComponent
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicLong
 
@@ -27,11 +24,17 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     private var mActivityComponent: ActivityComponent? = null
     private var mActivityId: Long = 0
 
-    protected val rootView: View
-        get() = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0)
+//    protected val rootView: View
+//        get() = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0)
 
-    protected val toolbar: Toolbar?
-        get() = findViewById<View>(R.id.toolbar) as Toolbar
+    protected fun setupViewComponents(components: List<IActivityViewComponent>) {
+	    components.forEach { setupViewComponent(it) }
+    }
+
+	protected fun setupViewComponent(component: IActivityViewComponent) {
+		component.setup(this)
+	}
+
 
     // =========================================================================================
     // Overridden
@@ -42,9 +45,6 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         setContentView(layoutId())
         makeID(savedInstanceState)
         makeComponents(mActivityId)
-
-        setupToolbar()
-//        setupNavBar()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -94,45 +94,18 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     @LayoutRes
     protected abstract fun layoutId(): Int
 
-
-    // =========================================================================================
-    // Toolbar / Navigation bar
-    // =========================================================================================
-
-    private fun setupToolbar() {
-        val toolbar = toolbar
-        if (toolbar != null)
-            setSupportActionBar(toolbar)
-    }
-
-
-//    private fun setupNavBar() {
-//        if (drawer_layout == null)
-//            return
-//
-//        val toggle = ActionBarDrawerToggle(
-//                this,
-//                drawer_layout,
-//                toolbar,
-//                R.string.navigation_drawer_open,
-//                R.string.navigation_drawer_close)
-//        drawer_layout.addDrawerListener(toggle)
-//        toggle.syncState()
-//
-//        nav_view.setNavigationItemSelectedListener(this)
-//    }
-
     // =========================================================================================
     // Getters
     // =========================================================================================
 
+    @Throws(IllegalStateException::class)
     fun activityComponent(): ActivityComponent {
         return mActivityComponent ?:
                 throw IllegalStateException("Activity component not instantiated")
     }
 
-    fun application(): ExifStripperApplication {
-        return ExifStripperApplication[this]
+    fun application(): BoilerplateApplication {
+        return BoilerplateApplication[this]
     }
 
     companion object {

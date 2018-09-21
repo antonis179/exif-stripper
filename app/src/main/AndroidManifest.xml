@@ -9,50 +9,85 @@
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
 
 	<application
-		android:name=".ExifStripperApplication"
+		android:name=".BoilerplateApplication"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
-
-		<meta-data android:name="com.google.android.gms.version"
-		           android:value="@integer/google_play_services_version" />
+		<meta-data
+			android:name="com.google.android.gms.version"
+			android:value="@integer/google_play_services_version"/>
 
 		<!-- Activities -->
 
 		<activity
 			android:name=".examples.ui.activities.MainActivity"
-			android:label="@string/app_name"
 			android:exported="true"
+			android:label="@string/app_name"
 			android:launchMode="singleTask"
 			android:theme="@style/AppTheme.NoActionBar"
 			android:windowSoftInputMode="adjustPan">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
+
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
-			<!-- Google Assistant  -->
+			<!-- Google Assistant -->
 			<intent-filter android:label="@string/app_name">
-				<action android:name="android.intent.action.SEARCH" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
+				<action android:name="android.intent.action.SEARCH"/>
+
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
 			</intent-filter>
 			<intent-filter android:label="@string/app_name">
 				<action android:name="com.google.android.gms.actions.SEARCH_ACTION"/>
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
+
+				<category android:name="android.intent.category.DEFAULT"/>
+				<category android:name="android.intent.category.BROWSABLE"/>
 			</intent-filter>
-			<meta-data android:name="android.app.searchable"
-			           android:resource="@xml/searchable"/>
+
+			<meta-data
+				android:name="android.app.searchable"
+				android:resource="@xml/searchable"/>
 		</activity>
 
+
+		<!-- Services -->
+
+		<service
+			android:name=".services.firebase.FCMService"
+			android:enabled="true"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT"/>
+			</intent-filter>
+		</service>
+
+
+
+
+		<!-- Metadata -->
 
 		<!-- TODO: Awareness -->
 		<meta-data
 			android:name="com.google.android.awareness.API_KEY"
 			android:value="YOUR_API_KEY"/>
+
+		<!-- FCM -->
+
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_channel_id"
+			android:value="@string/notif_default_channel_id"/>
+
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_icon"
+			android:resource="@android:drawable/ic_menu_info_details" />
+
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_color"
+			android:resource="@color/accent" />
 
 
 	</application>

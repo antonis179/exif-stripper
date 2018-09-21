@@ -38,7 +38,7 @@ abstract class BaseCall {
 	/**
 	 * Adds an authorization call to an observable
 	 */
-	protected fun <T> auth(obs: Observable<T>, authManager: AuthInterface): Observable<T> {
+	protected fun <T> auth(authManager: AuthInterface, obs: Observable<T>): Observable<T> {
 		return if (authManager.isAuthorized()) {
 			obs.onErrorResumeNext { throwable: Throwable ->
 				if (HttpStatusCode.isUnauthorized(throwable))

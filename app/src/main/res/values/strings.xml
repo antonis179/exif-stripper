@@ -7,4 +7,8 @@
     <!-- Google Assistant -->
     <string name="search_hint">Search for flights</string>
 
+    <!-- Notifications -->
+
+    <string name="notif_default_channel_id">General</string>
+
 </resources>

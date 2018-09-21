@@ -3,7 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'realm-android'
-//apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'io.fabric'
 
 android {
 	compileSdkVersion compileVersion
@@ -11,7 +12,7 @@ android {
 
 
 	defaultConfig {
-		applicationId "org.amoustakos.boilerplate"
+		applicationId "org.amoustakos.exifstripper"
 		minSdkVersion minVersion
 		targetSdkVersion targetVersion
 		versionCode 1000
@@ -22,6 +23,34 @@ android {
 		proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 	}
 
+	signingConfigs {
+		debug {
+			def props = getPasswords()
+			def loc = getAttribute(props, "${KEY_SIGNING_LOC}")
+			def pwd = getAttribute(props, "${KEY_SIGNING_PWD}")
+			def alias = getAttribute(props, "${KEY_SIGNING_ALIAS}")
+			def aliasPwd = getAttribute(props, "${KEY_SIGNING_ALIAS_PWD}")
+
+			storeFile file(loc)
+			storePassword pwd
+			keyAlias alias
+			keyPassword aliasPwd
+		}
+
+		release {
+			def props = getPasswords()
+			def loc = getAttribute(props, "${RELEASE_KEY_SIGNING_LOC}")
+			def pwd = getAttribute(props, "${RELEASE_KEY_SIGNING_PWD}")
+			def alias = getAttribute(props, "${RELEASE_KEY_SIGNING_ALIAS}")
+			def aliasPwd = getAttribute(props, "${RELEASE_KEY_SIGNING_ALIAS_PWD}")
+
+			storeFile file(loc)
+			storePassword pwd
+			keyAlias alias
+			keyPassword aliasPwd
+		}
+	}
+
 
 	buildTypes {
 		debug {
@@ -29,12 +58,16 @@ android {
 			useProguard false
 			minifyEnabled false
 			shrinkResources false
+
+			signingConfig signingConfigs.debug
 		}
 		release {
 			debuggable false
 			useProguard true
 			minifyEnabled true
 			shrinkResources false
+
+			signingConfig signingConfigs.release
 		}
 	}
 
@@ -46,6 +79,10 @@ android {
 	compileOptions {
 		sourceCompatibility JavaVersion.VERSION_1_8
 		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+	lintOptions {
+		abortOnError false
 	}
 
 }
@@ -77,7 +114,7 @@ dependencies {
 	implementation 'com.android.support:multidex:1.0.3'
 	implementation "com.android.support:appcompat-v7:${SUPPORT}"
 	implementation "com.android.support:support-v4:${SUPPORT}"
-	implementation "com.android.support:design:${SUPPORT}"
+	implementation "com.android.support:design:${SUPPORT_DESIGN}"
 	implementation "com.android.support:recyclerview-v7:${SUPPORT}"
 	implementation "com.android.support:cardview-v7:${SUPPORT}"
 
@@ -124,7 +161,7 @@ dependencies {
 
 	//Image
 
-	//    implementation 'com.github.bumptech.glide:glide:3.7.0'
+	//    implementation "com.github.bumptech.glide:glide:${GLIDE}"
 
 	//Timber
 	implementation "com.jakewharton.timber:timber:${TIMBER}"
@@ -139,23 +176,67 @@ dependencies {
 	implementation "org.jetbrains.kotlin:kotlin-reflect:${KOTLIN}"
 
 	//Analytics
-//	implementation "com.google.firebase:firebase-core:${FIREBASE_CORE}"
-//	implementation "com.google.firebase:firebase-perf:${FIREBASE_PERF}"
+	implementation "com.google.firebase:firebase-core:${FIREBASE_CORE}"
+	implementation "com.google.firebase:firebase-perf:${FIREBASE_PERF}"
 	implementation "com.crashlytics.sdk.android:crashlytics:${CRASHLYTICS}"
 
 	//Job dispatcher
 	implementation "com.firebase:firebase-jobdispatcher:${JOB_DISPATCHER}"
 
+	//FCM
+	implementation "com.google.firebase:firebase-messaging:${FIREBASE_CLOUD_MESSSAGING}"
+
 	//Bus
 	implementation "org.greenrobot:eventbus:${EVENT_BUS}"
 
 	//Tests
-	kaptAndroidTest("com.android.support.test.espresso:espresso-core:${ESPRESSO}", {
-		exclude group: 'com.android.support', module: 'support-annotations'
-		exclude group: 'com.google.code.findbugs'
-	})
-	testImplementation "junit:junit:${JUNIT}"
+//	kaptAndroidTest("com.android.support.test.espresso:espresso-core:${ESPRESSO}", {
+//		exclude group: 'com.android.support', module: 'support-annotations'
+//		exclude group: 'com.google.code.findbugs'
+//	})
+//	testImplementation "junit:junit:${JUNIT}"
 }
 
 
-//apply plugin: 'com.google.gms.google-services'
+// Access to assets properties
+
+private Properties getEnv() {
+	return getProperties("environment.properties")
+}
+
+private Properties getPasswords() {
+	return getProperties("passwords.properties")
+}
+
+private Properties getProperties(String filename) {
+	Properties props = new Properties()
+	props.load(
+			new FileInputStream(
+					"${rootDir}/_SENSITIVE_HIDE_FROM_GIT_/${filename}"))
+	props
+}
+
+
+private String getAttribute(Properties props, String key) {
+	String attribute = props.get(key)
+	checkAttribute(attribute)
+	return attribute
+}
+
+private String getStringifiedAttribute(Properties props, String key) {
+	String attribute = props.get(key)
+	checkAttribute(attribute)
+	return stringify(attribute)
+}
+
+private static void checkAttribute(String attribute) {
+	if (attribute == null || attribute.size() < 1)
+		throw new GradleException("Missing Attribute")
+}
+
+private static String stringify(String string) {
+	return "\"" + string + "\""
+}
+
+
+apply plugin: 'com.google.gms.google-services'

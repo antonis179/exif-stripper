@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.util.text
+package org.amoustakos.utils.android.text
 
 import android.text.TextUtils
 

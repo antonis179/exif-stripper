@@ -5,20 +5,22 @@ allprojects {
 		google()
 		maven { url 'https://jitpack.io' }
 		maven {	url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
+		maven { url 'https://maven.fabric.io/public' }
 	}
 }
 
 ext {
 	//Build
-	compileVersion = 27
+	compileVersion = 28
 	minVersion = 21
-	targetVersion = 27
-	buildToolsVersion = '27.0.3'
+	targetVersion = 28
+	buildToolsVersion = '28.0.2'
 
 	//Support
 	PLAY_SERVICES = '15.0.1'
-	SUPPORT = '27.1.1'
-	CONSTRAINT_LAYOUT = '1.1.2'
+	SUPPORT = '28.0.0'
+	SUPPORT_DESIGN = '27.1.1'
+	CONSTRAINT_LAYOUT = '1.1.3'
 	LIFECYCLE = '1.1.1'
 	LIFECYCLE_JAVA8 = '1.1.0'
 
@@ -39,23 +41,40 @@ ext {
 	OKHTTP = '3.10.0'
 
 	//Logging
-	TIMBER = '4.6.0'
+	TIMBER = '4.7.1'
 
 	//Testing
 	ESPRESSO = '2.2.2'
 	JUNIT = '4.12'
 
 	//Analytics
-	CRASHLYTICS = '2.9.4'
+	CRASHLYTICS = '2.9.5'
 	FIREBASE_INDEX = '16.0.1'
-	FIREBASE_CORE = '16.0.1'
-	FIREBASE_PERF = '16.0.0'
+	FIREBASE_CORE = '16.0.3'
+	FIREBASE_PERF = '16.1.0'
+
+	//FCM
+	FIREBASE_CLOUD_MESSSAGING = '17.3.2'
 
 	//Job dispatcher
 	JOB_DISPATCHER = '0.8.5'
 
 	//Bus
 	EVENT_BUS = '3.1.1'
+
+	//Image
+//	GLIDE = '4.8.0'
+
+	//Keys
+	KEY_SIGNING_LOC = 'debug.key.location'
+	KEY_SIGNING_PWD = 'debug.key.password'
+	KEY_SIGNING_ALIAS = 'debug.key.alias'
+	KEY_SIGNING_ALIAS_PWD = 'debug.key.alias.password'
+
+	RELEASE_KEY_SIGNING_LOC = 'release.key.location'
+	RELEASE_KEY_SIGNING_PWD = 'release.key.password'
+	RELEASE_KEY_SIGNING_ALIAS = 'release.key.alias'
+	RELEASE_KEY_SIGNING_ALIAS_PWD = 'release.key.alias.password'
 }
 
 buildscript {
@@ -65,16 +84,17 @@ buildscript {
 		google()
 		maven {	url 'https://plugins.gradle.org/m2/' }
 		maven {	url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
+		maven { url 'https://maven.fabric.io/public' }
 	}
 
 	ext {
-		KOTLIN = '1.2.60'
-		REALM = '5.4.0'
+		KOTLIN = '1.2.70'
+		REALM = '5.4.2'
 
 		//Analytics
 		FIREBASE = '3.2.0'
 		FIREBASE_PERFORMANCE = '1.1.5'
-		FABRIC = '1.25.1'
+		FABRIC = '1.25.4'
 	}
 
 	dependencies {
@@ -88,8 +108,9 @@ buildscript {
 		classpath "io.realm:realm-gradle-plugin:${REALM}"
 
 		//Analytics
-//		classpath "com.google.gms:google-services:${FIREBASE}"
-//		classpath "com.google.firebase:firebase-plugins:${FIREBASE_PERFORMANCE}"
+		classpath "com.google.gms:google-services:${FIREBASE}"
+		classpath "com.google.firebase:firebase-plugins:${FIREBASE_PERFORMANCE}"
+		classpath "io.fabric.tools:gradle:${FABRIC}"
 
 		//Gradle caching fixes - https://github.com/gradle/android-cache-fix-gradle-plugin
 //		classpath "gradle.plugin.org.gradle.android:android-cache-fix-gradle-plugin:0.3.8"

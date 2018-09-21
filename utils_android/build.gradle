@@ -29,6 +29,9 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
 
+	lintOptions {
+		abortOnError false
+	}
 }
 
 kapt {
@@ -41,7 +44,7 @@ dependencies {
 	//Support
 	implementation "com.android.support:support-v4:${SUPPORT}"
 	implementation "com.android.support:recyclerview-v7:${SUPPORT}"
-	implementation "com.android.support:design:${SUPPORT}"
+	implementation "com.android.support:design:${SUPPORT_DESIGN}"
 
 	//Timber
 	implementation "com.jakewharton.timber:timber:${TIMBER}"
