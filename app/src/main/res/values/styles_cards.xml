@@ -2,7 +2,10 @@
 <resources>
 
 
-    <style name="Card.Large" parent="@style/CardView">
+    <style name="Card.Dark" parent="@style/CardView.Dark" />
+    <style name="Card.Light" parent="@style/CardView.Light" />
+
+    <style name="Card.Dark.Large" parent="@style/Card.Dark">
         <item name="android:focusable">true</item>
         <item name="cardPreventCornerOverlap">false</item>
         <item name="cardUseCompatPadding">true</item>
@@ -16,9 +19,18 @@
         <item name="contentPadding">2dp</item>
     </style>
 
+    <style name="Card.Light.Large" parent="@style/Card.Light">
+        <item name="android:focusable">true</item>
+        <item name="cardPreventCornerOverlap">false</item>
+        <item name="cardUseCompatPadding">true</item>
 
-    <style name="Card.CoinOverview" parent="@style/Card.Large">
-        <item name="cardBackgroundColor">@color/primary</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/card_height</item>
+
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardElevation">5dp</item>
+        <item name="contentPadding">2dp</item>
     </style>
 
 </resources>
