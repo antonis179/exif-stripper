@@ -14,7 +14,7 @@ protected constructor (view: T) : DefaultLifecycleObserver, BaseContractActions 
 
 	@set:Synchronized
 	@get:Synchronized
-	var disposables: LifecycleDisposableList = LifecycleDisposableList(disposeOpts())
+	var disposables: LifecycleDisposableList? = null
 
 	protected val mView: WeakReference<out T> = WeakReference(view)
 
@@ -27,12 +27,12 @@ protected constructor (view: T) : DefaultLifecycleObserver, BaseContractActions 
 
 	override fun subscribeToLifecycle(lifecycle: Lifecycle) {
 		lifecycle.addObserver(this)
-		disposables.subscribeToLifecycle(lifecycle)
+		disposables?.subscribeToLifecycle(lifecycle)
 	}
 
 	override fun unsubscribeFromLifecycle(lifecycle: Lifecycle) {
 		lifecycle.removeObserver(this)
-		disposables.unsubscribeToLifecycle(lifecycle)
+		disposables?.unsubscribeToLifecycle(lifecycle)
 	}
 
 
@@ -44,14 +44,16 @@ protected constructor (view: T) : DefaultLifecycleObserver, BaseContractActions 
 			LifecycleDisposableOpts(false, false, true)
 
 	private fun initSubscriptions() {
-		disposables.initSubscriptions()
+		if (disposables == null)
+			disposables = LifecycleDisposableList(disposeOpts())
+		disposables?.initSubscriptions()
 	}
 
-	fun addLifecycleDisposable(disposable: Disposable) = disposables.add(disposable)
+	fun addLifecycleDisposable(disposable: Disposable) = disposables?.add(disposable)
 
-	fun removeLifecycleDisposable(disposable: Disposable) = disposables.remove(disposable)
+	fun removeLifecycleDisposable(disposable: Disposable) = disposables?.remove(disposable)
 
 	fun clearLifecycleDisposables() {
-		disposables.clear()
+		disposables?.clear()
 	}
 }
