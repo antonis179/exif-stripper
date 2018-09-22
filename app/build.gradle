@@ -111,7 +111,6 @@ dependencies {
 	implementation "com.google.code.gson:gson:${GSON}"
 
 	//Support
-	implementation 'com.android.support:multidex:1.0.3'
 	implementation "com.android.support:appcompat-v7:${SUPPORT}"
 	implementation "com.android.support:support-v4:${SUPPORT}"
 	implementation "com.android.support:design:${SUPPORT_DESIGN}"
@@ -149,7 +148,6 @@ dependencies {
 
 	//Retrofit
 	implementation "com.squareup.retrofit2:retrofit:${RETROFIT}"
-//	implementation "com.squareup.retrofit2:converter-scalars:${RETROFIT}"
 	implementation "com.squareup.retrofit2:converter-gson:${RETROFIT}"
 	implementation "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT}"
 	implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: "${OKHTTP}"
@@ -188,13 +186,6 @@ dependencies {
 
 	//Bus
 	implementation "org.greenrobot:eventbus:${EVENT_BUS}"
-
-	//Tests
-//	kaptAndroidTest("com.android.support.test.espresso:espresso-core:${ESPRESSO}", {
-//		exclude group: 'com.android.support', module: 'support-annotations'
-//		exclude group: 'com.google.code.findbugs'
-//	})
-//	testImplementation "junit:junit:${JUNIT}"
 }
 
 
@@ -217,13 +208,13 @@ private Properties getProperties(String filename) {
 }
 
 
-private String getAttribute(Properties props, String key) {
+private static String getAttribute(Properties props, String key) {
 	String attribute = props.get(key)
 	checkAttribute(attribute)
 	return attribute
 }
 
-private String getStringifiedAttribute(Properties props, String key) {
+private static String getStringifiedAttribute(Properties props, String key) {
 	String attribute = props.get(key)
 	checkAttribute(attribute)
 	return stringify(attribute)

@@ -7,6 +7,7 @@ object NetworkErrorUtil {
 	/**
 	 * Checks if the [Throwable] is a connection error.
 	 */
+	@JvmStatic
 	fun isConnectionError(t: Throwable): Boolean {
 		return t is java.net.ConnectException
 				|| t is java.net.NoRouteToHostException
