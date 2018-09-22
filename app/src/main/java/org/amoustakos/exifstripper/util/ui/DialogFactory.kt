@@ -1,7 +1,6 @@
 package org.amoustakos.exifstripper.util.ui
 
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.support.annotation.StringRes
 import android.support.v7.app.AlertDialog
@@ -41,18 +40,5 @@ object DialogFactory {
                 context.getString(neutralButtonStr)
         )
     }
-
-
-    fun createProgressDialog(context: Context, message: String): ProgressDialog {
-        val progressDialog = ProgressDialog(context)
-        progressDialog.setMessage(message)
-        return progressDialog
-    }
-
-
-    fun createProgressDialog(context: Context, @StringRes messageResource: Int): ProgressDialog {
-        return createProgressDialog(context, context.getString(messageResource))
-    }
-
 
 }
