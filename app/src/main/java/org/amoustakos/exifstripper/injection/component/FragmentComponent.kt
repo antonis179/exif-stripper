@@ -1,7 +1,7 @@
 package org.amoustakos.exifstripper.injection.component
 
 
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import dagger.Subcomponent
 import org.amoustakos.exifstripper.injection.annotations.scopes.PerActivity
 import org.amoustakos.exifstripper.injection.module.injectors.FragmentModule

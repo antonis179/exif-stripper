@@ -1,7 +1,7 @@
 package org.amoustakos.exifstripper.injection.module.injectors
 
-import android.app.Fragment
 import android.content.Context
+import android.support.v4.app.Fragment
 import dagger.Module
 import dagger.Provides
 import org.amoustakos.exifstripper.injection.annotations.context.ActivityContext
@@ -14,6 +14,6 @@ class FragmentModule(
 
 	@Provides
 	@ActivityContext
-	internal fun providesContext(): Context = mFragment.activity
+	internal fun providesContext(): Context? = mFragment.activity
 
 }
