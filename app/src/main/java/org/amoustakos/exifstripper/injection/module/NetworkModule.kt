@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import org.amoustakos.exifstripper.BuildConfig
-import org.amoustakos.exifstripper.examples.io.remote.ExampleNetCall
 import org.amoustakos.exifstripper.injection.annotations.network.DefaultOkHttpClient
 import org.amoustakos.exifstripper.injection.annotations.network.DefaultOkHttpOptions
 import org.amoustakos.exifstripper.injection.annotations.network.DefaultRetrofitEngine
@@ -44,16 +43,6 @@ object NetworkModule {
 			@DefaultRetrofitOptions opts: RetrofitEngineOptions): Retrofit {
 		return RetrofitBuilder.getRetrofitEngine(client, opts)
 	}
-
-
-
-	// =========================================================================================
-	// APIs
-	// =========================================================================================
-
-	@Provides
-	internal fun provideExampleApiService(@DefaultRetrofitEngine engine: Retrofit) =
-			RetrofitBuilder.newService(engine, ExampleNetCall.ApiService::class.java)
 
 
 }

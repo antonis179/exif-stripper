@@ -17,6 +17,8 @@ class BasicToolbar(val id: Int): IActivityViewComponent, IToolbarView {
 
 
 
+	override fun get() = toolbar
+
 	override fun setAsActionbar(activity: AppCompatActivity) {
 		if (toolbar != null)
 			activity.setSupportActionBar(toolbar)

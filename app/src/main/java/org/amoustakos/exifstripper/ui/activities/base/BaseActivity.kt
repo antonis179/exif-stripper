@@ -1,16 +1,19 @@
-package org.amoustakos.exifstripper.ui.activities
+package org.amoustakos.exifstripper.ui.activities.base
 
+import android.arch.lifecycle.Lifecycle
 import android.os.Bundle
 import android.support.annotation.LayoutRes
-import android.support.design.widget.NavigationView
 import android.support.v7.app.AppCompatActivity
 import android.util.LongSparseArray
-import org.amoustakos.exifstripper.BoilerplateApplication
+import io.reactivex.disposables.Disposable
+import org.amoustakos.exifstripper.ExifStripperApplication
 import org.amoustakos.exifstripper.injection.component.ActivityComponent
 import org.amoustakos.exifstripper.injection.component.ConfigPersistentComponent
 import org.amoustakos.exifstripper.injection.component.DaggerConfigPersistentComponent
 import org.amoustakos.exifstripper.injection.module.injectors.ActivityModule
 import org.amoustakos.exifstripper.view.base.IActivityViewComponent
+import org.amoustakos.utils.android.LifecycleDisposableList
+import org.amoustakos.utils.android.LifecycleDisposableOpts
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicLong
 
@@ -19,10 +22,14 @@ import java.util.concurrent.atomic.AtomicLong
  * creation of Dagger components and makes sure that instances of ConfigPersistentComponent survive
  * across configuration changes.
  */
-abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+abstract class BaseActivity : AppCompatActivity() {
 
     private var mActivityComponent: ActivityComponent? = null
     private var mActivityId: Long = 0
+
+    @set:Synchronized
+    @get:Synchronized
+    var disposables: LifecycleDisposableList? = null
 
 //    protected val rootView: View
 //        get() = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0)
@@ -45,6 +52,7 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
         setContentView(layoutId())
         makeID(savedInstanceState)
         makeComponents(mActivityId)
+	    initSubscriptions()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -58,6 +66,8 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
             sComponentsMap.remove(mActivityId)
         }
         super.onDestroy()
+
+	    unsubscribeFromLifecycle(lifecycle)
     }
 
     // =========================================================================================
@@ -94,6 +104,37 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
     @LayoutRes
     protected abstract fun layoutId(): Int
 
+
+	// =========================================================================================
+	// Subscriptions
+	// =========================================================================================
+
+	private fun subscribeToLifecycle(lifecycle: Lifecycle) {
+		disposables?.subscribeToLifecycle(lifecycle)
+	}
+
+	private fun unsubscribeFromLifecycle(lifecycle: Lifecycle) {
+		disposables?.unsubscribeToLifecycle(lifecycle)
+	}
+
+	protected open fun disposeOpts(): LifecycleDisposableOpts =
+			LifecycleDisposableOpts(false, false, true)
+
+	private fun initSubscriptions() {
+		if (disposables == null)
+			disposables = LifecycleDisposableList(disposeOpts())
+		disposables?.initSubscriptions()
+		subscribeToLifecycle(lifecycle)
+	}
+
+	protected fun addLifecycleDisposable(disposable: Disposable) = disposables?.add(disposable)
+
+	protected fun removeLifecycleDisposable(disposable: Disposable) = disposables?.remove(disposable)
+
+	protected fun clearLifecycleDisposables() {
+		disposables?.clear()
+	}
+
     // =========================================================================================
     // Getters
     // =========================================================================================
@@ -104,8 +145,8 @@ abstract class BaseActivity : AppCompatActivity(), NavigationView.OnNavigationIt
                 throw IllegalStateException("Activity component not instantiated")
     }
 
-    fun application(): BoilerplateApplication {
-        return BoilerplateApplication[this]
+    fun application(): ExifStripperApplication {
+        return ExifStripperApplication[this]
     }
 
     companion object {

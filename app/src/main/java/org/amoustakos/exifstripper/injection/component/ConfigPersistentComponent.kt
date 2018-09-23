@@ -6,7 +6,7 @@ import org.amoustakos.exifstripper.injection.annotations.scopes.ConfigPersistent
 import org.amoustakos.exifstripper.injection.module.injectors.ActivityModule
 import org.amoustakos.exifstripper.injection.module.injectors.DialogModule
 import org.amoustakos.exifstripper.injection.module.injectors.FragmentModule
-import org.amoustakos.exifstripper.ui.activities.BaseActivity
+import org.amoustakos.exifstripper.ui.activities.base.BaseActivity
 
 /**
  * A dagger component that will live during the lifecycle of an Activity but it won't

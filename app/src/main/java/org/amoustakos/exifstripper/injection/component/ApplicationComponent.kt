@@ -6,7 +6,6 @@ import dagger.Component
 import io.realm.RealmConfiguration
 import okhttp3.OkHttpClient
 import org.amoustakos.exifstripper.Environment
-import org.amoustakos.exifstripper.examples.io.remote.ExampleNetCall
 import org.amoustakos.exifstripper.injection.annotations.context.ApplicationContext
 import org.amoustakos.exifstripper.injection.annotations.network.DefaultOkHttpClient
 import org.amoustakos.exifstripper.injection.annotations.network.DefaultOkHttpOptions
@@ -64,6 +63,5 @@ interface ApplicationComponent {
 	@DefaultRetrofitEngine
 	fun defaultRetrofitEngine(): Retrofit
 
-	fun exampleApiService(): ExampleNetCall.ApiService
 
 }
