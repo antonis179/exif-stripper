@@ -88,7 +88,7 @@ buildscript {
 	}
 
 	ext {
-		KOTLIN = '1.2.70'
+		KOTLIN = '1.2.71'
 		REALM = '5.4.2'
 
 		//Analytics
@@ -98,7 +98,7 @@ buildscript {
 	}
 
 	dependencies {
-		classpath 'com.android.tools.build:gradle:3.1.4'
+		classpath 'com.android.tools.build:gradle:3.2.0'
 
 		//Kotlin
 		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN}"
