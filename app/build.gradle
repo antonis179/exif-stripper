@@ -1,233 +1,43 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'realm-android'
-apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'io.fabric'
+apply plugin: applyPlugins.application
+apply from: "$project.rootDir/config/config.gradle"
+
+apply plugin: applyPlugins.kotlin
+apply plugin: applyPlugins.kapt
+apply plugin: applyPlugins.kotlinAndroidExtentions
+apply plugin: applyPlugins.realm
+apply plugin: applyPlugins.firebasePerformance
+apply plugin: applyPlugins.fabric
+
 
 android {
-	compileSdkVersion compileVersion
-	buildToolsVersion buildToolsVersion
-
-
 	defaultConfig {
 		applicationId "org.amoustakos.exifstripper"
-		minSdkVersion minVersion
-		targetSdkVersion targetVersion
 		versionCode 1000
-		versionName "0.1"
-
-		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-		proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		versionName "0.1.0"
 	}
-
-	signingConfigs {
-		debug {
-			def props = getPasswords()
-			def loc = getAttribute(props, "${KEY_SIGNING_LOC}")
-			def pwd = getAttribute(props, "${KEY_SIGNING_PWD}")
-			def alias = getAttribute(props, "${KEY_SIGNING_ALIAS}")
-			def aliasPwd = getAttribute(props, "${KEY_SIGNING_ALIAS_PWD}")
-
-			storeFile file(loc)
-			storePassword pwd
-			keyAlias alias
-			keyPassword aliasPwd
-		}
-
-		release {
-			def props = getPasswords()
-			def loc = getAttribute(props, "${RELEASE_KEY_SIGNING_LOC}")
-			def pwd = getAttribute(props, "${RELEASE_KEY_SIGNING_PWD}")
-			def alias = getAttribute(props, "${RELEASE_KEY_SIGNING_ALIAS}")
-			def aliasPwd = getAttribute(props, "${RELEASE_KEY_SIGNING_ALIAS_PWD}")
-
-			storeFile file(loc)
-			storePassword pwd
-			keyAlias alias
-			keyPassword aliasPwd
-		}
-	}
-
-
-	buildTypes {
-		debug {
-			debuggable true
-			useProguard false
-			minifyEnabled false
-			shrinkResources false
-
-			signingConfig signingConfigs.debug
-		}
-		release {
-			debuggable false
-			useProguard true
-			minifyEnabled true
-			shrinkResources false
-
-			signingConfig signingConfigs.release
-		}
-	}
-
-	dexOptions {
-		preDexLibraries true
-		dexInProcess true
-	}
-
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
-	}
-
-	lintOptions {
-		abortOnError false
-	}
-
 }
-
 
 kapt {
 	useBuildCache true
 }
 
-
 dependencies {
-	def daggerCompiler = "com.google.dagger:dagger-compiler:${DAGGER}"
-	def daggerAndroidCompiler = "com.google.dagger:dagger-android-processor:${DAGGER}"
-	implementation fileTree(include: ['*.jar'], dir: 'libs')
+	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
-	//Inner modules
-	implementation project(':utils_android')
-	implementation project(':utils_device')
-	implementation project(':utils_image')
-	implementation project(':utils_io')
-	implementation project(':utils_network')
-	implementation project(':utils_analytics')
-	implementation project(':models')
+	kapt annotation_processors.values()
 
-	//GSON
-	implementation "com.google.code.gson:gson:${GSON}"
+	implementation libs_support.values()
+	implementation libs_play_services.values()
+	implementation libs_firebase.values()
+	implementation libs_logging.values()
+	implementation libs_injection.values()
 
-	//Support
-	implementation "com.android.support:appcompat-v7:${SUPPORT}"
-	implementation "com.android.support:support-v4:${SUPPORT}"
-	implementation "com.android.support:design:${SUPPORT_DESIGN}"
-	implementation "com.android.support:recyclerview-v7:${SUPPORT}"
-	implementation "com.android.support:cardview-v7:${SUPPORT}"
+	implementation libs_kotlin.values()
+	implementation libs_rx.values()
 
-	//Lifecycle
-	implementation "android.arch.lifecycle:common-java8:${LIFECYCLE_JAVA8}"
-	implementation "android.arch.lifecycle:extensions:${LIFECYCLE}"
-	kapt "android.arch.lifecycle:compiler:${LIFECYCLE}"
+	implementation libs_local_io.values()
 
-	//Play
-	implementation "com.google.android.gms:play-services-gcm:${PLAY_SERVICES}"
-	implementation "com.google.android.gms:play-services-maps:${PLAY_SERVICES}"
-	implementation "com.google.android.gms:play-services-location:${PLAY_SERVICES}"
-	implementation "com.google.android.gms:play-services-awareness:${PLAY_SERVICES}"
-
-	//Assistant
-	implementation "com.google.firebase:firebase-appindexing:${FIREBASE_INDEX}"
-
-	//UI
-	implementation "com.android.support.constraint:constraint-layout:${CONSTRAINT_LAYOUT}"
-
-	//Realm
-	implementation "io.realm:realm-android-library:${REALM}"
-	implementation "io.realm:android-adapters:${REALM_ANDROID_ADAPTERS}"
-	implementation "com.github.vicpinm:krealmextensions:${KOTLIN_REALM_EXT}"
-
-	//Dagger
-	implementation "com.google.dagger:dagger:${DAGGER}"
-	implementation "com.google.dagger:dagger-android:${DAGGER}"
-	implementation "com.google.dagger:dagger-android-support:${DAGGER}"
-	kapt daggerCompiler
-	kapt daggerAndroidCompiler
-
-	//Retrofit
-	implementation "com.squareup.retrofit2:retrofit:${RETROFIT}"
-	implementation "com.squareup.retrofit2:converter-gson:${RETROFIT}"
-	implementation "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT}"
-	implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: "${OKHTTP}"
-
-	//RX
-	implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: "${RX_JAVA}"
-	implementation group: 'io.reactivex.rxjava2', name: 'rxkotlin', version: "${RX_KOTLIN}"
-	implementation group: 'io.reactivex.rxjava2', name: 'rxandroid', version: "${RX_ANDROID}"
-
-	//Image
-
-	//    implementation "com.github.bumptech.glide:glide:${GLIDE}"
-
-	//Timber
-	implementation "com.jakewharton.timber:timber:${TIMBER}"
-
-	//Butterknife
-	implementation "com.jakewharton:butterknife:${BUTTERKNIFE}"
-	kapt "com.jakewharton:butterknife-compiler:${BUTTERKNIFE}"
-
-	//Kotlin
-	implementation "org.jetbrains.kotlin:kotlin-stdlib:${KOTLIN}"
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${KOTLIN}"
-	implementation "org.jetbrains.kotlin:kotlin-reflect:${KOTLIN}"
-
-	//Analytics
-	implementation "com.google.firebase:firebase-core:${FIREBASE_CORE}"
-	implementation "com.google.firebase:firebase-perf:${FIREBASE_PERF}"
-	implementation "com.crashlytics.sdk.android:crashlytics:${CRASHLYTICS}"
-
-	//Job dispatcher
-	implementation "com.firebase:firebase-jobdispatcher:${JOB_DISPATCHER}"
-
-	//FCM
-	implementation "com.google.firebase:firebase-messaging:${FIREBASE_CLOUD_MESSSAGING}"
-
-	//Bus
-	implementation "org.greenrobot:eventbus:${EVENT_BUS}"
+	implementation libs_mapping.values()
 }
-
-
-// Access to assets properties
-
-private Properties getEnv() {
-	return getProperties("environment.properties")
-}
-
-private Properties getPasswords() {
-	return getProperties("passwords.properties")
-}
-
-private Properties getProperties(String filename) {
-	Properties props = new Properties()
-	props.load(
-			new FileInputStream(
-					"${rootDir}/_SENSITIVE_HIDE_FROM_GIT_/${filename}"))
-	props
-}
-
-
-private static String getAttribute(Properties props, String key) {
-	String attribute = props.get(key)
-	checkAttribute(attribute)
-	return attribute
-}
-
-private static String getStringifiedAttribute(Properties props, String key) {
-	String attribute = props.get(key)
-	checkAttribute(attribute)
-	return stringify(attribute)
-}
-
-private static void checkAttribute(String attribute) {
-	if (attribute == null || attribute.size() < 1)
-		throw new GradleException("Missing Attribute")
-}
-
-private static String stringify(String string) {
-	return "\"" + string + "\""
-}
-
 
 apply plugin: 'com.google.gms.google-services'

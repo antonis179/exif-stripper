@@ -4,18 +4,8 @@
     <!-- Toasts -->
     <string name="toast_back_to_exit">Click back once again to exit</string>
 
-    <!-- Google Assistant -->
-    <string name="search_hint">Search for flights</string>
-
     <!-- Notifications -->
+
     <string name="notif_default_channel_id">General</string>
-
-    <!-- Menu -->
-    <string name="action_settings">Settings</string>
-
-
-	<!-- Content Description -->
-	<string name="navigation_drawer_open">Open navigation drawer</string>
-	<string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>

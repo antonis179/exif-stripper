@@ -1,7 +1,6 @@
 package org.amoustakos.exifstripper.view.adapters.base
 
-import android.support.annotation.NonNull
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.NonNull
 import org.amoustakos.exifstripper.view.holders.base.BaseViewHolder
 import org.amoustakos.exifstripper.view.models.base.BaseViewModel
 import org.amoustakos.exifstripper.view.models.base.PublisherItem
@@ -10,7 +9,7 @@ import org.amoustakos.exifstripper.view.models.base.PublisherItem
 abstract class BaseRecyclerAdapter<Holder : BaseViewHolder<Model>, Model: BaseViewModel<Holder, Model>>(
         @NonNull private var mItems: MutableList<Model>,
         val publishers: List<PublisherItem<Model>>
-): RecyclerView.Adapter<Holder>() {
+): androidx.recyclerview.widget.RecyclerView.Adapter<Holder>() {
 
     private val mLock = Any()
 
@@ -24,16 +23,16 @@ abstract class BaseRecyclerAdapter<Holder : BaseViewHolder<Model>, Model: BaseVi
         mItems.clear()
     }
 
-    fun addAll(items: Collection<Model>) = synchronized(mLock) {
-        mItems = ArrayList(items)
+    fun add(items: Collection<Model>) = synchronized(mLock) {
+        mItems.addAll(items)
     }
 
-    fun addAll(vararg items: Model) = synchronized(mLock) {
+    fun add(vararg items: Model) = synchronized(mLock) {
         items.forEach { mItems.add(it) }
     }
 
-    fun addAll(items: List<Model>) = synchronized(mLock) {
-        mItems = ArrayList(items)
+    fun add(items: List<Model>) = synchronized(mLock) {
+        mItems.addAll(items)
     }
 
     fun add(item: Model) = synchronized(mLock) {
@@ -44,7 +43,7 @@ abstract class BaseRecyclerAdapter<Holder : BaseViewHolder<Model>, Model: BaseVi
     fun replace(items: Collection<Model>) = replace(ArrayList(items))
     fun replace(items: List<Model>) {
         clean()
-        addAll(items)
+        add(items)
     }
 
 

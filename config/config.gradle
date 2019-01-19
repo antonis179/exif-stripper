@@ -1,0 +1,143 @@
+
+project.ext {
+
+	build_params = [
+			compile_version: 28,
+			min_version    : 21,
+			target_version : 28
+	]
+
+	key_config = [
+			debug_location   : 'debug.key.location',
+			debug_pwd        : 'debug.key.password',
+			debug_alias      : 'debug.key.alias',
+			debug_alias_pwd  : 'debug.key.alias.password',
+
+			release_location : 'release.key.location',
+			release_pwd      : 'release.key.password',
+			release_alias    : 'release.key.alias',
+			release_alias_pwd: 'release.key.alias.password'
+	]
+}
+
+
+android {
+	compileSdkVersion build_params.compile_version
+
+	defaultConfig {
+		minSdkVersion build_params.min_version
+		targetSdkVersion build_params.target_version
+	}
+
+	signingConfigs {
+		debug {
+			def props = getPasswords()
+			def loc = getAttribute(props, "${key_config.debug_location}")
+			def pwd = getAttribute(props, "${key_config.debug_pwd}")
+			def alias = getAttribute(props, "${key_config.debug_alias}")
+			def aliasPwd = getAttribute(props, "${key_config.debug_alias_pwd}")
+
+			storeFile file(loc)
+			storePassword pwd
+			keyAlias alias
+			keyPassword aliasPwd
+		}
+		release {
+			def props = getPasswords()
+			def loc = getAttribute(props, "${key_config.release_location}")
+			def pwd = getAttribute(props, "${key_config.release_pwd}")
+			def alias = getAttribute(props, "${key_config.release_alias}")
+			def aliasPwd = getAttribute(props, "${key_config.release_alias_pwd}")
+
+			storeFile file(loc)
+			storePassword pwd
+			keyAlias alias
+			keyPassword aliasPwd
+		}
+	}
+
+	buildTypes {
+		debug {
+			debuggable true
+			signingConfig signingConfigs.debug
+		}
+		release {
+			debuggable false
+			useProguard true
+			minifyEnabled true
+			shrinkResources false
+
+			signingConfig signingConfigs.release
+			proguardFiles getDefaultProguardFile('proguard-android.txt'),
+					"$project.rootDir/config/proguard-rules.pro"
+		}
+	}
+
+	dexOptions {
+		preDexLibraries true
+		dexInProcess true
+	}
+
+	compileOptions {
+		sourceCompatibility java_version
+		targetCompatibility java_version
+	}
+
+	lintOptions {
+		abortOnError false
+
+		/*
+		 * Disables deep linking warnings.
+		 * If your app is indexable remove this and add deep links
+		 * to the activities you want to be crawlable
+		 */
+		disable 'GoogleAppIndexingWarning'
+
+		/*
+		 * lint checks for java/kotlin interoperability
+		 */
+		check 'Interoperability'
+	}
+
+}
+
+
+Properties getPasswords() {
+	return getProperties("passwords.properties")
+}
+
+static String getAttribute(Properties props, String key) {
+	String attribute = props.get(key)
+	checkAttribute(attribute)
+	return attribute
+}
+
+static void checkAttribute(String attribute) {
+	if (attribute == null || attribute.size() < 1)
+		throw new GradleException("Missing Attribute")
+}
+
+
+Properties getEnv() {
+	return getProperties("environment.properties")
+}
+
+Properties getProperties(String filename) {
+	Properties props = new Properties()
+	props.load(
+			new FileInputStream(
+					"${rootDir}/_SENSITIVE_HIDE_FROM_GIT_/${filename}"))
+	props
+}
+
+
+static String getStringifiedAttribute(Properties props, String key) {
+	String attribute = props.get(key)
+	checkAttribute(attribute)
+	return stringify(attribute)
+}
+
+
+static String stringify(String string) {
+	return "\"" + string + "\""
+}

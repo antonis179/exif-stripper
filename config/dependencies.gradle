@@ -1,0 +1,203 @@
+project.ext {
+
+	java_version = '1.8'
+
+	repos = {
+		google()
+		mavenCentral()
+		maven { url 'https://jitpack.io' }
+		maven { url 'https://maven.fabric.io/public' }
+		maven { url 'https://dl.bintray.com/realm/maven' }
+		jcenter()
+	}
+
+	applyPlugins = [
+			application               : 'com.android.application',
+			library                   : 'com.android.library',
+			kotlin                    : 'kotlin-android',
+			kapt                      : 'kotlin-kapt',
+			kotlinAndroidExtentions   : 'kotlin-android-extensions',
+			realm                     : 'realm-android',
+			firebasePerformance       : 'com.google.firebase.firebase-perf',
+			fabric                    : 'io.fabric',
+			dependencyUpdates         : 'com.github.ben-manes.versions'
+	]
+
+	plugins = [
+			application               : 'com.android.application',
+			library                   : 'com.android.library',
+			kotlin                    : 'kotlin-android',
+			kapt                      : 'kotlin-kapt',
+			kotlinAndroidExtentions   : 'kotlin-android-extensions',
+			realm                     : 'realm-android',
+			firebasePerformance       : 'com.google.firebase.firebase-perf',
+			fabric                    : 'io.fabric',
+			dependencyUpdates         : 'com.github.ben-manes.versions'
+	]
+
+	plugin_versions = [
+			android                 : '3.3.0',
+			kotlin                  : '1.3.20',
+			realm                   : '5.9.0',
+			firebase                : '4.2.0',
+			firebase_performance    : '1.1.5',
+			fabric                  : '1.27.0',
+			gradleVersions          : '0.20.0'
+	]
+
+	gradle_plugins = [
+			android                 : "com.android.tools.build:gradle:${plugin_versions.android}",
+			kotlin                  : "org.jetbrains.kotlin:kotlin-gradle-plugin:${plugin_versions.kotlin}",
+			kotlin_android_ext      : "org.jetbrains.kotlin:kotlin-android-extensions:${plugin_versions.kotlin}",
+			realm                   : "io.realm:realm-gradle-plugin:${plugin_versions.realm}",
+			google_gms              : "com.google.gms:google-services:${plugin_versions.firebase}",
+			firebase_performance    : "com.google.firebase:firebase-plugins:${plugin_versions.firebase_performance}",
+			fabric                  : "io.fabric.tools:gradle:${plugin_versions.fabric}",
+			gradleVersions          : "com.github.ben-manes:gradle-versions-plugin:${plugin_versions.gradleVersions}"
+	]
+
+	lib_versions = [
+			//Support
+			play_services               : '16.0.0',
+			support                     : '1.0.0',
+			support_design              : '1.0.0-rc01',
+			constraint_layout           : '1.1.2',
+			lifecycle                   : '2.0.0-rc01',
+			lifecycle_java_8            : '2.0.0-rc01',
+
+			//Annotation processors - injection - RX
+			dagger                      : '2.20',
+			rx_java                     : '2.2.5',
+			rx_kotlin                   : '2.3.0',
+			rx_android                  : '2.1.0',
+			butterknife                 : '10.0.0',
+
+			//Realm
+			realm_android_adapters      : '3.1.0',
+			kotlin_realm_ext            : '2.4.0',
+
+			//Net
+			retrofit                    : '2.5.0',
+			gson                        : '2.8.5',
+			okhttp                      : '3.12.1',
+
+			//Logging
+			timber                      : '4.7.1',
+
+			//Testing
+			espresso                    : '3.0.2',
+			junit                       : '4.12',
+
+			//Analytics
+			crashlytics                 : '2.9.8',
+//			firebase_index              : '16.0.1',
+			firebase_core               : '16.0.6',
+			firebase_performance        : '16.2.3',
+
+			//FCM
+//			firebase_cloud_messaging    : '17.3.4',
+
+			//Job dispatcher
+//			job_dispatcher              : '0.8.5',
+
+			//Bus
+			event_bus                   : '3.1.1',
+
+			//Image
+//			glide                       : '4.8.0',
+
+			//Multidex
+//			multidex                    : '2.0.0'
+	]
+
+	annotation_processors = [
+		    lifecycle       : "androidx.lifecycle:lifecycle-compiler:${lib_versions.lifecycle}",
+		    dagger          : "com.google.dagger:dagger-compiler:${lib_versions.dagger}",
+		    butterknife     : "com.jakewharton:butterknife-compiler:${lib_versions.butterknife}"
+	]
+
+
+	libs_mapping = [
+			gson                : "com.google.code.gson:gson:${lib_versions.gson}",
+	]
+
+	libs_support = [
+//			multidex            : "androidx.multidex:multidex:${lib_versions.multidex}",
+			appcompat           : "androidx.appcompat:appcompat:${lib_versions.support}",
+			support_v4          : "androidx.legacy:legacy-support-v4:${lib_versions.support}",
+
+			//Lifecycle
+			lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:${lib_versions.lifecycle_java_8}",
+			lifecycle           : "androidx.lifecycle:lifecycle-extensions:${lib_versions.lifecycle}",
+
+			//UI
+			recyclerview_v7     : "androidx.recyclerview:recyclerview:${lib_versions.support}",
+			cardview_v7         : "androidx.cardview:cardview:${lib_versions.support}",
+			support_design      : "com.google.android.material:material:${lib_versions.support_design}",
+			constraint_layout   : "androidx.constraintlayout:constraintlayout:${lib_versions.constraint_layout}",
+	]
+
+	libs_play_services = [
+			play_gcm            : "com.google.android.gms:play-services-gcm:${lib_versions.play_services}",
+//			play_maps           : "com.google.android.gms:play-services-maps:${lib_versions.play_services}",
+//			play_location       : "com.google.android.gms:play-services-location:${lib_versions.play_services}",
+			play_awareness      : "com.google.android.gms:play-services-awareness:${lib_versions.play_services}",
+	]
+
+	libs_firebase = [
+			//Assistant
+//			firebase_index      : "com.google.firebase:firebase-appindexing:${lib_versions.firebase_index}",
+
+			//Analytics
+			firebase_core       : "com.google.firebase:firebase-core:${lib_versions.firebase_core}",
+			firebase_perf       : "com.google.firebase:firebase-perf:${lib_versions.firebase_performance}",
+			crashlytics         : "com.crashlytics.sdk.android:crashlytics:${lib_versions.crashlytics}",
+
+			//Job dispatcher
+//			jobdispatcher       : "com.firebase:firebase-jobdispatcher:${lib_versions.job_dispatcher}",
+
+			//FCM
+//			fcm                 : "com.google.firebase:firebase-messaging:${lib_versions.firebase_cloud_messaging}",
+	]
+
+	libs_local_io = [
+			realm               : "io.realm:realm-android-library:${plugin_versions.realm}",
+			realm_adapters      : "io.realm:android-adapters:${lib_versions.realm_android_adapters}",
+			realm_kotlin_ext    : "com.github.vicpinm:krealmextensions:${lib_versions.kotlin_realm_ext}",
+			event_bus           : "org.greenrobot:eventbus:${lib_versions.event_bus}"
+	]
+
+//	libs_remote_io = [
+//			retrofit            : "com.squareup.retrofit2:retrofit:${lib_versions.retrofit}",
+//			retrofit_scalars    : "com.squareup.retrofit2:converter-scalars:${lib_versions.retrofit}",
+//			retrofit_gson       : "com.squareup.retrofit2:converter-gson:${lib_versions.retrofit}",
+//			retrofit_rx_java2   : "com.squareup.retrofit2:adapter-rxjava2:${lib_versions.retrofit}",
+//			okhttp_logging      : "com.squareup.okhttp3:logging-interceptor:${lib_versions.okhttp}",
+//	]
+
+	libs_rx = [
+			rx_java2            : "io.reactivex.rxjava2:rxjava:${lib_versions.rx_java}",
+			rx_kotlin           : "io.reactivex.rxjava2:rxkotlin:${lib_versions.rx_kotlin}",
+			rx_android          : "io.reactivex.rxjava2:rxandroid:${lib_versions.rx_android}",
+	]
+
+	libs_injection = [
+			dagger              : "com.google.dagger:dagger:${lib_versions.dagger}",
+			butterknife         : "com.jakewharton:butterknife:${lib_versions.butterknife}",
+	]
+
+	libs_image = [
+			glide               : "com.github.bumptech.glide:glide:${lib_versions.glide}",
+	]
+
+	libs_logging = [
+			timber              : "com.jakewharton.timber:timber:${lib_versions.timber}",
+	]
+
+	libs_kotlin = [
+			kotlin_stdlib_java8 : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${plugin_versions.kotlin}",
+			kotlin_reflect      : "org.jetbrains.kotlin:kotlin-reflect:${plugin_versions.kotlin}",
+	]
+
+}
+

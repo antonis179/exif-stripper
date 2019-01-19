@@ -5,12 +5,4 @@
 	<string name="app_name">Exif Stripper</string>
 
 
-	<!-- Activities - Fragments -->
-	<string name="title_activity_main">Image Picker</string>
-
-
-	<!-- Menu -->
-	<string name="nav_picker">Listing</string>
-
-
 </resources>

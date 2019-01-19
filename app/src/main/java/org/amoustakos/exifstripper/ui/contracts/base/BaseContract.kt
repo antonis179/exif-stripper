@@ -1,6 +1,6 @@
 package org.amoustakos.exifstripper.ui.contracts.base
 
-import android.arch.lifecycle.Lifecycle
+import androidx.lifecycle.Lifecycle
 
 interface BaseContractActions {
 	fun init() {}

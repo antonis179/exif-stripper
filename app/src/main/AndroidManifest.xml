@@ -3,13 +3,13 @@
           package="org.amoustakos.exifstripper">
 
 	<!-- Permissions -->
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
+	<!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
 	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+	<!--<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>-->
 
 	<application
-		android:name=".ExifStripperApplication"
+		android:name="org.amoustakos.exifstripper.ExifApplication"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
@@ -22,51 +22,21 @@
 
 		<!-- Activities -->
 
-		<activity
-			android:name=".ui.activities.MainActivity"
-			android:exported="true"
-			android:label="@string/app_name"
-			android:launchMode="singleTask"
-			android:theme="@style/AppTheme.NoActionBar"
-			android:windowSoftInputMode="adjustPan">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
-			</intent-filter>
-		</activity>
-
-
-		<!-- Services -->
-
-		<service
-			android:name=".services.firebase.FCMService"
-			android:enabled="true"
-			android:exported="false">
-			<intent-filter>
-				<action android:name="com.google.firebase.MESSAGING_EVENT"/>
-			</intent-filter>
-		</service>
-
-
+		<!--<activity-->
+			<!--android:name=".examples.ui.activities.ListingActivity"-->
+			<!--android:exported="true"-->
+			<!--android:label="@string/app_name"-->
+			<!--android:launchMode="singleTask"-->
+			<!--android:theme="@style/AppTheme.NoActionBar"-->
+			<!--android:windowSoftInputMode="adjustPan">-->
+			<!--<intent-filter>-->
+				<!--<action android:name="android.intent.action.MAIN"/>-->
+				<!--<category android:name="android.intent.category.LAUNCHER"/>-->
+			<!--</intent-filter>-->
+		<!--</activity>-->
 
 
 		<!-- Metadata -->
-
-
-		<!-- FCM -->
-
-		<meta-data
-			android:name="com.google.firebase.messaging.default_notification_channel_id"
-			android:value="@string/notif_default_channel_id"/>
-
-		<meta-data
-			android:name="com.google.firebase.messaging.default_notification_icon"
-			android:resource="@android:drawable/ic_menu_info_details" />
-
-		<meta-data
-			android:name="com.google.firebase.messaging.default_notification_color"
-			android:resource="@color/accent" />
-
 
 	</application>
 
