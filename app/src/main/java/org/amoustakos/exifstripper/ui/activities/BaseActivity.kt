@@ -1,9 +1,9 @@
 package org.amoustakos.exifstripper.ui.activities
 
 import android.os.Bundle
+import android.util.LongSparseArray
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import android.util.LongSparseArray
 import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.di.component.ActivityComponent
 import org.amoustakos.exifstripper.di.component.ConfigPersistentComponent
@@ -43,7 +43,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(layoutId())
         makeID(savedInstanceState)
-        makeComponents(mActivityId)
+        makeComponent(mActivityId)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -67,7 +67,7 @@ abstract class BaseActivity : AppCompatActivity() {
         mActivityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: NEXT_ID.getAndIncrement()
     }
 
-    private fun makeComponents(activityID: Long) {
+    private fun makeComponent(activityID: Long) {
         val configPersistentComponent: ConfigPersistentComponent
         val index = sComponentsMap.indexOfKey(activityID)
 

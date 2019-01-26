@@ -79,10 +79,8 @@
         Specific Fonts
     -->
 
-    <!-- Dashboard coin card -->
-    <style name="Text.Regular.Activity.Description" parent="@style/Text.Regular">
+    <style name="Text.Splash.Content" parent="@style/Text.Bold.XLarge">
         <item name="android:textColor">@color/gray_light</item>
-        <item name="android:textSize">@dimen/text_small</item>
     </style>
 
 

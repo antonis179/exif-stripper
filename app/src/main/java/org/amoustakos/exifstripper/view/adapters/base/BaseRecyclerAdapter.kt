@@ -1,6 +1,7 @@
 package org.amoustakos.exifstripper.view.adapters.base
 
 import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView.Adapter
 import org.amoustakos.exifstripper.view.holders.base.BaseViewHolder
 import org.amoustakos.exifstripper.view.models.base.BaseViewModel
 import org.amoustakos.exifstripper.view.models.base.PublisherItem
@@ -9,7 +10,7 @@ import org.amoustakos.exifstripper.view.models.base.PublisherItem
 abstract class BaseRecyclerAdapter<Holder : BaseViewHolder<Model>, Model: BaseViewModel<Holder, Model>>(
         @NonNull private var mItems: MutableList<Model>,
         val publishers: List<PublisherItem<Model>>
-): androidx.recyclerview.widget.RecyclerView.Adapter<Holder>() {
+): Adapter<Holder>() {
 
     private val mLock = Any()
 

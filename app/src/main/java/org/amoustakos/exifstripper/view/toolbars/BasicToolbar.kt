@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar
 import org.amoustakos.exifstripper.view.base.IActivityViewComponent
 import org.amoustakos.exifstripper.view.toolbars.base.IToolbarView
 
-class BasicToolbar(val id: Int): IActivityViewComponent, IToolbarView {
+class BasicToolbar(private val id: Int): IActivityViewComponent, IToolbarView {
 
 	private var toolbar: Toolbar? = null
 
