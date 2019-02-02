@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.io.dao.base
+package org.amoustakos.exifstripper.io.realm.dao.base
 
 import com.crashlytics.android.Crashlytics
 import io.reactivex.Flowable

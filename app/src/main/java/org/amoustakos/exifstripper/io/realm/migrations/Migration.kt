@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.io.migrations
+package org.amoustakos.exifstripper.io.realm.migrations
 
 import io.realm.DynamicRealm
 import io.realm.RealmMigration

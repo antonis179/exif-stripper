@@ -8,4 +8,11 @@
 
 	<string name="notif_default_channel_id">General</string>
 
+
+	<!-- TO REMOVE -->
+	<string name="title_home">Home</string>
+	<string name="title_dashboard">Dashboard</string>
+	<string name="title_notifications">Notifications</string>
+
+
 </resources>

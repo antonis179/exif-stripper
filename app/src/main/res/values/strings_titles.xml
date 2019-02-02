@@ -7,4 +7,7 @@
 	<!-- Splash -->
 	<string name="title_activity_splash">SplashActivity</string>
 
+	<!-- Home -->
+	<string name="title_activity_main">MainActivity</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.io
+package org.amoustakos.exifstripper.io.realm
 
 import io.realm.RealmConfiguration
 import org.amoustakos.utils.io.realm.policies.DefaultCompactPolicy

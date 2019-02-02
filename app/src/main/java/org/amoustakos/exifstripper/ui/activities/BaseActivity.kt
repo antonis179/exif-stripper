@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.LongSparseArray
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.di.component.ActivityComponent
 import org.amoustakos.exifstripper.di.component.ConfigPersistentComponent
@@ -23,8 +24,6 @@ abstract class BaseActivity : AppCompatActivity() {
     private var mActivityComponent: ActivityComponent? = null
     private var mActivityId: Long = 0
 
-//    protected val rootView: View
-//        get() = (findViewById<View>(android.R.id.content) as ViewGroup).getChildAt(0)
 
     protected fun setupViewComponents(components: List<IActivityViewComponent>) {
 	    components.forEach { setupViewComponent(it) }
