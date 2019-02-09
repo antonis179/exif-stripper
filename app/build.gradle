@@ -2,10 +2,9 @@ apply plugin: applyPlugins.application
 apply from: "$project.rootDir/config/config.gradle"
 
 apply plugin: applyPlugins.kotlin
-apply plugin: applyPlugins.kapt
+//apply plugin: applyPlugins.kapt
 apply plugin: applyPlugins.kotlinAndroidExtentions
-apply plugin: applyPlugins.realm
-apply plugin: applyPlugins.firebasePerformance
+//apply plugin: applyPlugins.firebasePerformance
 apply plugin: applyPlugins.fabric
 
 
@@ -17,32 +16,35 @@ android {
 	}
 }
 
-kapt {
-	useBuildCache true
-}
+//kapt {
+//	useBuildCache true
+//}
 
 dependencies {
 	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
-	implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
-	implementation 'com.google.android.material:material:1.0.0-beta01'
-	implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-	kapt annotation_processors.values()
+//	kapt annotation_processors.lifecycle
+//	kapt annotation_processors.butterknife
 
-	implementation libs_support.values()
-	implementation libs_play_services.values()
-	implementation libs_firebase.values()
+	implementation libs_support.appcompat
+	implementation libs_support.support_v4
+	implementation libs_support.lifecycle_java8
+	implementation libs_support.lifecycle_extensions
+	implementation libs_support.constraint_layout
+
+	implementation libs_play_services.play_gcm
+	implementation libs_firebase.crashlytics
 	implementation libs_logging.values()
-	implementation libs_injection.values()
+
+	implementation libs_image.exif
 
 	implementation libs_kotlin.values()
 	implementation libs_rx.values()
+//	implementation libs_local_io.values()
+//	implementation libs_mapping.values()
+//	implementation libs_injection.butterknife
 
-	implementation libs_local_io.values()
-
-	implementation libs_mapping.values()
+	implementation libs_privacy.privacy_policy
 }
 
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="org.amoustakos.exifstripper">
 
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 	<application
 		android:name=".ExifApplication"
 		android:allowBackup="false"
@@ -26,12 +29,12 @@
 		</activity>
 
 
-		 <activity
-		 android:name=".usecases.home.MainActivity"
-		 android:label="@string/title_activity_main"
-		 android:launchMode="singleTask"
-		 android:configChanges="orientation|keyboardHidden|screenSize" />
-
+		<activity
+			android:name=".usecases.home.MainActivity"
+			android:theme="@style/AppTheme.NoActionBar"
+			android:configChanges="orientation|keyboardHidden|screenSize"
+			android:label="@string/title_activity_main"
+			android:launchMode="singleTask"/>
 
 
 		<!-- <activity -->

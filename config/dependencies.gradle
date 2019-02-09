@@ -62,7 +62,7 @@ project.ext {
 			support                     : '1.0.0',
 			support_design              : '1.0.0-rc01',
 			constraint_layout           : '1.1.2',
-			lifecycle                   : '2.0.0-rc01',
+			lifecycle_extensions        : '2.0.0-rc01',
 			lifecycle_java_8            : '2.0.0-rc01',
 
 			//Annotation processors - injection - RX
@@ -105,9 +105,13 @@ project.ext {
 
 			//Image
 //			glide                       : '4.8.0',
+			exif                        : '1.0.0',
 
 			//Multidex
-//			multidex                    : '2.0.0'
+//			multidex                    : '2.0.0',
+
+			//Policy
+			privacy_policy              : '1.0.10'
 	]
 
 	annotation_processors = [
@@ -128,7 +132,7 @@ project.ext {
 
 			//Lifecycle
 			lifecycle_java8     : "androidx.lifecycle:lifecycle-common-java8:${lib_versions.lifecycle_java_8}",
-			lifecycle           : "androidx.lifecycle:lifecycle-extensions:${lib_versions.lifecycle}",
+			lifecycle_extensions: "androidx.lifecycle:lifecycle-extensions:${lib_versions.lifecycle_extensions}",
 
 			//UI
 			recyclerview_v7     : "androidx.recyclerview:recyclerview:${lib_versions.support}",
@@ -188,15 +192,20 @@ project.ext {
 
 	libs_image = [
 			glide               : "com.github.bumptech.glide:glide:${lib_versions.glide}",
+			exif                : "androidx.exifinterface:exifinterface:${lib_versions.exif}"
 	]
 
 	libs_logging = [
-			timber              : "com.jakewharton.timber:timber:${lib_versions.timber}",
+			timber              : "com.jakewharton.timber:timber:${lib_versions.timber}"
 	]
 
 	libs_kotlin = [
 			kotlin_stdlib_java8 : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${plugin_versions.kotlin}",
 			kotlin_reflect      : "org.jetbrains.kotlin:kotlin-reflect:${plugin_versions.kotlin}",
+	]
+
+	libs_privacy = [
+	        privacy_policy      : "com.gitlab.juanitobananas:privacy-policy-lib:${lib_versions.privacy_policy}"
 	]
 
 }

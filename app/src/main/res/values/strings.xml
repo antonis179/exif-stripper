@@ -9,10 +9,16 @@
 	<string name="notif_default_channel_id">General</string>
 
 
-	<!-- TO REMOVE -->
+	<!-- Navigation -->
+
 	<string name="title_home">Home</string>
 	<string name="title_dashboard">Dashboard</string>
 	<string name="title_notifications">Notifications</string>
+
+	<!-- Toolbar -->
+
+	<string name="menu_exit">Exit</string>
+	<string name="menu_policy">Privacy Policy</string>
 
 
 </resources>

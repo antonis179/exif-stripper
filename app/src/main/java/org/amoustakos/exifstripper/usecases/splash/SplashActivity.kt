@@ -25,7 +25,8 @@ class SplashActivity : BaseActivity() {
 									.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 					)
 				},
-				1000
+				2*1000
 		)
 	}
+
 }
