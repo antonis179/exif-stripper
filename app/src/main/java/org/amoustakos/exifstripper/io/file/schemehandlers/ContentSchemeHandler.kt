@@ -1,8 +1,12 @@
 package org.amoustakos.exifstripper.io.file.schemehandlers
 
 import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
+import android.os.Environment
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.provider.OpenableColumns
 import org.amoustakos.exifstripper.utils.FileUtils.getExtensionFromMimeType
 import timber.log.Timber
@@ -10,6 +14,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.InputStream
 import java.lang.ref.WeakReference
+
+
 
 internal class ContentSchemeHandler : SchemeHandler {
 
@@ -77,6 +83,95 @@ internal class ContentSchemeHandler : SchemeHandler {
         cursor.close()
         return name
     }
+
+
+	fun getPath(): String? {
+		val context = context.get() ?: return null
+
+		when {
+			DocumentsContract.isDocumentUri(context, uri) -> {
+				// LocalStorageProvider
+				if (isLocalStorageDocument(uri))
+					return DocumentsContract.getDocumentId(uri)
+
+				// ExternalStorageProvider
+				if (isExternalStorageDocument(uri)) {
+					val docId = DocumentsContract.getDocumentId(uri)
+					val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+					val type = split[0]
+
+					if ("primary".equals(type, ignoreCase = true))
+						return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+				} else if (isDownloadsDocument(uri)) {
+					val id = DocumentsContract.getDocumentId(uri)
+					val contentUri = ContentUris.withAppendedId(
+							Uri.parse("content://downloads/public_downloads"), java.lang.Long.parseLong(id))
+
+					return getDataColumn(contentUri, null, null)
+				} else if (isMediaDocument(uri)) {
+					val docId = DocumentsContract.getDocumentId(uri)
+					val split = docId.split(":".intern().toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+					val type = split[0]
+
+					val contentUri = when (type) {
+						"image".intern() -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+						"video".intern() -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+						"audio".intern() -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+						else             -> return null
+					}
+
+					val selection = "_id=?".intern()
+					val selectionArgs = arrayOf(split[1])
+
+					return getDataColumn(contentUri, selection, selectionArgs)
+				}
+			}
+
+			"content".equals(uri.scheme!!, ignoreCase = true) -> // Return the remote address
+				return if (isGooglePhotosUri(uri))
+					uri.lastPathSegment
+				else
+					getDataColumn(uri, null, null)
+
+			"file".equals(uri.scheme!!, ignoreCase = true) -> return uri.path
+		}
+
+		return null
+	}
+
+	@SuppressLint("Recycle")
+	private fun getDataColumn(
+			uri: Uri,
+			selection: String?,
+            selectionArgs: Array<String>?
+	): String? {
+		val column = "_data".intern()
+		val projection = arrayOf(column)
+
+		val cursor = context.get()
+				?.contentResolver
+				?.query(uri, projection, selection, selectionArgs, null)
+				?: return null
+
+		val index = cursor.getColumnIndexOrThrow(column)
+		cursor.moveToFirst()
+		val item = cursor.getString(index)
+		cursor.close()
+		return item
+	}
+
+
+	/**
+	 * TODO
+	 */
+	fun isLocalStorageDocument(uri: Uri) = false //LocalStorageProvider.AUTHORITY == uri.authority
+
+	fun isExternalStorageDocument(uri: Uri) = "com.android.externalstorage.documents" == uri.authority
+	fun isDownloadsDocument(uri: Uri) = "com.android.providers.downloads.documents" == uri.authority
+	fun isMediaDocument(uri: Uri) = "com.android.providers.media.documents" == uri.authority
+	fun isGooglePhotosUri(uri: Uri) = "com.google.android.apps.photos.content" == uri.authority
+
+
 
 
     override fun hasReadPermission() = try {

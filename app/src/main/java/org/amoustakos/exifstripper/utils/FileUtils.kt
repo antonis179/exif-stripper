@@ -44,7 +44,6 @@ object FileUtils {
 			} finally {
 				source.close()
 				out?.close()
-				destinationFile.delete()
 			}
 		} catch (e: IOException) {
 			Timber.e(e)
@@ -150,7 +149,6 @@ object FileUtils {
 	}
 
 	fun getThumbnail(context: Context, uri: Uri, mimeType: String): Bitmap? {
-		//TODO: Test, make video sealed class in ContentType
 		if (!isMediaUri(uri)) {
 			Timber.w("You can only retrieve thumbnails for images and videos.")
 			return null
