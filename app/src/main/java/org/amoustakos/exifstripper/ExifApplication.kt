@@ -5,12 +5,15 @@ import android.content.Context
 import timber.log.Timber
 
 
+
+
 class ExifApplication : Application() {
 
-	lateinit var environment: Environment
+	private lateinit var environment: Environment
 
 	override fun onCreate() {
 		val start = System.currentTimeMillis()
+
 		super.onCreate()
 
 		environment = Environment(this)

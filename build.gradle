@@ -14,18 +14,9 @@ apply plugin: ext.plugins.dependencyUpdates
 
 subprojects {
 
-	tasks.withType(JavaCompile) {
-		options.compilerArgs += [
-				"-Adagger.gradle.incremental",
-				"-Adagger.formatGeneratedSource=disabled"
-		]
-	}
-
 	tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 		kotlinOptions {
 			jvmTarget = java_version
-			apiVersion = '1.3'
-			languageVersion = '1.3'
 		}
 	}
 }

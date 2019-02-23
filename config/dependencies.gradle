@@ -49,10 +49,10 @@ project.ext {
 			android                 : "com.android.tools.build:gradle:${plugin_versions.android}",
 			kotlin                  : "org.jetbrains.kotlin:kotlin-gradle-plugin:${plugin_versions.kotlin}",
 			kotlin_android_ext      : "org.jetbrains.kotlin:kotlin-android-extensions:${plugin_versions.kotlin}",
-			realm                   : "io.realm:realm-gradle-plugin:${plugin_versions.realm}",
+//			realm                   : "io.realm:realm-gradle-plugin:${plugin_versions.realm}",
 			google_gms              : "com.google.gms:google-services:${plugin_versions.firebase}",
-			firebase_performance    : "com.google.firebase:firebase-plugins:${plugin_versions.firebase_performance}",
-			fabric                  : "io.fabric.tools:gradle:${plugin_versions.fabric}",
+//			firebase_performance    : "com.google.firebase:firebase-plugins:${plugin_versions.firebase_performance}",
+//			fabric                  : "io.fabric.tools:gradle:${plugin_versions.fabric}",
 			gradleVersions          : "com.github.ben-manes:gradle-versions-plugin:${plugin_versions.gradleVersions}"
 	]
 
@@ -60,10 +60,11 @@ project.ext {
 			//Support
 			play_services               : '16.0.0',
 			support                     : '1.0.0',
+			appcompat                   : '1.1.0-alpha02',
 			support_design              : '1.0.0-rc01',
-			constraint_layout           : '1.1.2',
-			lifecycle_extensions        : '2.0.0-rc01',
-			lifecycle_java_8            : '2.0.0-rc01',
+			constraint_layout           : '2.0.0-alpha3',
+			lifecycle_extensions        : '2.1.0-alpha02',
+			lifecycle_java_8            : '2.1.0-alpha02',
 
 			//Annotation processors - injection - RX
 			dagger                      : '2.20',
@@ -127,7 +128,7 @@ project.ext {
 
 	libs_support = [
 //			multidex            : "androidx.multidex:multidex:${lib_versions.multidex}",
-			appcompat           : "androidx.appcompat:appcompat:${lib_versions.support}",
+			appcompat           : "androidx.appcompat:appcompat:${lib_versions.appcompat}",
 			support_v4          : "androidx.legacy:legacy-support-v4:${lib_versions.support}",
 
 			//Lifecycle

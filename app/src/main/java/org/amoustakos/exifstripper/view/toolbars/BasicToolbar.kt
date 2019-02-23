@@ -3,10 +3,12 @@ package org.amoustakos.exifstripper.view.toolbars
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import org.amoustakos.exifstripper.view.base.IActivityViewComponent
-import org.amoustakos.exifstripper.view.toolbars.base.IToolbarView
+import org.amoustakos.exifstripper.view.base.ActivityViewComponent
+import org.amoustakos.exifstripper.view.toolbars.base.ToolbarView
 
-class BasicToolbar(private val id: Int): IActivityViewComponent, IToolbarView {
+class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarView {
+
+	operator fun invoke() = get()
 
 	private var toolbar: Toolbar? = null
 
@@ -16,12 +18,10 @@ class BasicToolbar(private val id: Int): IActivityViewComponent, IToolbarView {
 	}
 
 
-
 	override fun get() = toolbar
 
 	override fun setAsActionbar(activity: AppCompatActivity) {
-		if (toolbar != null)
-			activity.setSupportActionBar(toolbar)
+		toolbar?.let { activity.setSupportActionBar(it) }
 	}
 
 	override fun setTitle(title: String) {

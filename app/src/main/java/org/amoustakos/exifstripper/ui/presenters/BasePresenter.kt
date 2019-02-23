@@ -7,10 +7,10 @@ import org.amoustakos.exifstripper.ui.contracts.base.BaseContractView
 import java.lang.ref.WeakReference
 
 open class BasePresenter<out T : BaseContractView>
-protected constructor (
-		view: T,
-		val lifecycle: Lifecycle
-) : DefaultLifecycleObserver, BaseContractActions {
+	protected constructor (
+			view: T,
+			val lifecycle: Lifecycle
+	) : DefaultLifecycleObserver, BaseContractActions {
 
 	protected val mView: WeakReference<out T> = WeakReference(view)
 

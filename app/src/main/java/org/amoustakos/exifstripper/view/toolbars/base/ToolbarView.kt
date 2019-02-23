@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
 
-interface IToolbarView {
+interface ToolbarView {
 
 	fun get(): Toolbar?
 

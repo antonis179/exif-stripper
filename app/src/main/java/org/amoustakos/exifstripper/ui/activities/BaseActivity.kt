@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import org.amoustakos.exifstripper.ExifApplication
-import org.amoustakos.exifstripper.view.base.IActivityViewComponent
+import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 
 /**
  * Abstract activity that every other Activity in this application must implement. It handles
@@ -14,11 +14,11 @@ import org.amoustakos.exifstripper.view.base.IActivityViewComponent
 abstract class BaseActivity : AppCompatActivity() {
 
 
-    protected fun setupViewComponents(components: List<IActivityViewComponent>) {
+    protected fun setupViewComponents(components: List<ActivityViewComponent>) {
 	    components.forEach { setupViewComponent(it) }
     }
 
-	protected fun setupViewComponent(component: IActivityViewComponent) {
+	protected fun setupViewComponent(component: ActivityViewComponent) {
 		component.setup(this)
 	}
 

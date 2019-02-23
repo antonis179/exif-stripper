@@ -2,7 +2,7 @@ package org.amoustakos.exifstripper.view.base
 
 import android.app.Activity
 
-interface IActivityViewComponent {
+interface ActivityViewComponent {
 
 
 	fun setup(activity: Activity)
