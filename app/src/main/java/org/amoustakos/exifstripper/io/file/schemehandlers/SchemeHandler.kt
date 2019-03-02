@@ -22,4 +22,6 @@ interface SchemeHandler {
 
     fun hasReadPermission(): Boolean
 
+	fun getPath(): String?
+
 }

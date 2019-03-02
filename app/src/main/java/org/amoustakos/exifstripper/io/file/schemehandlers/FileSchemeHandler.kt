@@ -37,6 +37,7 @@ internal class FileSchemeHandler : SchemeHandler {
         false
     }
 
+    override fun getPath() = file?.path
 
 
 

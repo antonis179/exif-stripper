@@ -2,6 +2,7 @@
 
 
 	<!-- Toasts -->
+
 	<string name="toast_back_to_exit">Click back once again to exit</string>
 
 	<!-- Notifications -->
@@ -19,6 +20,11 @@
 
 	<string name="menu_exit">Exit</string>
 	<string name="menu_policy">Privacy Policy</string>
+
+
+	<!-- Layout resources -->
+
+	<string name="image_preview">Image preview</string>
 
 
 </resources>

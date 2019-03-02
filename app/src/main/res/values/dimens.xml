@@ -3,6 +3,7 @@
 	<dimen name="nav_header_vertical_spacing">16dp</dimen>
 	<dimen name="nav_header_height">160dp</dimen>
 
+	<!-- Margins -->
 	<dimen name="fab_margin">16dp</dimen>
 	<dimen name="margin_small">4dp</dimen>
 	<dimen name="margin_normal">8dp</dimen>
@@ -19,6 +20,10 @@
 	<dimen name="card_toolbar_height">40dp</dimen>
 	<dimen name="card_image_button_size">60dp</dimen>
 	<dimen name="card_height">80dp</dimen>
+
+
+	<!-- Images -->
+	<dimen name="image_preview_height">300dp</dimen>
 
 
 	<!-- Font sizes -->

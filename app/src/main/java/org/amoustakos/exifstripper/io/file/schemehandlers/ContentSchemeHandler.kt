@@ -15,8 +15,6 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import java.lang.ref.WeakReference
 
-
-
 internal class ContentSchemeHandler : SchemeHandler {
 
     private lateinit var uri: Uri
@@ -85,7 +83,7 @@ internal class ContentSchemeHandler : SchemeHandler {
     }
 
 
-	fun getPath(): String? {
+	override fun getPath(): String? {
 		val context = context.get() ?: return null
 
 		when {

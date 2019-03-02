@@ -2,7 +2,7 @@ apply plugin: applyPlugins.application
 apply from: "$project.rootDir/config/config.gradle"
 
 apply plugin: applyPlugins.kotlin
-//apply plugin: applyPlugins.kapt
+apply plugin: applyPlugins.kapt
 apply plugin: applyPlugins.kotlinAndroidExtentions
 //apply plugin: applyPlugins.firebasePerformance
 //apply plugin: applyPlugins.fabric
@@ -21,15 +21,14 @@ android {
 //}
 
 dependencies {
-//	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
-//	kapt annotation_processors.lifecycle
-//	kapt annotation_processors.butterknife
+	kapt annotation_processors.lifecycle
 
 	implementation libs_support.appcompat
 	implementation libs_support.support_design
-//	implementation libs_support.support_v4
 	implementation libs_support.lifecycle_java8
+	implementation libs_support.lifecycle_runtime
 	implementation libs_support.lifecycle_extensions
 	implementation libs_support.constraint_layout
 
@@ -38,9 +37,10 @@ dependencies {
 	implementation libs_logging.values()
 
 	implementation libs_image.exif
+	implementation libs_image.glide
 
 	implementation libs_kotlin.values()
-//	implementation libs_rx.values()
+	implementation libs_rx.values()
 //	implementation libs_local_io.values()
 //	implementation libs_mapping.values()
 //	implementation libs_injection.butterknife

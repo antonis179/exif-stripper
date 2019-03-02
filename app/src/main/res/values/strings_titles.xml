@@ -10,4 +10,8 @@
 	<!-- Home -->
 	<string name="title_activity_main">MainActivity</string>
 
+
+	<!-- Image -->
+	<string name="title_image_select">Select Image</string>
+
 </resources>
