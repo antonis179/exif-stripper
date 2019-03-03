@@ -16,9 +16,9 @@ android {
 	}
 }
 
-//kapt {
-//	useBuildCache true
-//}
+kapt {
+	useBuildCache true
+}
 
 dependencies {
 	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
@@ -26,6 +26,7 @@ dependencies {
 	kapt annotation_processors.lifecycle
 
 	implementation libs_support.appcompat
+	implementation libs_support.androidx_ktx
 	implementation libs_support.support_design
 	implementation libs_support.lifecycle_java8
 	implementation libs_support.lifecycle_runtime

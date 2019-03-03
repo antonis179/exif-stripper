@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
-
 
 	<androidx.core.widget.NestedScrollView
 		android:layout_width="0dp"
@@ -18,37 +18,34 @@
 
 		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
+			android:layout_height="wrap_content"
 			android:orientation="vertical">
-
 			<ImageView
 				android:id="@+id/iv_preview"
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/image_preview_height"
+				android:layout_marginBottom="@dimen/margin_normal"
 				android:contentDescription="@string/image_preview"/>
 
 			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/rv_exif"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="wrap_content"
+				android:scrollbars="vertical"
 				android:nestedScrollingEnabled="false"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 				android:orientation="vertical"
-				/>
-
+				tools:listitem="@layout/row_exif_attribute"/>
 		</LinearLayout>
-
-
 	</androidx.core.widget.NestedScrollView>
-
 
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:id="@+id/fabSelectImage"
+		android:id="@+id/fab_select_image"
 		android:layout_marginEnd="@dimen/margin_large"
 		android:layout_marginBottom="@dimen/margin_large"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,5 +10,9 @@ class ExifViewModel : ViewModel() {
 
 	val imageUri: MutableLiveData<Uri?> by lazy { MutableLiveData<Uri?>() }
 
+	val adapterData: MutableLiveData<MutableList<ExifAttributeViewData>> by lazy {
+		MutableLiveData<MutableList<ExifAttributeViewData>>()
+	}
+
 
 }

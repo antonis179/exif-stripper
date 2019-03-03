@@ -5,10 +5,26 @@ import androidx.exifinterface.media.ExifInterface
 object ExifUtil {
 
 
-	fun removeExifProperty(filename: String, property: String) {
-		val exifInterface = ExifInterface(filename)
-		exifInterface.setAttribute(property, null)
+	fun removeAttribute(filename: String, tag: String) {
+		ExifInterface(filename).removeAttribute(tag)
 	}
 
+	fun ExifInterface.removeAttribute(tag: String) {
+		setAttribute(tag, null)
+	}
+
+	fun getAttribute(filename: String, tag: String) = ExifInterface(filename).getAttribute(tag)
+	fun ExifInterface.get(tag: String) = getAttribute(tag)
+
+	fun getAttributes(filename: String, tags: Collection<String>): Map<String, String> {
+		val attrMap = mutableMapOf<String, String>()
+		val exif = ExifInterface(filename)
+
+		tags.forEach { tag ->
+			attrMap[tag] = exif.getAttribute(tag) ?: return@forEach
+		}
+
+		return attrMap
+	}
 
 }

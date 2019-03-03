@@ -12,12 +12,18 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import kotlinx.android.synthetic.main.fragment_image_handling.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
+import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
 import org.amoustakos.exifstripper.ui.fragments.BaseFragment
+import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeAdapter
+import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifViewModel
 import org.amoustakos.exifstripper.utils.FileUtils
+import org.amoustakos.exifstripper.utils.exif.Attributes
+import org.amoustakos.exifstripper.utils.exif.ExifUtil
 
 /**
  * Created by Antonis Moustakos on 2/16/2019.
@@ -31,8 +37,12 @@ class ImageHandlingFragment : BaseFragment() {
 
 
 	private lateinit var viewModel: ExifViewModel
+	private var adapter: ExifAttributeAdapter? = null
 
 
+	// =========================================================================================
+	// View
+	// =========================================================================================
 
 	override fun layoutId() = R.layout.fragment_image_handling
 
@@ -40,8 +50,6 @@ class ImageHandlingFragment : BaseFragment() {
 		super.onCreate(savedInstanceState)
 
 		viewModel = ViewModelProviders.of(this).get(ExifViewModel::class.java)
-
-		viewModel.imageUri.observeForever { uri -> loadPreview(uri) }
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +58,32 @@ class ImageHandlingFragment : BaseFragment() {
 		if (!hasPermissions())
 			requestPermissions()
 
-		fabSelectImage.setOnClickListener { pickImage() }
+		viewModel.imageUri.observeForever { uri ->
+			run {
+				loadPreview(uri)
+				loadExifAttributes(uri)
+			}
+		}
+
+		viewModel.adapterData.observeForever { items ->
+			run {
+				adapter?.replace(items)
+				adapter?.notifyDataSetChanged()
+			}
+		}
+
+		fab_select_image.setOnClickListener { pickImage() }
+
+		setupRecycler()
+	}
+
+	private fun setupRecycler() {
+		if (adapter == null) {
+			if (viewModel.adapterData.value == null)
+				viewModel.adapterData.value = mutableListOf()
+			adapter = ExifAttributeAdapter(viewModel.adapterData.value!!)
+		}
+		rv_exif.adapter = adapter
 	}
 
 	// =========================================================================================
@@ -67,9 +100,6 @@ class ImageHandlingFragment : BaseFragment() {
 				if (context == null || activity == null) return
 				viewModel.imageUri.value = data?.data
 //				if (data?.data == null) //TODO: error
-
-//				val schemeHandler = SchemeHandlerFactory(context!!)[data?.data!!.toString()]
-//				ExifInterface(schemeHandler.getPath()!!)
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data)
@@ -77,6 +107,9 @@ class ImageHandlingFragment : BaseFragment() {
 
 	//TODO: Add full screen preview
 	private fun loadPreview(uri: Uri?) {
+		if (!isAdded || activity == null)
+			return
+
 		//TODO: Add placeholder
 		if (uri == null) {
 			Glide.with(this).clear(iv_preview)
@@ -85,9 +118,32 @@ class ImageHandlingFragment : BaseFragment() {
 					.with(this)
 					.load(uri)
 					.fitCenter()
-					//					.placeholder(R.drawable.loading_spinner)
+					.downsample(DownsampleStrategy.CENTER_INSIDE)
 					.into(iv_preview)
 		}
+	}
+
+	private fun loadExifAttributes(uri: Uri?) {
+		if (uri == null) {
+			clearList()
+			return
+		}
+
+		val schemeHandler = SchemeHandlerFactory(context!!)[uri.toString()]
+
+		if (schemeHandler.getPath() == null) {
+			clearList()
+			//TODO: Error
+			return
+		}
+
+		val attrMap = ExifUtil.getAttributes(schemeHandler.getPath()!!, Attributes())
+
+		viewModel.adapterData.value = attrMap.map { ExifAttributeViewData(it.key, it.value) } as MutableList
+	}
+
+	private fun clearList() {
+		viewModel.adapterData.value?.clear()
 	}
 
 

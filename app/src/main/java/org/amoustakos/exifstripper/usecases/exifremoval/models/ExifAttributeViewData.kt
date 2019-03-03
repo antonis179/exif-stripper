@@ -9,8 +9,8 @@ import org.amoustakos.exifstripper.view.recycler.BaseViewModel
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 
 data class ExifAttributeViewData(
-		private val title: String,
-		private val value: String
+		val title: String,
+		val value: String
 ) : BaseViewModel<ExifAttributeViewHolder, ExifAttributeViewData>, Parcelable {
 
 	constructor(parcel: Parcel) : this(

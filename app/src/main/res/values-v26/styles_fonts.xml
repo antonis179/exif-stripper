@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="TextInputLayoutErrorStyle" parent="@android:style/TextAppearance">
+		<item name="android:textColor">@color/accent</item>
+		<item name="android:font">@font/roboto_slab_bold</item>
+	</style>
+
+	<style name="Text.Regular" parent="@android:style/TextAppearance">
+		<item name="android:font">@font/roboto_slab</item>
+		<item name="android:textSize">@dimen/text_normal</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textColor">@color/textWhite</item>
+	</style>
+
+	<style name="Text.Bold" parent="@android:style/TextAppearance">
+		<item name="android:font">@font/roboto_slab_bold</item>
+		<item name="android:textSize">@dimen/text_normal</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textColor">@color/textWhite</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="Text.Italic" parent="@android:style/TextAppearance">
+		<item name="android:font">@font/roboto_slab_light</item>
+		<item name="android:textSize">@dimen/text_normal</item>
+		<item name="android:gravity">center</item>
+		<item name="android:textColor">@color/textWhite</item>
+		<item name="android:textStyle">italic</item>
+	</style>
+</resources>

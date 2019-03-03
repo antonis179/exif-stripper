@@ -4,10 +4,9 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:layout_height="50dp">
+	android:layout_height="@dimen/card_exif_attribute_height">
 
-	<android.support.constraint.Guideline
+	<androidx.constraintlayout.widget.Guideline
 		android:id="@+id/vg_1"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -17,10 +16,10 @@
 	<TextView
 		android:id="@+id/tv_title"
 		android:layout_width="0dp"
-		android:layout_height="0dp"
+		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/margin_small"
 		android:gravity="start|center_vertical"
-		style="@style/Text.Regular"
+		android:textAppearance="@style/Text.Regular"
 		android:ellipsize="end"
 		android:maxLines="1"
 		tools:text="Exif attribute"
@@ -32,10 +31,10 @@
 	<TextView
 		android:id="@+id/tv_value"
 		android:layout_width="0dp"
-		android:layout_height="0dp"
+		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/margin_small"
 		android:gravity="start|center_vertical"
-		style="@style/Text.Regular"
+		android:textAppearance="@style/Text.Regular"
 		android:ellipsize="end"
 		android:maxLines="1"
 		tools:text="Exif attribute"

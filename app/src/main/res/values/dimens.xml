@@ -34,4 +34,8 @@
 	<dimen name="text_large">16sp</dimen>
 	<dimen name="text_xlarge">18sp</dimen>
 
+
+	<!-- Recyclers -->
+	<dimen name="card_exif_attribute_height">75dp</dimen>
+
 </resources>
