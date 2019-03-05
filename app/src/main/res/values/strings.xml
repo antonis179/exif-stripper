@@ -27,4 +27,9 @@
 	<string name="image_preview">Image preview</string>
 
 
+	<!-- Button resources -->
+
+	<string name="remove_all">Remove all</string>
+
+
 </resources>

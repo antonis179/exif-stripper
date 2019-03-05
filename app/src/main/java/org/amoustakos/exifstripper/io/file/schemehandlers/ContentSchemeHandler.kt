@@ -127,7 +127,7 @@ internal class ContentSchemeHandler : SchemeHandler {
 
 			"content".equals(uri.scheme!!, ignoreCase = true) -> // Return the remote address
 				return if (isGooglePhotosUri(uri))
-					uri.lastPathSegment
+					uri.path
 				else
 					getDataColumn(uri, null, null)
 
@@ -167,7 +167,8 @@ internal class ContentSchemeHandler : SchemeHandler {
 	fun isExternalStorageDocument(uri: Uri) = "com.android.externalstorage.documents" == uri.authority
 	fun isDownloadsDocument(uri: Uri) = "com.android.providers.downloads.documents" == uri.authority
 	fun isMediaDocument(uri: Uri) = "com.android.providers.media.documents" == uri.authority
-	fun isGooglePhotosUri(uri: Uri) = "com.google.android.apps.photos.content" == uri.authority
+	fun isGooglePhotosUri(uri: Uri) = uri.authority?.startsWith("com.google.android.apps.photos")
+			?: false
 
 
 

@@ -20,12 +20,24 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="vertical">
+
 			<ImageView
 				android:id="@+id/iv_preview"
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/image_preview_height"
 				android:layout_marginBottom="@dimen/margin_normal"
 				android:contentDescription="@string/image_preview"/>
+
+			<Button
+				android:id="@+id/btn_remove_all"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="@dimen/margin_normal"
+				android:text="@string/remove_all"
+				android:gravity="center"
+				android:layout_gravity="center"
+				android:visibility="gone"
+				tools:visibility="visible"/>
 
 			<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/rv_exif"
@@ -36,6 +48,7 @@
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 				android:orientation="vertical"
 				tools:listitem="@layout/row_exif_attribute"/>
+
 		</LinearLayout>
 	</androidx.core.widget.NestedScrollView>
 

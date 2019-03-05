@@ -4,9 +4,10 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
@@ -58,23 +59,24 @@ class ImageHandlingFragment : BaseFragment() {
 		if (!hasPermissions())
 			requestPermissions()
 
-		viewModel.imageUri.observeForever { uri ->
-			run {
-				loadPreview(uri)
-				loadExifAttributes(uri)
-			}
-		}
-
-		viewModel.adapterData.observeForever { items ->
-			run {
-				adapter?.replace(items)
-				adapter?.notifyDataSetChanged()
-			}
-		}
+		viewModel.imageUri.observeForever { run { refreshUI() } }
+		viewModel.adapterData.observeForever { items -> run { refreshAdapter(items) } }
 
 		fab_select_image.setOnClickListener { pickImage() }
+		btn_remove_all.setOnClickListener { removeExifData() }
 
 		setupRecycler()
+	}
+
+	private fun refreshUI() {
+		loadPreview()
+		loadExifAttributes()
+		toggleRemoveAllButton()
+	}
+
+	private fun refreshAdapter(items: MutableList<ExifAttributeViewData>): Unit? {
+		adapter?.replace(items)
+		return adapter?.notifyDataSetChanged()
 	}
 
 	private fun setupRecycler() {
@@ -84,6 +86,23 @@ class ImageHandlingFragment : BaseFragment() {
 			adapter = ExifAttributeAdapter(viewModel.adapterData.value!!)
 		}
 		rv_exif.adapter = adapter
+	}
+
+	// =========================================================================================
+	// Views
+	// =========================================================================================
+
+	private fun toggleRemoveAllButton() {
+		btn_remove_all.visibility = if (null == viewModel.imageUri.value) GONE else VISIBLE
+	}
+
+	private fun removeExifData() {
+		if (context == null) return
+		val uri = viewModel.imageUri.value ?: return
+		val schemeHandler = SchemeHandlerFactory(context!!)[uri.toString()]
+		ExifUtil.removeAttributes(schemeHandler.getPath()!!, Attributes())
+
+		refreshUI()
 	}
 
 	// =========================================================================================
@@ -106,9 +125,11 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	//TODO: Add full screen preview
-	private fun loadPreview(uri: Uri?) {
+	private fun loadPreview() {
 		if (!isAdded || activity == null)
 			return
+
+		val uri = viewModel.imageUri.value
 
 		//TODO: Add placeholder
 		if (uri == null) {
@@ -117,13 +138,16 @@ class ImageHandlingFragment : BaseFragment() {
 			Glide
 					.with(this)
 					.load(uri)
+					.override(2000)
+					.downsample(DownsampleStrategy.FIT_CENTER)
 					.fitCenter()
-					.downsample(DownsampleStrategy.CENTER_INSIDE)
 					.into(iv_preview)
 		}
 	}
 
-	private fun loadExifAttributes(uri: Uri?) {
+	private fun loadExifAttributes() {
+		val uri = viewModel.imageUri.value
+
 		if (uri == null) {
 			clearList()
 			return
