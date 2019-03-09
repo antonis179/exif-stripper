@@ -14,10 +14,12 @@ object ExifUtil {
 
 	fun ExifInterface.removeAttribute(tag: String) {
 		setAttribute(tag, null)
+		saveAttributes()
 	}
 
 	fun ExifInterface.removeAttributes(tags: Collection<String>) {
 		tags.forEach { setAttribute(it, null) }
+		saveAttributes()
 	}
 
 	fun getAttribute(filename: String, tag: String) = ExifInterface(filename).getAttribute(tag)

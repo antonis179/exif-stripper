@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
@@ -14,8 +15,12 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_image_handling.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
 import org.amoustakos.exifstripper.ui.fragments.BaseFragment
@@ -25,6 +30,7 @@ import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifViewModel
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.exif.Attributes
 import org.amoustakos.exifstripper.utils.exif.ExifUtil
+import timber.log.Timber
 
 /**
  * Created by Antonis Moustakos on 2/16/2019.
@@ -100,7 +106,13 @@ class ImageHandlingFragment : BaseFragment() {
 		if (context == null) return
 		val uri = viewModel.imageUri.value ?: return
 		val schemeHandler = SchemeHandlerFactory(context!!)[uri.toString()]
-		ExifUtil.removeAttributes(schemeHandler.getPath()!!, Attributes())
+
+		try {
+			ExifUtil.removeAttributes(schemeHandler.getPath()!!, Attributes())
+		} catch (e: Exception) {
+			Timber.e(e)
+			//TODO: Show error
+		}
 
 		refreshUI()
 	}
@@ -117,8 +129,47 @@ class ImageHandlingFragment : BaseFragment() {
 		when (requestCode) {
 			REQUEST_IMAGE -> if (resultCode == RESULT_OK) {
 				if (context == null || activity == null) return
-				viewModel.imageUri.value = data?.data
-//				if (data?.data == null) //TODO: error
+
+				val uri = data?.data
+				if (uri == null) {
+					viewModel.imageUri.value = null
+					return
+				}
+
+				if (!SchemeHandlerFactory(context!!).isSupported(uri.toString())) {
+					//TODO: Error
+					return
+				}
+
+				val handler = SchemeHandlerFactory(context!!)[uri.toString()]
+				val stream = handler.getInputStream()
+				if (stream == null) {
+					//TODO: Show error
+					return
+				}
+
+				val name = "cache.${handler.getFileExtension()}"
+				val cache = context?.externalCacheDir?.toString()
+
+				Observable
+						.just(ResponseWrapper(FileUtils.createFile(stream, "$cache/$name")))
+						.observeOn(Schedulers.computation())
+						.subscribeOn(AndroidSchedulers.mainThread())
+						.doOnError {
+							Timber.e(it)
+							//TODO: Show error
+						}
+						.onErrorReturn { ResponseWrapper() }
+						.observeOn(AndroidSchedulers.mainThread())
+						.doOnNext {
+							if (it.value == null) {
+								//TODO: Show Error
+							} else {
+								val path = SchemeHandlerFactory(context!!)[it.value!!.absolutePath].getPath()
+								viewModel.imageUri.value = Uri.parse(path)
+							}
+						}
+						.subscribe()
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data)
@@ -137,7 +188,7 @@ class ImageHandlingFragment : BaseFragment() {
 		} else {
 			Glide
 					.with(this)
-					.load(uri)
+					.load(uri.path)
 					.override(2000)
 					.downsample(DownsampleStrategy.FIT_CENTER)
 					.fitCenter()
