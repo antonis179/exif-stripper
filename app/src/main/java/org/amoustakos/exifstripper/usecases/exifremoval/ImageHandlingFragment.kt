@@ -14,7 +14,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DecodeFormat
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -68,16 +71,22 @@ class ImageHandlingFragment : BaseFragment() {
 		viewModel.imageUri.observeForever { run { refreshUI() } }
 		viewModel.adapterData.observeForever { items -> run { refreshAdapter(items) } }
 
-		fab_select_image.setOnClickListener { pickImage() }
+		iv_preview.setOnClickListener { pickImage() }
 		btn_remove_all.setOnClickListener { removeExifData() }
+		srl_refresh.setOnRefreshListener { refreshUI() }
 
 		setupRecycler()
 	}
 
 	private fun refreshUI() {
+		setRefreshing(true)
 		loadPreview()
-		loadExifAttributes()
 		toggleRemoveAllButton()
+		restoreShareAction()
+		loadExifAttributes()
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnComplete { setRefreshing(false) }
+				.subscribe()
 	}
 
 	private fun refreshAdapter(items: MutableList<ExifAttributeViewData>): Unit? {
@@ -92,6 +101,12 @@ class ImageHandlingFragment : BaseFragment() {
 			adapter = ExifAttributeAdapter(viewModel.adapterData.value!!)
 		}
 		rv_exif.adapter = adapter
+	}
+
+	@Synchronized
+	private fun setRefreshing(refreshing: Boolean) {
+		if (srl_refresh.isRefreshing != refreshing)
+			srl_refresh.isRefreshing = refreshing
 	}
 
 	// =========================================================================================
@@ -115,11 +130,40 @@ class ImageHandlingFragment : BaseFragment() {
 		}
 
 		refreshUI()
+		showShareAction()
+	}
+
+	private fun showShareAction() {
+		if (viewModel.snackbar.value != null) hideShareAction()
+
+		viewModel.snackbar.value = Snackbar.make(cl_content, R.string.save_as, Snackbar.LENGTH_INDEFINITE)
+				.setAction(R.string.save) {
+					val uri = viewModel.imageUri.value ?: return@setAction
+					val ctx = context ?: return@setAction
+					val mime = SchemeHandlerFactory(ctx)[uri.toString()].getContentType()
+					val intent = FileUtils.shareFileIntent(uri, mime, getString(R.string.save_as))
+					ctx.startActivity(intent)
+				}
+		viewModel.snackbar.value?.show()
+	}
+
+	private fun hideShareAction() {
+		viewModel.snackbar.value?.dismiss()
+		viewModel.snackbar.value = null
+	}
+
+	private fun restoreShareAction() {
+		viewModel.snackbar.value?.show()
 	}
 
 	// =========================================================================================
 	// Image handling
 	// =========================================================================================
+
+	private fun resetUI() {
+		hideShareAction()
+		viewModel.imageUri.value = null
+	}
 
 	override fun onActivityResult(
 			requestCode: Int,
@@ -129,50 +173,58 @@ class ImageHandlingFragment : BaseFragment() {
 		when (requestCode) {
 			REQUEST_IMAGE -> if (resultCode == RESULT_OK) {
 				if (context == null || activity == null) return
-
-				val uri = data?.data
-				if (uri == null) {
-					viewModel.imageUri.value = null
-					return
-				}
-
-				if (!SchemeHandlerFactory(context!!).isSupported(uri.toString())) {
-					//TODO: Error
-					return
-				}
-
-				val handler = SchemeHandlerFactory(context!!)[uri.toString()]
-				val stream = handler.getInputStream()
-				if (stream == null) {
-					//TODO: Show error
-					return
-				}
-
-				val name = "cache.${handler.getFileExtension()}"
-				val cache = context?.externalCacheDir?.toString()
-
-				Observable
-						.just(ResponseWrapper(FileUtils.createFile(stream, "$cache/$name")))
-						.observeOn(Schedulers.computation())
-						.subscribeOn(AndroidSchedulers.mainThread())
-						.doOnError {
-							Timber.e(it)
-							//TODO: Show error
-						}
-						.onErrorReturn { ResponseWrapper() }
-						.observeOn(AndroidSchedulers.mainThread())
-						.doOnNext {
-							if (it.value == null) {
-								//TODO: Show Error
-							} else {
-								val path = SchemeHandlerFactory(context!!)[it.value!!.absolutePath].getPath()
-								viewModel.imageUri.value = Uri.parse(path)
-							}
-						}
-						.subscribe()
+				handleUri(data)
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data)
+	}
+
+	private fun handleUri(data: Intent?) {
+		setRefreshing(true)
+
+		val uri = data?.data
+		if (uri == null) {
+			resetUI()
+			return
+		}
+
+		if (!SchemeHandlerFactory(context!!).isSupported(uri.toString())) {
+			//TODO: Error
+			return
+		}
+
+		val handler = SchemeHandlerFactory(context!!)[uri.toString()]
+		val stream = handler.getInputStream()
+		if (stream == null) {
+			//TODO: Show error
+			resetUI()
+			return
+		}
+
+		val name = "cache.${handler.getFileExtension()}"
+		val cache = context?.externalCacheDir?.toString()
+
+		Observable
+				.just(ResponseWrapper(FileUtils.createFile(stream, "$cache/$name")))
+				.observeOn(Schedulers.computation())
+				.subscribeOn(AndroidSchedulers.mainThread())
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnError {
+					Timber.e(it)
+					resetUI()
+					//TODO: Show error
+				}
+				.onErrorReturn { ResponseWrapper() }
+				.doOnNext {
+					if (it.value == null) {
+						resetUI()
+						//TODO: Show Error
+					} else {
+						val path = SchemeHandlerFactory(context!!)[it.value!!.absolutePath].getPath()
+						viewModel.imageUri.value = Uri.parse(path)
+					}
+				}
+				.subscribe()
 	}
 
 	//TODO: Add full screen preview
@@ -182,40 +234,54 @@ class ImageHandlingFragment : BaseFragment() {
 
 		val uri = viewModel.imageUri.value
 
-		//TODO: Add placeholder
-		if (uri == null) {
-			Glide.with(this).clear(iv_preview)
-		} else {
-			Glide
-					.with(this)
-					.load(uri.path)
-					.override(2000)
-					.downsample(DownsampleStrategy.FIT_CENTER)
-					.fitCenter()
-					.into(iv_preview)
-		}
+		Glide
+				.with(this)
+				.asBitmap()
+				.format(DecodeFormat.PREFER_ARGB_8888)
+				.load(uri?.path)
+				.placeholder(R.drawable.ic_placeholder)
+				.diskCacheStrategy(DiskCacheStrategy.NONE)
+				.dontAnimate()
+				.override(2000)
+				.downsample(DownsampleStrategy.FIT_CENTER)
+//					.fitCenter()
+				.into(iv_preview)
 	}
 
-	private fun loadExifAttributes() {
-		val uri = viewModel.imageUri.value
+	private fun loadExifAttributes() = Observable
+			.just(ResponseWrapper(viewModel.imageUri.value))
+			.subscribeOn(AndroidSchedulers.mainThread())
+			.observeOn(Schedulers.computation())
+			.doOnError {
+				Timber.e(it)
+				//TODO: Show error
+			}
+			.onErrorReturn { ResponseWrapper() }
+			.map {
+				if (it.value == null) {
+					clearList()
+					return@map ResponseWrapper<MutableList<ExifAttributeViewData>>()
+				} else {
+					val uri = it.value
+					val schemeHandler = SchemeHandlerFactory(context!!)[uri.toString()]
 
-		if (uri == null) {
-			clearList()
-			return
-		}
+					if (schemeHandler.getPath() == null) {
+						clearList()
+						//TODO: Error
+						return@map ResponseWrapper<MutableList<ExifAttributeViewData>>()
+					}
 
-		val schemeHandler = SchemeHandlerFactory(context!!)[uri.toString()]
-
-		if (schemeHandler.getPath() == null) {
-			clearList()
-			//TODO: Error
-			return
-		}
-
-		val attrMap = ExifUtil.getAttributes(schemeHandler.getPath()!!, Attributes())
-
-		viewModel.adapterData.value = attrMap.map { ExifAttributeViewData(it.key, it.value) } as MutableList
-	}
+					val attrMap = ExifUtil.getAttributes(schemeHandler.getPath()!!, Attributes())
+					ResponseWrapper(attrMap.map { entry ->
+						ExifAttributeViewData(entry.key, entry.value)
+					} as MutableList)
+				}
+			}
+			.observeOn(AndroidSchedulers.mainThread())
+			.doOnNext {
+				val list = it.value ?: arrayListOf()
+				viewModel.adapterData.value = list
+			}
 
 	private fun clearList() {
 		viewModel.adapterData.value?.clear()

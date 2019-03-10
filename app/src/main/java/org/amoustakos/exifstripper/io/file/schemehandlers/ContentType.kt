@@ -191,7 +191,7 @@ object ContentType {
 		return if (extension == null || extension.isEmpty()) {
 			APPLICATION_OCTET_STREAM
 		} else {
-			FileUtils.getExtensionFromMimeType(extension.toLowerCase())	?:
+			FileUtils.getMimeTypeFromExtension(extension.toLowerCase()) ?:
 				// mp4 does not always get recognized automatically
 				return if ("mp4".equals(extension, ignoreCase = true))
 					VIDEO_MPEG4

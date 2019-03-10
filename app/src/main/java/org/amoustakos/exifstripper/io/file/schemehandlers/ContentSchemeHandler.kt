@@ -162,7 +162,7 @@ internal class ContentSchemeHandler : SchemeHandler {
 	/**
 	 * TODO
 	 */
-	fun isLocalStorageDocument(uri: Uri) = false //LocalStorageProvider.AUTHORITY == uri.authority
+	fun isLocalStorageDocument(@Suppress("UNUSED_PARAMETER") uri: Uri) = false //LocalStorageProvider.AUTHORITY == uri.authority
 
 	fun isExternalStorageDocument(uri: Uri) = "com.android.externalstorage.documents" == uri.authority
 	fun isDownloadsDocument(uri: Uri) = "com.android.providers.downloads.documents" == uri.authority

@@ -30,6 +30,8 @@
 	<!-- Button resources -->
 
 	<string name="remove_all">Remove all</string>
+	<string name="save_as">Save as</string>
+	<string name="save">Save</string>
 
 
 </resources>

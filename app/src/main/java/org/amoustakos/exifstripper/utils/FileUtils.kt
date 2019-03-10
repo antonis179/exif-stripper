@@ -90,6 +90,11 @@ object FileUtils {
 		return mime.getExtensionFromMimeType(mimeType)
 	}
 
+	fun getMimeTypeFromExtension(extension: String): String? {
+		val mime = MimeTypeMap.getSingleton()
+		return mime.getMimeTypeFromExtension(extension)
+	}
+
 	// =========================================================================================
 	// URIs
 	// =========================================================================================
