@@ -35,9 +35,7 @@ import org.amoustakos.exifstripper.utils.exif.Attributes
 import org.amoustakos.exifstripper.utils.exif.ExifUtil
 import timber.log.Timber
 
-/**
- * Created by Antonis Moustakos on 2/16/2019.
- */
+
 class ImageHandlingFragment : BaseFragment() {
 
 	companion object {
@@ -48,6 +46,8 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private lateinit var viewModel: ExifViewModel
 	private var adapter: ExifAttributeAdapter? = null
+
+	private val clickListener: View.OnClickListener = View.OnClickListener { pickImage() }
 
 
 	// =========================================================================================
@@ -71,7 +71,8 @@ class ImageHandlingFragment : BaseFragment() {
 		viewModel.imageUri.observeForever { run { refreshUI() } }
 		viewModel.adapterData.observeForever { items -> run { refreshAdapter(items) } }
 
-		iv_preview.setOnClickListener { pickImage() }
+		iv_preview.setOnClickListener(clickListener)
+		tv_select_image.setOnClickListener(clickListener)
 		btn_remove_all.setOnClickListener { removeExifData() }
 		srl_refresh.setOnRefreshListener { refreshUI() }
 
@@ -207,6 +208,15 @@ class ImageHandlingFragment : BaseFragment() {
 		Observable
 				.just(ResponseWrapper(FileUtils.createFile(stream, "$cache/$name")))
 				.observeOn(Schedulers.computation())
+				.doOnNext {
+					if (it.value == null) {
+						resetUI()
+						//TODO: Show Error
+					} else {
+						val path = SchemeHandlerFactory(context!!)[it.value!!.absolutePath].getPath()
+						viewModel.imageUri.postValue(Uri.parse(path))
+					}
+				}
 				.subscribeOn(AndroidSchedulers.mainThread())
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnError {
@@ -215,15 +225,6 @@ class ImageHandlingFragment : BaseFragment() {
 					//TODO: Show error
 				}
 				.onErrorReturn { ResponseWrapper() }
-				.doOnNext {
-					if (it.value == null) {
-						resetUI()
-						//TODO: Show Error
-					} else {
-						val path = SchemeHandlerFactory(context!!)[it.value!!.absolutePath].getPath()
-						viewModel.imageUri.value = Uri.parse(path)
-					}
-				}
 				.subscribe()
 	}
 
@@ -246,6 +247,13 @@ class ImageHandlingFragment : BaseFragment() {
 				.downsample(DownsampleStrategy.FIT_CENTER)
 //					.fitCenter()
 				.into(iv_preview)
+
+
+		tv_select_image.text =
+				if (uri == null)
+					getString(R.string.select_image)
+				else
+					SchemeHandlerFactory(context!!)[uri.toString()].getName()
 	}
 
 	private fun loadExifAttributes() = Observable
@@ -277,10 +285,9 @@ class ImageHandlingFragment : BaseFragment() {
 					} as MutableList)
 				}
 			}
-			.observeOn(AndroidSchedulers.mainThread())
 			.doOnNext {
 				val list = it.value ?: arrayListOf()
-				viewModel.adapterData.value = list
+				viewModel.adapterData.postValue(list)
 			}
 
 	private fun clearList() {
