@@ -22,21 +22,21 @@
 		android:layout_marginEnd="@dimen/margin_normal"
 		android:layout_marginTop="@dimen/margin_normal"
 		android:layout_marginBottom="@dimen/margin_normal"
-		app:layout_constraintBottom_toTopOf="@+id/navigation"
+		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@id/actionbar"/>
 
-	<com.google.android.material.bottomnavigation.BottomNavigationView
-		android:id="@+id/navigation"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="0dp"
-		android:layout_marginEnd="0dp"
-		android:background="?android:attr/windowBackground"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:menu="@menu/navigation"/>
+	<!--<com.google.android.material.bottomnavigation.BottomNavigationView-->
+	<!--android:id="@+id/navigation"-->
+	<!--android:layout_width="0dp"-->
+	<!--android:layout_height="wrap_content"-->
+	<!--android:layout_marginStart="0dp"-->
+	<!--android:layout_marginEnd="0dp"-->
+	<!--android:background="?android:attr/windowBackground"-->
+	<!--app:layout_constraintBottom_toBottomOf="parent"-->
+	<!--app:layout_constraintStart_toStartOf="parent"-->
+	<!--app:layout_constraintEnd_toEndOf="parent"-->
+	<!--app:menu="@menu/navigation"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,10 @@
 	<string name="app_name">Exif Stripper</string>
 
 	<!-- Splash -->
-	<string name="title_activity_splash">SplashActivity</string>
+	<string name="title_activity_splash">@string/app_name</string>
 
 	<!-- Home -->
-	<string name="title_activity_main">MainActivity</string>
+	<string name="title_activity_main">@string/app_name</string>
 
 
 	<!-- Image -->

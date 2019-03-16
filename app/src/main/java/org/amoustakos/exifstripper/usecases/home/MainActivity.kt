@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_main.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
@@ -14,7 +12,9 @@ import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 
 class MainActivity : BaseActivity() {
 
-	private val homeFragment = ImageHandlingFragment()
+	companion object {
+		const val TAG_IMAGE_SELECTION = "tag_image_selection"
+	}
 
 	private val toolbar = BasicToolbar(R.id.toolbar)
 
@@ -28,20 +28,9 @@ class MainActivity : BaseActivity() {
 		super.onCreate(savedInstanceState)
 
 		setupToolbar()
-
-		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-		if (supportFragmentManager.fragments.size == 0) {
-			val selId = navigation.selectedItemId
-			mOnNavigationItemSelectedListener.onNavigationItemSelected(
-					navigation.menu.findItem(selId)
-			)
-		}
-
-		//TESTING
-//		Attributes()
-//		startActivityForResult(createGetContentIntent(this, ContentType.Image.TYPE_GENERIC, ""), 166)
+		selectFragment(savedInstanceState)
 	}
+
 
 	private fun setupToolbar() {
 		setupViewComponent(toolbar)
@@ -54,21 +43,21 @@ class MainActivity : BaseActivity() {
 	// Navigation
 	// =========================================================================================
 
-	private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
-		return@OnNavigationItemSelectedListener when (it.itemId) {
-			R.id.navigation_home -> {
-				loadFragment(homeFragment, null)
-				true
-			}
-			R.id.navigation_dashboard -> {
-				true
-			}
-			R.id.navigation_notifications -> {
-				true
-			}
-			else -> false
-		}
-	}
+//	private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
+//		return@OnNavigationItemSelectedListener when (it.itemId) {
+//			R.id.navigation_home -> {
+//				loadFragment(ImageHandlingFragment(), null)
+//				true
+//			}
+//			R.id.navigation_dashboard -> {
+//				true
+//			}
+//			R.id.navigation_notifications -> {
+//				true
+//			}
+//			else -> false
+//		}
+//	}
 
 	private fun loadFragment(fragment: Fragment, tag: String?) {
 		val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -80,6 +69,23 @@ class MainActivity : BaseActivity() {
 	// =========================================================================================
 	// Menu
 	// =========================================================================================
+
+	private fun selectFragment(savedInstanceState: Bundle?) {
+
+		if (savedInstanceState == null) {
+			loadFragment(ImageHandlingFragment(), TAG_IMAGE_SELECTION)
+		}
+
+		//Bottom nav
+//		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+//
+//		if (supportFragmentManager.fragments.size == 0) {
+//			val selId = navigation.selectedItemId
+//			mOnNavigationItemSelectedListener.onNavigationItemSelected(
+//					navigation.menu.findItem(selId)
+//			)
+//		}
+	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		menuInflater.inflate(R.menu.toolbar, menu)
