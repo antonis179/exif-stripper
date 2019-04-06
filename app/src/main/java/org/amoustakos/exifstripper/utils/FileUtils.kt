@@ -40,16 +40,14 @@ object FileUtils {
 				return destinationFile
 			} catch (e: IOException) {
 				Timber.e(e)
-				return null
 			} finally {
 				source.close()
 				out?.close()
 			}
 		} catch (e: IOException) {
 			Timber.e(e)
-			return null
 		}
-
+		return null
 	}
 
 	fun renameFile(imageFile: File, name: String): File? {
@@ -58,42 +56,26 @@ object FileUtils {
 			if (dir.exists()) {
 				val from = File(dir, imageFile.name)
 				val to = File(dir, name + getExtension(imageFile.path))
-				if (from.exists()) {
-					if (from.renameTo(to)) {
+				if (from.exists())
+					if (from.renameTo(to))
 						return to
-					}
-				}
 			}
 		} catch (e: Exception) {
 			Timber.e(e)
 		}
-
 		return null
 	}
 
 	fun getExtension(absolutePath: String): String? {
 		val dot = ".".intern()
-
-		if (!absolutePath.contains(dot))
-			return null
-
+		if (!absolutePath.contains(dot)) return null
 		val index = absolutePath.lastIndexOf(dot) + 1
-
-		return if (index >= 0 && index <= absolutePath.length)
-			absolutePath.substring(index)
-		else
-			null
+		return if (index >= 0 && index <= absolutePath.length) absolutePath.substring(index)
+		else null
 	}
 
-	fun getExtensionFromMimeType(mimeType: String): String? {
-		val mime = MimeTypeMap.getSingleton()
-		return mime.getExtensionFromMimeType(mimeType)
-	}
-
-	fun getMimeTypeFromExtension(extension: String): String? {
-		val mime = MimeTypeMap.getSingleton()
-		return mime.getMimeTypeFromExtension(extension)
-	}
+	fun getExtensionFromMimeType(mimeType: String) = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+	fun getMimeTypeFromExtension(extension: String) = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
 
 	// =========================================================================================
 	// URIs
@@ -222,8 +204,8 @@ object FileUtils {
 
 	fun bytesToHex(bytes: ByteArray): String {
 		val hexArray = "0123456789ABCDEF".toCharArray()
-
 		val hexChars = CharArray(bytes.size * 2)
+
 		for (j in bytes.indices) {
 			val v: Int = (bytes[j] and 0xFF.toByte()).toInt()
 			hexChars[j * 2] = hexArray[v.ushr(4)]

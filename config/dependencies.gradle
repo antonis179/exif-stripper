@@ -8,7 +8,7 @@ project.ext {
 		maven { url 'https://jitpack.io' }
 		maven { url 'https://maven.fabric.io/public' }
 		maven { url 'https://dl.bintray.com/realm/maven' }
-//		jcenter()
+		jcenter()
 	}
 
 	applyPlugins = [
@@ -59,7 +59,7 @@ project.ext {
 	lib_versions = [
 			//Support
 			play_services               : '16.0.0',
-			support                     : '1.0.0',
+			core                        : '1.1.0-alpha05',
 			appcompat                   : '1.1.0-alpha02',
 			support_design              : '1.0.0-rc01',
 			constraint_layout           : '2.0.0-alpha3',
@@ -131,7 +131,7 @@ project.ext {
 	libs_support = [
 //			multidex            : "androidx.multidex:multidex:${lib_versions.multidex}",
 			appcompat           : "androidx.appcompat:appcompat:${lib_versions.appcompat}",
-			support_v4          : "androidx.legacy:legacy-support-v4:${lib_versions.support}",
+			androidx_core       : "androidx.core:core:${lib_versions.core}",
 			androidx_ktx        : "androidx.core:core-ktx:${lib_versions.androidx_ktx}",
 
 			//Lifecycle
