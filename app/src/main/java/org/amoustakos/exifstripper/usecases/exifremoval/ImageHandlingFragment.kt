@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
-import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -74,6 +73,7 @@ class ImageHandlingFragment : BaseFragment() {
 		iv_preview.setOnClickListener(clickListener)
 		tv_select_image.setOnClickListener(clickListener)
 		btn_remove_all.setOnClickListener { removeExifData() }
+		btn_save.setOnClickListener { shareImage() }
 		srl_refresh.setOnRefreshListener { refreshUI() }
 
 		setupRecycler()
@@ -110,6 +110,14 @@ class ImageHandlingFragment : BaseFragment() {
 			srl_refresh.isRefreshing = refreshing
 	}
 
+	private fun shareImage() {
+		val uri = viewModel.imageUri.value ?: return
+		val ctx = context ?: return
+		val mime = SchemeHandlerFactory(ctx)[uri.toString()].getContentType()
+		val intent = FileUtils.shareFileIntent(uri, mime, getString(R.string.save_as))
+		ctx.startActivity(intent)
+	}
+
 	// =========================================================================================
 	// Views
 	// =========================================================================================
@@ -135,26 +143,19 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	private fun showShareAction() {
-		if (viewModel.snackbar.value != null) hideShareAction()
-
-		viewModel.snackbar.value = Snackbar.make(cl_content, R.string.save_as, Snackbar.LENGTH_INDEFINITE)
-				.setAction(R.string.save) {
-					val uri = viewModel.imageUri.value ?: return@setAction
-					val ctx = context ?: return@setAction
-					val mime = SchemeHandlerFactory(ctx)[uri.toString()].getContentType()
-					val intent = FileUtils.shareFileIntent(uri, mime, getString(R.string.save_as))
-					ctx.startActivity(intent)
-				}
-		viewModel.snackbar.value?.show()
+		if (viewModel.save.value!!) hideShareAction()
+		viewModel.save.value = true
+		btn_save.visibility = VISIBLE
 	}
 
 	private fun hideShareAction() {
-		viewModel.snackbar.value?.dismiss()
-		viewModel.snackbar.value = null
+		viewModel.save.value = false
+		btn_save.visibility = GONE
 	}
 
 	private fun restoreShareAction() {
-		viewModel.snackbar.value?.show()
+		if (viewModel.save.value!!) showShareAction()
+		else hideShareAction()
 	}
 
 	// =========================================================================================

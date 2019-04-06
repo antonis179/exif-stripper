@@ -3,7 +3,6 @@ package org.amoustakos.exifstripper.usecases.exifremoval.models
 import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.material.snackbar.Snackbar
 
 
 class ExifViewModel : ViewModel() {
@@ -15,7 +14,7 @@ class ExifViewModel : ViewModel() {
 		MutableLiveData<MutableList<ExifAttributeViewData>>()
 	}
 
-	val snackbar: MutableLiveData<Snackbar?> by lazy { MutableLiveData<Snackbar?>() }
+	val save: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
 
 }
