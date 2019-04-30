@@ -7,8 +7,17 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import org.amoustakos.exifstripper.ExifApplication
+import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 
 abstract class BaseFragment: Fragment() {
+
+    protected fun setupViewComponents(components: List<ActivityViewComponent>) {
+        components.forEach { setupViewComponent(it) }
+    }
+
+    protected fun setupViewComponent(component: ActivityViewComponent) {
+        activity?.let { component.setup(it) }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

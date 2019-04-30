@@ -1,13 +1,14 @@
 package org.amoustakos.exifstripper.usecases.home
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
-import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 
 
 class MainActivity : BaseActivity() {
@@ -16,7 +17,7 @@ class MainActivity : BaseActivity() {
 		const val TAG_IMAGE_SELECTION = "tag_image_selection"
 	}
 
-	private val toolbar = BasicToolbar(R.id.toolbar)
+	private var isDoubleBackToExitPressedOnce = false
 
 	// =========================================================================================
 	// View
@@ -27,17 +28,8 @@ class MainActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		setupToolbar()
 		selectFragment(savedInstanceState)
 	}
-
-
-	private fun setupToolbar() {
-		setupViewComponent(toolbar)
-		toolbar.setTitle(R.string.app_name)
-		toolbar.setAsActionbar(this)
-	}
-
 
 	// =========================================================================================
 	// Navigation
@@ -65,6 +57,15 @@ class MainActivity : BaseActivity() {
 		fragmentTransaction.commit()
 	}
 
+	override fun onBackPressed() {
+		if (isDoubleBackToExitPressedOnce) {
+			super.onBackPressed()
+			return
+		}
+		isDoubleBackToExitPressedOnce = true
+		Toast.makeText(this, getString(R.string.toast_back_to_exit), Toast.LENGTH_SHORT).show()
+		Handler().postDelayed({ isDoubleBackToExitPressedOnce = false }, 2000)
+	}
 
 	// =========================================================================================
 	// Menu

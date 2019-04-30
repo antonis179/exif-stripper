@@ -2,7 +2,7 @@
 <resources>
 	<color name="primary">#CCA53F</color>
 	<color name="primaryDark">#351C1C</color>
-	<color name="accent">#FF0000</color>
+	<color name="accent">#D50000</color>
 
 	<color name="transparent">#00000000</color>
 
@@ -24,7 +24,7 @@
 
 
 	<!-- Backgrounds -->
-	<color name="primaryBackground">#241919</color>
+	<color name="primaryBackground">#383838</color>
 
 	<!-- System -->
 	<color name="splashStatusBarBG">#A3351C1C</color>

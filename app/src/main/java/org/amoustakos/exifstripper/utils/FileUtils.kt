@@ -14,6 +14,8 @@ import java.io.*
 import java.util.*
 import kotlin.experimental.and
 
+
+
 object FileUtils {
 
 	// =========================================================================================
@@ -30,6 +32,10 @@ object FileUtils {
 
 		try {
 			try {
+				val dir = File(destination.substring(0, destination.lastIndexOf("/")))
+				if (!dir.exists())
+					dir.mkdirs()
+
 				out = FileOutputStream(destinationFile)
 				len = source.read(buf)
 				while (len > 0) {
@@ -50,15 +56,23 @@ object FileUtils {
 		return null
 	}
 
+	fun createFile(uri: Uri, file: File, context: Context) {
+		val pfd = context.contentResolver.openFileDescriptor(uri, "w")
+				?: throw NullPointerException("Could not open file descriptor")
+		val fileOutputStream = FileOutputStream(pfd.fileDescriptor)
+		fileOutputStream.write(file.readBytes())
+		fileOutputStream.close()
+		pfd.close()
+	}
+
 	fun renameFile(imageFile: File, name: String): File? {
 		try {
 			val dir = imageFile.parentFile
 			if (dir.exists()) {
 				val from = File(dir, imageFile.name)
 				val to = File(dir, name + getExtension(imageFile.path))
-				if (from.exists())
-					if (from.renameTo(to))
-						return to
+				if (from.exists() && from.renameTo(to))
+					return to
 			}
 		} catch (e: Exception) {
 			Timber.e(e)
@@ -76,6 +90,16 @@ object FileUtils {
 
 	fun getExtensionFromMimeType(mimeType: String) = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
 	fun getMimeTypeFromExtension(extension: String) = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+
+
+	fun recursivelyDelete(file: File) {
+		if (!file.exists()) return
+
+		if (file.isFile)
+			file.delete()
+		else
+			file.listFiles().forEach { recursivelyDelete(it) }
+	}
 
 	// =========================================================================================
 	// URIs
@@ -100,16 +124,28 @@ object FileUtils {
 		return Intent.createChooser(intent, title)
 	}
 
+	fun saveFileIntent(uri: Uri, mime: String, title: String, filename: String? = null): Intent {
+		val intent = Intent()
+		intent.action = Intent.ACTION_CREATE_DOCUMENT
+		intent.type = mime
+		intent.putExtra(Intent.EXTRA_STREAM, uri)
+		filename?.let { intent.putExtra(Intent.EXTRA_TITLE, it) }
+		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+		return Intent.createChooser(intent, title)
+	}
+
 	fun createGetContentIntent(
 			context: Context,
 			type: String = WILDCARD,
-			title: String
+			title: String,
+			allowMultiple: Boolean = false
 	): Intent {
 		//Document picker intent
 		val intent = Intent(Intent.ACTION_GET_CONTENT)
 		intent.type = type
 		//Allow multiple files to be selected
-		intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+		intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
 		// Only return URIs that can be opened with ContentResolver
 		intent.addCategory(Intent.CATEGORY_OPENABLE)
 

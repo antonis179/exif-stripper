@@ -6,11 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 
-/**
- * Abstract activity that every other Activity in this application must implement. It handles
- * creation of Dagger components and makes sure that instances of ConfigPersistentComponent survive
- * across configuration changes.
- */
 abstract class BaseActivity : AppCompatActivity() {
 
 
@@ -21,7 +16,6 @@ abstract class BaseActivity : AppCompatActivity() {
 	protected fun setupViewComponent(component: ActivityViewComponent) {
 		component.setup(this)
 	}
-
 
     // =========================================================================================
     // Overridden

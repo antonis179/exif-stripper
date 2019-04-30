@@ -37,9 +37,21 @@
 
 
 		<!-- Metadata -->
-		<meta-data
-			android:name="com.google.android.gms.version"
-			android:value="@integer/google_play_services_version"/>
+		<!--<meta-data-->
+			<!--android:name="com.google.android.gms.version"-->
+			<!--android:value="@integer/google_play_services_version"/>-->
+
+		<!-- Provider -->
+		<provider
+			android:name=".utils.ImageFileProvider"
+			android:authorities="${applicationId}.imageprovider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/provider_paths"/>
+		</provider>
+
 	</application>
 
 </manifest>

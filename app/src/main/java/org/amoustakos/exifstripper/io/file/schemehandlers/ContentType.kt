@@ -112,20 +112,36 @@ object ContentType {
 	// Image
 	// =========================================================================================
 
-	sealed class Image(val name: String, val type: String = "$TYPE$name") {
+	sealed class Image(val name: String, val type: String = "$TYPE$name", val alts: Array<String> = arrayOf()) {
+
 		operator fun invoke() = name
-		fun equals(name: String) = name.equals(this.name, ignoreCase = true)
+
+		fun checkExtension(other: String?): Boolean {
+			val same = other.equals(this.name, ignoreCase = true)
+			if (same)
+				return true
+
+			alts.forEach {
+				if (it.equals(other, ignoreCase = true))
+					return true
+			}
+
+			return false
+		}
 
 		companion object {
 			const val TYPE = "image/"
 			const val TYPE_GENERIC = "$TYPE*"
 		}
 
+		object JPEG : Image("jpeg", alts = arrayOf("jpg"))
+
+
+
 		object BMP : Image("bmp")
 		object COD : Image("cod")
 		object GIF : Image("gif")
 		object IEF : Image("ief")
-		object JPEG : Image("jpeg")
 		object PIPEG : Image("pipeg")
 		object PNG : Image("png")
 		object SVG : Image("svg+xml")

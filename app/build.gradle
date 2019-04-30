@@ -4,8 +4,8 @@ apply from: "$project.rootDir/config/config.gradle"
 apply plugin: applyPlugins.kotlin
 apply plugin: applyPlugins.kapt
 apply plugin: applyPlugins.kotlinAndroidExtentions
-apply plugin: applyPlugins.firebasePerformance
-apply plugin: applyPlugins.fabric
+//apply plugin: applyPlugins.firebasePerformance
+//apply plugin: applyPlugins.fabric
 
 android {
 	defaultConfig {
@@ -32,10 +32,10 @@ dependencies {
 	implementation libs_support.lifecycle_extensions
 	implementation libs_support.constraint_layout
 
-	implementation libs_play_services.play_gcm
-	implementation libs_firebase.crashlytics
-	implementation libs_firebase.firebase_core
-	implementation libs_firebase.firebase_perf
+//	implementation libs_play_services.play_gcm
+//	implementation libs_firebase.crashlytics
+//	implementation libs_firebase.firebase_core
+//	implementation libs_firebase.firebase_perf
 	implementation libs_logging.values()
 
 	implementation libs_image.exif
@@ -50,4 +50,4 @@ dependencies {
 //	implementation libs_privacy.privacy_policy
 }
 
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

@@ -1,8 +1,10 @@
 package org.amoustakos.exifstripper.view.toolbars
 
 import android.app.Activity
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 import org.amoustakos.exifstripper.view.toolbars.base.ToolbarView
 
@@ -12,9 +14,14 @@ class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarView {
 
 	private var toolbar: Toolbar? = null
 
+	private var title: TextView? = null
+
 
 	override fun setup(activity: Activity) {
 		toolbar = activity.findViewById(id)
+		title = toolbar?.findViewById(R.id.tvToolbarTitle)
+
+		setAsActionbar(activity as AppCompatActivity)
 	}
 
 
@@ -25,14 +32,14 @@ class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarView {
 	}
 
 	override fun setTitle(title: String) {
-		toolbar?.title = title
+		this.title?.text = title
 	}
 
 	override fun setTitle(title: CharSequence) {
-		toolbar?.title = title
+		this.title?.text = title
 	}
 
 	override fun setTitle(titleResource: Int) {
-		toolbar?.setTitle(titleResource)
+		this.title?.setText(titleResource)
 	}
 }

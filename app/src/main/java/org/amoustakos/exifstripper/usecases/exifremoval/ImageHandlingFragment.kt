@@ -4,8 +4,9 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -14,24 +15,26 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
-import io.reactivex.Observable
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout.LayoutParams.*
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_image_handling.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
-import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
+import org.amoustakos.exifstripper.ui.dialogs.ErrorDialog
 import org.amoustakos.exifstripper.ui.fragments.BaseFragment
 import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeAdapter
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifViewModel
+import org.amoustakos.exifstripper.utils.ExifFile
 import org.amoustakos.exifstripper.utils.FileUtils
-import org.amoustakos.exifstripper.utils.exif.Attributes
-import org.amoustakos.exifstripper.utils.exif.ExifUtil
+import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
+import org.amoustakos.utils.android.rx.disposer.disposeBy
+import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
 
 
@@ -40,6 +43,7 @@ class ImageHandlingFragment : BaseFragment() {
 	companion object {
 		private const val PERMISSION_REQUEST = 10566
 		private const val REQUEST_IMAGE = 10999
+		private const val SAVE_IMAGE = 11000
 	}
 
 
@@ -48,6 +52,7 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private val clickListener: View.OnClickListener = View.OnClickListener { pickImage() }
 
+	private val toolbar = BasicToolbar(R.id.toolbar)
 
 	// =========================================================================================
 	// View
@@ -59,24 +64,65 @@ class ImageHandlingFragment : BaseFragment() {
 		super.onCreate(savedInstanceState)
 
 		viewModel = ViewModelProviders.of(this).get(ExifViewModel::class.java)
+
+		if (viewModel.exifFile.value == null)
+			viewModel.exifFile.value = ExifFile(context!!)
+	}
+
+	private fun setupToolbar() {
+		setupViewComponent(toolbar)
+		setHasOptionsMenu(true)
+		toolbar.setTitle(R.string.app_name)
+	}
+
+	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+		menu.clear()
+		inflater.inflate(R.menu.toolbar, menu)
+		super.onCreateOptionsMenu(menu, inflater)
+	}
+
+	private fun toggleAppbar() {
+		if (viewModel.exifFile.value?.isLoaded != true) {
+			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
+			p.scrollFlags = SCROLL_FLAG_NO_SCROLL
+			ctToolbar.layoutParams = p
+		} else {
+			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
+			p.scrollFlags = SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or SCROLL_FLAG_SCROLL
+			ctToolbar.layoutParams = p
+		}
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		setupToolbar()
+
 		if (!hasPermissions())
 			requestPermissions()
 
-		viewModel.imageUri.observeForever { run { refreshUI() } }
-		viewModel.adapterData.observeForever { items -> run { refreshAdapter(items) } }
+		viewModel.exifFile.value?.exifAttributesSubject
+				?.observeOn(Schedulers.computation())
+				?.doOnNext {
+					refreshAdapter(it, false)
+				}
+				?.observeOn(AndroidSchedulers.mainThread())
+				?.doOnNext { refreshUI() }
+				?.doOnError(Timber::e)
+				?.onErrorReturn { mutableListOf() }
+				?.disposeBy(lifecycle.onDestroy)
+				?.subscribe()
 
 		iv_preview.setOnClickListener(clickListener)
 		tv_select_image.setOnClickListener(clickListener)
 		btn_remove_all.setOnClickListener { removeExifData() }
-		btn_save.setOnClickListener { shareImage() }
-		srl_refresh.setOnRefreshListener { refreshUI() }
+		btn_share.setOnClickListener { shareImage() }
+		btn_save.setOnClickListener { saveImage() }
+//		srl_refresh.setOnRefreshListener { refresh() }
 
 		setupRecycler()
+
+		refreshUI()
 	}
 
 	private fun refreshUI() {
@@ -84,15 +130,23 @@ class ImageHandlingFragment : BaseFragment() {
 		loadPreview()
 		toggleRemoveAllButton()
 		restoreShareAction()
-		loadExifAttributes()
-				.observeOn(AndroidSchedulers.mainThread())
-				.doOnComplete { setRefreshing(false) }
-				.subscribe()
+		notifyAdapter()
+		toggleAppbar()
+		setRefreshing(false)
 	}
 
-	private fun refreshAdapter(items: MutableList<ExifAttributeViewData>): Unit? {
+	private fun refreshAdapter(items: List<ExifAttributeViewData>, notify: Boolean) {
 		adapter?.replace(items)
-		return adapter?.notifyDataSetChanged()
+		if (notify)
+			notifyAdapter()
+	}
+
+	private fun notifyAdapter() {
+		Single.fromCallable { }
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnSubscribe { adapter?.notifyDataSetChanged() }
+				.disposeBy(lifecycle.onDestroy)
+				.subscribe()
 	}
 
 	private fun setupRecycler() {
@@ -106,16 +160,34 @@ class ImageHandlingFragment : BaseFragment() {
 
 	@Synchronized
 	private fun setRefreshing(refreshing: Boolean) {
-		if (srl_refresh.isRefreshing != refreshing)
-			srl_refresh.isRefreshing = refreshing
+//		srl_refresh.isRefreshing = refreshing
 	}
 
 	private fun shareImage() {
-		val uri = viewModel.imageUri.value ?: return
-		val ctx = context ?: return
-		val mime = SchemeHandlerFactory(ctx)[uri.toString()].getContentType()
-		val intent = FileUtils.shareFileIntent(uri, mime, getString(R.string.save_as))
-		ctx.startActivity(intent)
+		try {
+			viewModel.exifFile.value?.shareImage(getString(R.string.share_with))
+		} catch (exc: Exception) {
+			Timber.e(exc)
+			showError(getString(R.string.error_msg_oops))
+		}
+	}
+
+	private fun saveImage() {
+		try {
+			val intent = viewModel.exifFile.value?.saveImageIntent(getString(R.string.save_as))
+			startActivityForResult(intent, SAVE_IMAGE)
+		} catch (exc: Exception) {
+			Timber.e(exc)
+		}
+	}
+
+	private fun isImageLoaded() = viewModel.exifFile.value?.isLoaded ?: false
+
+
+	private fun showError(message: String) {
+		viewModel.errorDialog.value?.dismiss()
+		viewModel.errorDialog.value = ErrorDialog.newInstance(message)
+		viewModel.errorDialog.value?.show(childFragmentManager, null)
 	}
 
 	// =========================================================================================
@@ -123,48 +195,30 @@ class ImageHandlingFragment : BaseFragment() {
 	// =========================================================================================
 
 	private fun toggleRemoveAllButton() {
-		btn_remove_all.visibility = if (null == viewModel.imageUri.value) GONE else VISIBLE
+		btn_remove_all.visibility = if (isImageLoaded()) VISIBLE else GONE
 	}
 
 	private fun removeExifData() {
-		if (context == null) return
-		val uri = viewModel.imageUri.value ?: return
-		val schemeHandler = SchemeHandlerFactory(context!!)[uri.toString()]
-
-		try {
-			ExifUtil.removeAttributes(schemeHandler.getPath()!!, Attributes())
-		} catch (e: Exception) {
-			Timber.e(e)
-			//TODO: Show error
-		}
-
-		refreshUI()
-		showShareAction()
+		viewModel.exifFile.value?.removeExifData()
 	}
 
-	private fun showShareAction() {
-		if (viewModel.save.value!!) hideShareAction()
-		viewModel.save.value = true
-		btn_save.visibility = VISIBLE
-	}
-
-	private fun hideShareAction() {
-		viewModel.save.value = false
-		btn_save.visibility = GONE
+	private fun toggleShareSaveAction(show: Boolean) {
+		btn_share.visibility = if (show) VISIBLE else GONE
+		btn_save.visibility = if (show) VISIBLE else GONE
 	}
 
 	private fun restoreShareAction() {
-		if (viewModel.save.value!!) showShareAction()
-		else hideShareAction()
+		toggleShareSaveAction(isImageLoaded())
 	}
 
 	// =========================================================================================
 	// Image handling
 	// =========================================================================================
 
-	private fun resetUI() {
-		hideShareAction()
-		viewModel.imageUri.value = null
+	private fun reset() {
+		toggleShareSaveAction(false)
+		viewModel.exifFile.value?.reset()
+//		srl_refresh.isRefreshing = false
 	}
 
 	override fun onActivityResult(
@@ -177,6 +231,24 @@ class ImageHandlingFragment : BaseFragment() {
 				if (context == null || activity == null) return
 				handleUri(data)
 			}
+
+			SAVE_IMAGE -> {
+				if (data != null) {
+					val uri = data.data ?: return
+
+					Single.fromCallable {}
+							.observeOn(Schedulers.computation())
+							.map { viewModel.exifFile.value?.store(uri) }
+							.observeOn(AndroidSchedulers.mainThread())
+							.doOnError {
+								Timber.e(it)
+								showError(getString(R.string.error_msg_storage_issue))
+							}
+							.onErrorReturn { }
+							.disposeBy(lifecycle.onDestroy)
+							.subscribe()
+				}
+			}
 		}
 		super.onActivityResult(requestCode, resultCode, data)
 	}
@@ -186,46 +258,44 @@ class ImageHandlingFragment : BaseFragment() {
 
 		val uri = data?.data
 		if (uri == null) {
-			resetUI()
+			reset()
 			return
 		}
 
-		if (!SchemeHandlerFactory(context!!).isSupported(uri.toString())) {
-			//TODO: Error
-			return
-		}
-
-		val handler = SchemeHandlerFactory(context!!)[uri.toString()]
-		val stream = handler.getInputStream()
-		if (stream == null) {
-			//TODO: Show error
-			resetUI()
-			return
-		}
-
-		val name = "cache.${handler.getFileExtension()}"
-		val cache = context?.externalCacheDir?.toString()
-
-		Observable
-				.just(ResponseWrapper(FileUtils.createFile(stream, "$cache/$name")))
+		Single.fromCallable {}
 				.observeOn(Schedulers.computation())
-				.doOnNext {
-					if (it.value == null) {
-						resetUI()
-						//TODO: Show Error
-					} else {
-						val path = SchemeHandlerFactory(context!!)[it.value!!.absolutePath].getPath()
-						viewModel.imageUri.postValue(Uri.parse(path))
-					}
-				}
-				.subscribeOn(AndroidSchedulers.mainThread())
+				.map { viewModel.exifFile.value?.load(uri) ?: ResponseWrapper() }
 				.observeOn(AndroidSchedulers.mainThread())
+				.doOnSuccess {
+					val message: String? = when (it!!.value) {
+						ExifFile.LoadResult.ContextError -> getString(R.string.error_msg_oops)
+						ExifFile.LoadResult.UriError -> getString(R.string.error_msg_uri_issue_external)
+						ExifFile.LoadResult.FormatError -> getString(R.string.error_msg_format)
+						ExifFile.LoadResult.CacheError -> getString(R.string.error_msg_oops)
+						ExifFile.LoadResult.Success -> null
+						null -> null
+					}
+
+					message?.let { msg -> showError(msg) }
+				}
 				.doOnError {
 					Timber.e(it)
-					resetUI()
-					//TODO: Show error
+					reset()
+					showError(getString(R.string.error_msg_oops))
 				}
 				.onErrorReturn { ResponseWrapper() }
+				.disposeBy(lifecycle.onDestroy)
+				.subscribe()
+	}
+
+	private fun refresh() {
+		Single.fromCallable {}
+				.observeOn(Schedulers.computation())
+				.map { viewModel.exifFile.value?.loadExifAttributes() }
+				.observeOn(AndroidSchedulers.mainThread())
+				.doOnError(Timber::e)
+				.onErrorReturn {}
+				.disposeBy(lifecycle.onDestroy)
 				.subscribe()
 	}
 
@@ -234,67 +304,28 @@ class ImageHandlingFragment : BaseFragment() {
 		if (!isAdded || activity == null)
 			return
 
-		val uri = viewModel.imageUri.value
+		val path = viewModel.exifFile.value?.getPath()
 
 		Glide
 				.with(this)
-				.asBitmap()
-				.format(DecodeFormat.PREFER_ARGB_8888)
-				.load(uri?.path)
+				.load(path)
 				.placeholder(R.drawable.ic_placeholder)
+				.thumbnail(0.25f)
+//				.asBitmap()
+//				.format(DecodeFormat.PREFER_ARGB_8888)
+//				.downsample(DownsampleStrategy.AT_MOST)
+				.override(750)
 				.diskCacheStrategy(DiskCacheStrategy.NONE)
 				.dontAnimate()
-				.override(2000)
-				.downsample(DownsampleStrategy.FIT_CENTER)
-//					.fitCenter()
 				.into(iv_preview)
 
 
 		tv_select_image.text =
-				if (uri == null)
+				if (path == null)
 					getString(R.string.select_image)
 				else
-					SchemeHandlerFactory(context!!)[uri.toString()].getName()
+					viewModel.exifFile.value?.getName()
 	}
-
-	private fun loadExifAttributes() = Observable
-			.just(ResponseWrapper(viewModel.imageUri.value))
-			.subscribeOn(AndroidSchedulers.mainThread())
-			.observeOn(Schedulers.computation())
-			.doOnError {
-				Timber.e(it)
-				//TODO: Show error
-			}
-			.onErrorReturn { ResponseWrapper() }
-			.map {
-				if (it.value == null) {
-					clearList()
-					return@map ResponseWrapper<MutableList<ExifAttributeViewData>>()
-				} else {
-					val uri = it.value
-					val schemeHandler = SchemeHandlerFactory(context!!)[uri.toString()]
-
-					if (schemeHandler.getPath() == null) {
-						clearList()
-						//TODO: Error
-						return@map ResponseWrapper<MutableList<ExifAttributeViewData>>()
-					}
-
-					val attrMap = ExifUtil.getAttributes(schemeHandler.getPath()!!, Attributes())
-					ResponseWrapper(attrMap.map { entry ->
-						ExifAttributeViewData(entry.key, entry.value)
-					} as MutableList)
-				}
-			}
-			.doOnNext {
-				val list = it.value ?: arrayListOf()
-				viewModel.adapterData.postValue(list)
-			}
-
-	private fun clearList() {
-		viewModel.adapterData.value?.clear()
-	}
-
 
 	private fun pickImage() {
 		context?.let {

@@ -30,9 +30,19 @@
 	<!-- Button resources -->
 
 	<string name="remove_all">Remove all</string>
+	<string name="share_with">Share with</string>
 	<string name="save_as">Save as</string>
+	<string name="share">Share</string>
 	<string name="save">Save</string>
 	<string name="select_image">Click to select an image</string>
+
+
+	<!-- Errors -->
+
+	<string name="error_msg_oops">Oops! Something went horribly wrong! Please try again!</string>
+	<string name="error_msg_uri_issue_external">Sharing application did not provide file access. Please try again with a different app</string>
+	<string name="error_msg_format">This file format is not supported</string>
+	<string name="error_msg_storage_issue">Could not store the file</string>
 
 
 </resources>
