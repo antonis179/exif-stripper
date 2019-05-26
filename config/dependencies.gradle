@@ -208,10 +208,5 @@ project.ext {
 			kotlin_stdlib_java8 : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${plugin_versions.kotlin}",
 			kotlin_reflect      : "org.jetbrains.kotlin:kotlin-reflect:${plugin_versions.kotlin}",
 	]
-
-	libs_privacy = [
-	        privacy_policy      : "com.gitlab.juanitobananas:privacy-policy-lib:${lib_versions.privacy_policy}"
-	]
-
 }
 

@@ -22,6 +22,21 @@ object FileUtils {
 	// Files
 	// =========================================================================================
 
+	fun readAsset(ctx: Context, name: String): InputStream = ctx.assets.open(name)
+
+	fun readStream(stream: InputStream): String {
+		val reader = BufferedReader(InputStreamReader(stream))
+		val builder = StringBuilder()
+		var line: String? = reader.readLine()
+
+		while (line != null) {
+			builder.append(line)
+			line = reader.readLine()
+		}
+
+		return builder.toString()
+	}
+
 	fun getLastModifiedFileDate(filePath: String) = Date(File(filePath).lastModified()).toString()
 
 	fun createFile(source: InputStream, destination: String): File? {

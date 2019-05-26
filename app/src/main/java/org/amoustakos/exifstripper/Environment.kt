@@ -2,8 +2,11 @@ package org.amoustakos.exifstripper
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.utils.ExifFile
 import timber.log.Timber
 
@@ -16,8 +19,13 @@ class Environment (
         initLog()
 //        initRealm()
         cleanup()
+        initAnalytics()
+        gdpr()
     }
 
+    private fun initAnalytics() {
+        Fabric.with(context, Crashlytics())
+    }
 
 
     private fun initPrefs() {}
@@ -45,6 +53,12 @@ class Environment (
                         {Timber.v("Cleared image cache")},
                         (Timber::e)
                 )
+    }
+
+
+    private fun gdpr() {
+        if (GdprUtil.hasAcceptedTerms(context))
+            GdprUtil.enableAnalytics(context)
     }
 
 }

@@ -1,5 +1,7 @@
 package org.amoustakos.exifstripper.usecases.home
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
@@ -9,13 +11,10 @@ import androidx.fragment.app.Fragment
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
+import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 
 
 class MainActivity : BaseActivity() {
-
-	companion object {
-		const val TAG_IMAGE_SELECTION = "tag_image_selection"
-	}
 
 	private var isDoubleBackToExitPressedOnce = false
 
@@ -27,6 +26,11 @@ class MainActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
+		if (!GdprUtil.hasAcceptedTerms(this)) {
+			showPrivacySplash()
+			return
+		}
 
 		selectFragment(savedInstanceState)
 	}
@@ -96,20 +100,22 @@ class MainActivity : BaseActivity() {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		when (item.itemId) {
 			R.id.toolbar_policy -> showPrivacyPolicy()
+			R.id.toolbar_toc    -> showTerms()
 			R.id.toolbar_exit   -> finish()
+			else                -> return super.onOptionsItemSelected(item)
 		}
 
 		return true
 	}
 
-	private fun showPrivacyPolicy() {
-//		PrivacyPolicyBuilder()
-//				.withIntro(getString(R.string.app_name), "Antonis Moustakos")
-//				.withUrl(Uri.parse("android.resource://$packageName/raw/privacy.md").toString())
-//				.withMeSection()
-//				.withGooglePlaySection()
-//				.withEmailSection("exif.stripper@gmail.com")
-//				.start(this)
-	}
 
+	companion object {
+		const val TAG_IMAGE_SELECTION = "tag_image_selection"
+
+		fun getIntent(ctx: Context): Intent {
+			return Intent(ctx, MainActivity::class.java)
+					.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+		}
+	}
 }

@@ -14,4 +14,9 @@
 	<!-- Image -->
 	<string name="title_image_select">Select Image</string>
 
+
+	<!-- Privacy/Terms -->
+	<string name="title_privacy_policy">Privacy Policy</string>
+	<string name="title_terms">Terms and Conditions</string>
+
 </resources>

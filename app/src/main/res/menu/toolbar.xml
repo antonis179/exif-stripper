@@ -6,6 +6,10 @@
 		android:title="@string/menu_policy"/>
 
 	<item
+		android:id="@+id/toolbar_toc"
+		android:title="@string/menu_toc"/>
+
+	<item
 		android:id="@+id/toolbar_exit"
 		android:title="@string/menu_exit"/>
 

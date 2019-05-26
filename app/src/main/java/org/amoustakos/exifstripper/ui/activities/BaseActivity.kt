@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import org.amoustakos.exifstripper.ExifApplication
+import org.amoustakos.exifstripper.usecases.home.MainActivity
+import org.amoustakos.exifstripper.usecases.privacy.PrivacyActivity
+import org.amoustakos.exifstripper.usecases.privacy.PrivacyTermsActivity
 import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -40,5 +43,26 @@ abstract class BaseActivity : AppCompatActivity() {
     fun application(): ExifApplication {
         return ExifApplication[this]
     }
+
+
+
+
+	fun showPrivacyPolicy() {
+		startActivity(PrivacyTermsActivity.getPrivacyIntent(this))
+	}
+
+	fun showTerms() {
+		startActivity(PrivacyTermsActivity.getTermsIntent(this))
+	}
+
+	fun showPrivacySplash() {
+		startActivity(PrivacyActivity.getIntent(this))
+		finish()
+	}
+
+	fun showMainActivity() {
+		startActivity(MainActivity.getIntent(this))
+		finish()
+	}
 
 }
