@@ -19,56 +19,66 @@
 			app:layout_collapseMode="pin"/>
 	</com.google.android.material.appbar.AppBarLayout>
 
-	<LinearLayout
+
+	<ScrollView
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:orientation="vertical"
+		android:fillViewport="true"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-		<TextView
-			android:id="@+id/tv_label"
-			style="@style/Text.Splash.Content"
+		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="@dimen/margin_normal"
-			android:layout_marginTop="@dimen/margin_large"
-			android:layout_marginEnd="@dimen/margin_normal"
-			android:layout_marginBottom="@dimen/margin_large"
-			android:gravity="center"
-			android:text="@string/label_terms"
-			app:layout_constraintLeft_toLeftOf="parent"
-			app:layout_constraintRight_toRightOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			/>
+			android:orientation="vertical">
 
-		<Button
-			android:id="@+id/btn_toc"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:layout_margin="@dimen/margin_normal"
-			android:gravity="center"
-			android:text="@string/label_toc"/>
+			<TextView
+				android:id="@+id/tv_label"
+				style="@style/Text.Splash.Content"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="@dimen/margin_normal"
+				android:layout_marginTop="@dimen/margin_large"
+				android:layout_marginEnd="@dimen/margin_normal"
+				android:layout_marginBottom="@dimen/margin_large"
+				android:gravity="center"
+				android:text="@string/label_terms"
+				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintRight_toRightOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				/>
 
-		<Button
-			android:id="@+id/btn_privacy"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:layout_margin="@dimen/margin_normal"
-			android:gravity="center"
-			android:text="@string/label_privacy_policy"/>
+			<Button
+				android:id="@+id/btn_toc"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_margin="@dimen/margin_normal"
+				android:gravity="center"
+				android:text="@string/label_toc"/>
 
-		<Button
-			android:id="@+id/btn_accept"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:layout_margin="@dimen/margin_normal"
-			android:gravity="center"
-			android:text="@string/label_accept"/>
+			<Button
+				android:id="@+id/btn_privacy"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_margin="@dimen/margin_normal"
+				android:gravity="center"
+				android:text="@string/label_privacy_policy"/>
 
+			<Button
+				android:id="@+id/btn_accept"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:layout_marginStart="@dimen/margin_normal"
+				android:layout_marginTop="48dp"
+				android:layout_marginEnd="@dimen/margin_normal"
+				android:layout_marginBottom="8dp"
+				android:gravity="center"
+				android:text="@string/label_accept"/>
+		</LinearLayout>
 
-	</LinearLayout>
+	</ScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

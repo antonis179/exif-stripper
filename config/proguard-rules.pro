@@ -4,10 +4,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #-optimizations code/removal/simple, code/removal/advanced, class/unboxing/enum
--optimizationpasses 5
+-optimizationpasses 3
 -dontobfuscate
 #-dontwarn **
--dontnote **
+#-dontnote **
 #-ignorewarnings
 
 ### Speed things up!
@@ -15,6 +15,8 @@
 
 
 ### Keep
+-keep class androidx.exifinterface.media.ExifInterface {*; }
+
 -keep class * implements android.os.Parcelable {
 	public static final android.os.Parcelable$Creator *;
 }
@@ -51,9 +53,7 @@
 
 ### GSON / Models
 -keepattributes *Annotation*
--keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
--keep class org.amoustakos.models.** { *; }
 # Prevent proguard from stripping interface information from TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
 -keep class * implements com.google.gson.TypeAdapterFactory
@@ -64,6 +64,6 @@
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
 
-###Kotlin
+### Kotlin
 -dontwarn kotlin.reflect.jvm.**
 -keep class kotlin.jvm.internal.**

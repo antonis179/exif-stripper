@@ -72,7 +72,7 @@ project.ext {
 			dagger                      : '2.20',
 			rx_java                     : '2.2.8',
 			rx_kotlin                   : '2.3.0',
-			rx_android                  : '2.1.0',
+			rx_android                  : '2.1.1',
 			butterknife                 : '10.0.0',
 
 			//Realm
@@ -108,7 +108,7 @@ project.ext {
 
 			//Image
 			glide                       : '4.9.0',
-			exif                        : '1.0.0',
+			exif                        : '1.1.0-alpha01',
 
 			//Multidex
 //			multidex                    : '2.0.0',

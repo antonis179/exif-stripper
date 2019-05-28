@@ -26,7 +26,11 @@
 	<!-- Layout resources -->
 
 	<string name="image_preview">Image preview</string>
-	<string name="label_terms">By continuing you agree to the terms and conditions. Make sure you have read and understand both the terms and conditions and the privacy policy.</string>
+	<string name="label_terms">By continuing you agree to the terms and conditions.
+		Make sure you have read and understand both the terms and conditions and the privacy policy.
+		\n\n
+		This app can only function if you accept the conditions.
+	</string>
 	<string name="label_toc">Terms and Conditions</string>
 	<string name="label_privacy_policy">Privacy Policy</string>
 	<string name="label_accept">Accept</string>
