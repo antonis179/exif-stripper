@@ -22,4 +22,30 @@
 		<item name="colorPrimaryDark">@color/splashStatusBarBG</item>
 	</style>
 
+
+
+	<style name="ToolbarPrimaryButton">
+		<item name="android:tint">@color/secondaryToolbarAction</item>
+	</style>
+
+	<style name="ButtonPrimary" parent="android:Widget.ActionButton">
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">50dp</item>
+		<item name="android:background">@color/primaryBtnAction</item>
+		<item name="android:textColor">@color/primaryCTAText</item>
+		<item name="android:textSize">16sp</item>
+		<item name="elevation">2dp</item>
+		<item name="android:textAllCaps">true</item>
+	</style>
+
+	<style name="ButtonSecondary" parent="android:Widget.ActionButton">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">40dp</item>
+		<item name="android:background">@color/secondaryBtnAction</item>
+		<item name="android:textColor">@color/primaryCTAText</item>
+		<item name="android:textSize">14sp</item>
+		<item name="elevation">2dp</item>
+		<item name="android:textAllCaps">true</item>
+	</style>
+
 </resources>

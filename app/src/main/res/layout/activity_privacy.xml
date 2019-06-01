@@ -49,26 +49,21 @@
 
 			<Button
 				android:id="@+id/btn_toc"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				style="@style/ButtonSecondary"
 				android:layout_gravity="center"
 				android:layout_margin="@dimen/margin_normal"
-				android:gravity="center"
 				android:text="@string/label_toc"/>
 
 			<Button
 				android:id="@+id/btn_privacy"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				style="@style/ButtonSecondary"
 				android:layout_gravity="center"
 				android:layout_margin="@dimen/margin_normal"
-				android:gravity="center"
 				android:text="@string/label_privacy_policy"/>
 
 			<Button
 				android:id="@+id/btn_accept"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				style="@style/ButtonPrimary"
 				android:layout_gravity="center"
 				android:layout_marginStart="@dimen/margin_normal"
 				android:layout_marginTop="48dp"

@@ -9,13 +9,13 @@ import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 import org.amoustakos.exifstripper.view.toolbars.base.ToolbarView
 import java.lang.ref.WeakReference
 
-class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarView {
+open class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarView {
 
 	operator fun invoke() = get()
 
-	private var activity: WeakReference<AppCompatActivity?> = WeakReference(null)
-	private var toolbar: Toolbar? = null
-	private var title: TextView? = null
+	protected var activity: WeakReference<AppCompatActivity?> = WeakReference(null)
+	protected var toolbar: Toolbar? = null
+	protected var title: TextView? = null
 
 
 	override fun setup(activity: Activity) {

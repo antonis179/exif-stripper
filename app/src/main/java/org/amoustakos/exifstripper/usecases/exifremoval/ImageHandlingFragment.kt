@@ -32,7 +32,7 @@ import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeView
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifViewModel
 import org.amoustakos.exifstripper.utils.ExifFile
 import org.amoustakos.exifstripper.utils.FileUtils
-import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
+import org.amoustakos.exifstripper.view.toolbars.ImageHandlingToolbar
 import org.amoustakos.utils.android.rx.disposer.disposeBy
 import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
@@ -52,7 +52,7 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private val clickListener: View.OnClickListener = View.OnClickListener { pickImage() }
 
-	private val toolbar = BasicToolbar(R.id.toolbar)
+	private val toolbar = ImageHandlingToolbar(R.id.toolbar)
 
 	// =========================================================================================
 	// View
@@ -116,12 +116,11 @@ class ImageHandlingFragment : BaseFragment() {
 		iv_preview.setOnClickListener(clickListener)
 		tv_select_image.setOnClickListener(clickListener)
 		btn_remove_all.setOnClickListener { removeExifData() }
-		btn_share.setOnClickListener { shareImage() }
-		btn_save.setOnClickListener { saveImage() }
+		toolbar.setShareListener { shareImage() }
+		toolbar.setSaveListener { saveImage() }
 //		srl_refresh.setOnRefreshListener { refresh() }
 
 		setupRecycler()
-
 		refreshUI()
 	}
 
@@ -129,7 +128,7 @@ class ImageHandlingFragment : BaseFragment() {
 		setRefreshing(true)
 		loadPreview()
 		toggleRemoveAllButton()
-		restoreShareAction()
+		restoreActions()
 		notifyAdapter()
 		toggleAppbar()
 		setRefreshing(false)
@@ -202,13 +201,13 @@ class ImageHandlingFragment : BaseFragment() {
 		viewModel.exifFile.value?.removeExifData()
 	}
 
-	private fun toggleShareSaveAction(show: Boolean) {
-		btn_share.visibility = if (show) VISIBLE else GONE
-		btn_save.visibility = if (show) VISIBLE else GONE
+	private fun toggleActions(show: Boolean) {
+		toolbar.toggleShare(show)
+		toolbar.toggleSave(show)
 	}
 
-	private fun restoreShareAction() {
-		toggleShareSaveAction(isImageLoaded())
+	private fun restoreActions() {
+		toggleActions(isImageLoaded())
 	}
 
 	// =========================================================================================
@@ -216,7 +215,7 @@ class ImageHandlingFragment : BaseFragment() {
 	// =========================================================================================
 
 	private fun reset() {
-		toggleShareSaveAction(false)
+		toggleActions(false)
 		viewModel.exifFile.value?.reset()
 //		srl_refresh.isRefreshing = false
 	}
