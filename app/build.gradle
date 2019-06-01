@@ -10,8 +10,6 @@ apply plugin: applyPlugins.fabric
 android {
 	defaultConfig {
 		applicationId "org.amoustakos.exifstripper"
-		versionCode 1000
-		versionName "0.1.0"
 	}
 }
 

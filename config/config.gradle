@@ -1,4 +1,3 @@
-
 project.ext {
 
 	build_params = [
@@ -16,7 +15,61 @@ project.ext {
 			release_location : 'release.key.location',
 			release_pwd      : 'release.key.password',
 			release_alias    : 'release.key.alias',
-			release_alias_pwd: 'release.key.alias.password'
+			release_alias_pwd: 'release.key.alias.password',
+
+			app_version      : 'app.version',
+			app_version_name : 'app.version.name'
+	]
+
+	methods = [
+			getEnv                 : {
+				methods.getProperties("environment.properties", true)
+			},
+
+			getPasswords           : {
+				methods.getProperties("passwords.properties", false)
+			},
+
+			getAttribute           : { Properties props, String key ->
+				String attribute = props.get(key)
+				methods.checkAttribute(attribute)
+				attribute
+			},
+
+			checkAttribute         : { String attribute ->
+				if (attribute == null || attribute.size() < 1)
+					throw new GradleException("Missing Attribute")
+			},
+
+			getProperties          : { String filename, Boolean fromRoot ->
+				Properties props = new Properties()
+				props.load(
+						new FileInputStream(
+								"${rootDir}${if (fromRoot) "/" else "/_SENSITIVE_HIDE_FROM_GIT_/"}${filename}"))
+				props
+			},
+
+			getStringifiedAttribute: { Properties props, String key ->
+				String attribute = props.get(key)
+				methods.checkAttribute(attribute)
+				methods.stringify(attribute)
+			},
+
+			stringify              : { String string ->
+				return "\"" + string + "\""
+			}
+	]
+
+	app = [
+	        version: {
+		        def props = project.ext.methods.getEnv()
+		        methods.getAttribute(props, "${key_config.app_version}") as Integer
+	        },
+
+			versionName: {
+				def props = project.ext.methods.getEnv()
+				"${methods.getAttribute(props, "${key_config.app_version_name}")}"
+			}
 	]
 }
 
@@ -25,17 +78,21 @@ android {
 	compileSdkVersion build_params.compile_version
 
 	defaultConfig {
+		versionCode app.version()
+		versionName app.versionName()
+
 		minSdkVersion build_params.min_version
 		targetSdkVersion build_params.target_version
 	}
 
 	signingConfigs {
+		def props = methods.getPasswords()
+
 		debug {
-			def props = getPasswords()
-			def loc = getAttribute(props, "${key_config.debug_location}")
-			def pwd = getAttribute(props, "${key_config.debug_pwd}")
-			def alias = getAttribute(props, "${key_config.debug_alias}")
-			def aliasPwd = getAttribute(props, "${key_config.debug_alias_pwd}")
+			def loc = methods.getAttribute(props, "${key_config.debug_location}")
+			def pwd = methods.getAttribute(props, "${key_config.debug_pwd}")
+			def alias = methods.getAttribute(props, "${key_config.debug_alias}")
+			def aliasPwd = methods.getAttribute(props, "${key_config.debug_alias_pwd}")
 
 			storeFile file(loc)
 			storePassword pwd
@@ -43,11 +100,10 @@ android {
 			keyPassword aliasPwd
 		}
 		release {
-			def props = getPasswords()
-			def loc = getAttribute(props, "${key_config.release_location}")
-			def pwd = getAttribute(props, "${key_config.release_pwd}")
-			def alias = getAttribute(props, "${key_config.release_alias}")
-			def aliasPwd = getAttribute(props, "${key_config.release_alias_pwd}")
+			def loc = methods.getAttribute(props, "${key_config.release_location}")
+			def pwd = methods.getAttribute(props, "${key_config.release_pwd}")
+			def alias = methods.getAttribute(props, "${key_config.release_alias}")
+			def aliasPwd = methods.getAttribute(props, "${key_config.release_alias_pwd}")
 
 			storeFile file(loc)
 			storePassword pwd
@@ -99,45 +155,4 @@ android {
 		check 'Interoperability'
 	}
 
-}
-
-
-Properties getPasswords() {
-	return getProperties("passwords.properties")
-}
-
-static String getAttribute(Properties props, String key) {
-	String attribute = props.get(key)
-	checkAttribute(attribute)
-	return attribute
-}
-
-static void checkAttribute(String attribute) {
-	if (attribute == null || attribute.size() < 1)
-		throw new GradleException("Missing Attribute")
-}
-
-
-Properties getEnv() {
-	return getProperties("environment.properties")
-}
-
-Properties getProperties(String filename) {
-	Properties props = new Properties()
-	props.load(
-			new FileInputStream(
-					"${rootDir}/_SENSITIVE_HIDE_FROM_GIT_/${filename}"))
-	props
-}
-
-
-static String getStringifiedAttribute(Properties props, String key) {
-	String attribute = props.get(key)
-	checkAttribute(attribute)
-	return stringify(attribute)
-}
-
-
-static String stringify(String string) {
-	return "\"" + string + "\""
 }
