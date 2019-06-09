@@ -1,0 +1,93 @@
+# Customise this file, documentation can be found here:
+# https://github.com/fastlane/fastlane/tree/master/fastlane/docs
+# All available actions: https://docs.fastlane.tools/actions
+# can also be listed using the `fastlane actions` command
+
+# Change the syntax highlighting to Ruby
+# All lines starting with a # are ignored when running `fastlane`
+
+# If you want to automatically update fastlane if a new version is available:
+# update_fastlane
+
+# This is the minimum version number required.
+# Update this, if you use features of a newer version
+fastlane_version "2.125.2"
+
+default_platform :android
+supplyOptions = {}
+flavor = ""
+
+platform :android do
+  before_all do
+    ensure_git_status_clean
+    flavor = ENV['FLAVOR']
+    supplyOptions[:metadata_path] = ENV["METADATA_PATH"]
+  end
+
+  desc "Submit [flavor_env] build to Alpha. Usage fastlane alpha --env [flavor_env]"
+  lane :alpha do |options|
+    validate(options)
+    gradle(task: "clean")
+    gradle(task: 'assemble',
+          flavor: flavor,
+          build_type: 'Release')
+    supplyOptions[:apk] = "app/build/outputs/apk/" + flavor + "/release/app-" + flavor + "-release.apk"
+    supplyOptions[:track] = 'alpha'
+    supplyOptions[:skip_upload_metadata] = true
+    supplyOptions[:skip_upload_images] = true
+    supplyOptions[:skip_upload_screenshots] = true
+    supply(supplyOptions)
+  end
+
+  desc "Promote [flavor_env] to Beta. Usage fastlane beta --env [flavor_env]"
+  lane :beta do |options|
+    validate(options)
+    supplyOptions[:skip_upload_apk] = true
+    supplyOptions[:track] = 'alpha'
+    supplyOptions[:track_promote_to] = 'beta'
+    supply(supplyOptions)
+  end
+
+  desc "Promote [flavor_env] to Production (10%). Usage fastlane release --env [flavor_env]"
+  lane :release do |options|
+    validate(options)
+    supplyOptions[:skip_upload_apk] = true
+    supplyOptions[:track] = 'beta'
+    supplyOptions[:track_promote_to] = 'rollout'
+    supplyOptions[:rollout] = '0.1'
+    supply(supplyOptions)
+  end
+
+  private_lane :validate do |options|
+    if options[:test]
+      supplyOptions[:validate_only] = options[:test]
+      p "--------------===================--------------"
+      p "                                               "
+      p "                                               "
+      p "                                               "
+      p "              Validation Only!                 "
+      p "   Remove 'test:true' to commit the changes!   "
+      p "                                               "
+      p "                                               "
+      p "                                               "
+      p "--------------===================--------------"
+    end
+  end
+
+
+  after_all do |lane|
+    #This block is called, only if the executed lane was successful
+
+  end
+
+  error do |lane, exception|
+
+  end
+end
+
+
+# More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
+# All available actions: https://docs.fastlane.tools/actions
+
+# fastlane reports which actions are used. No personal data is recorded.
+# Learn more at https://github.com/fastlane/fastlane#metrics

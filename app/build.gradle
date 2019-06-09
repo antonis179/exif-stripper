@@ -11,6 +11,15 @@ android {
 	defaultConfig {
 		applicationId "org.amoustakos.exifstripper"
 	}
+
+	flavorDimensions "stores"
+
+	productFlavors {
+		play {
+			dimension "stores"
+		}
+	}
+
 }
 
 kapt {
