@@ -1,20 +1,10 @@
 package org.amoustakos.exifstripper.usecases.privacy
 
 import android.content.Context
-import com.crashlytics.android.Crashlytics
-import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.perf.FirebasePerformance
-import io.fabric.sdk.android.Fabric
 import org.amoustakos.exifstripper.io.prefs.BaseSharedPreferences
 
 object GdprUtil {
 
-
-	fun enableAnalytics(ctx: Context) {
-		FirebaseAnalytics.getInstance(ctx).setAnalyticsCollectionEnabled(true)
-		FirebasePerformance.getInstance().isPerformanceCollectionEnabled = true
-		Fabric.with(Crashlytics.getInstance().context)
-	}
 
 	fun hasAcceptedTerms(ctx: Context) = PrivacySharedPrefs(ctx).hasAcceptedTerms
 

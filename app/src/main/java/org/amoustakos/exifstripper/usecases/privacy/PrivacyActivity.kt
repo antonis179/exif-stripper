@@ -35,7 +35,7 @@ class PrivacyActivity : BaseActivity() {
 
 	private fun acceptAndContinue() {
 		GdprUtil.acceptTerms(this)
-		GdprUtil.enableAnalytics(this)
+		AnalyticsUtil.enableAnalytics(this)
 		showMainActivity()
 	}
 
