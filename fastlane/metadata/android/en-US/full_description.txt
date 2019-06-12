@@ -7,7 +7,8 @@ The UI is still under construction.
 <b>Current Features:
 </b>
 • Remove metadata from an image
-• Save/Share
+• Save or Share the stripped images
+• Share an image to the app directly from your gallery
 
 <b>Under development:
 </b>
