@@ -2,8 +2,10 @@ package org.amoustakos.exifstripper.usecases.home
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -78,7 +80,16 @@ class MainActivity : BaseActivity() {
 	private fun selectFragment(savedInstanceState: Bundle?) {
 
 		if (savedInstanceState == null) {
-			loadFragment(ImageHandlingFragment(), TAG_IMAGE_SELECTION)
+			val uri: Uri? = when {
+				intent?.action == Intent.ACTION_SEND -> {
+					if (intent.type?.startsWith("image/") == true) {
+						intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri
+					} else null
+				}
+				else -> null
+			}
+
+			loadFragment(ImageHandlingFragment.newInstance(uri), TAG_IMAGE_SELECTION)
 		}
 
 		//Bottom nav

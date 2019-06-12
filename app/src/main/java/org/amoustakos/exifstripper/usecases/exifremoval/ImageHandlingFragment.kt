@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -44,6 +45,21 @@ class ImageHandlingFragment : BaseFragment() {
 		private const val PERMISSION_REQUEST = 10566
 		private const val REQUEST_IMAGE = 10999
 		private const val SAVE_IMAGE = 11000
+
+		private const val KEY_URI = "key_uri"
+
+
+		fun newInstance(uri: Uri? = null): ImageHandlingFragment {
+			val frag = ImageHandlingFragment()
+
+			uri?.let {
+				val bundle = Bundle()
+				bundle.putParcelable(KEY_URI, it)
+				frag.arguments = bundle
+			}
+
+			return frag
+		}
 	}
 
 
@@ -67,6 +83,13 @@ class ImageHandlingFragment : BaseFragment() {
 
 		if (viewModel.exifFile.value == null)
 			viewModel.exifFile.value = ExifFile(context!!)
+
+		if (savedInstanceState == null) {
+			arguments?.getParcelable<Uri>(KEY_URI)?.let {
+				if (context == null || activity == null) return
+				handleUri(it)
+			}
+		}
 	}
 
 	private fun setupToolbar() {
@@ -253,13 +276,16 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	private fun handleUri(data: Intent?) {
-		setRefreshing(true)
-
 		val uri = data?.data
 		if (uri == null) {
 			reset()
 			return
 		}
+		handleUri(uri)
+	}
+
+	private fun handleUri(uri: Uri) {
+		setRefreshing(true)
 
 		Single.fromCallable {}
 				.observeOn(Schedulers.computation())
