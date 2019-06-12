@@ -1,3 +1,6 @@
+##########   Fastlane               ##########
+fastlane/credentials/*
+
 ##########   Mainframer             ##########
 .mainframer/config
 

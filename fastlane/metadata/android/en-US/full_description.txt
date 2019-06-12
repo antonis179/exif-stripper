@@ -1,15 +1,16 @@
-<b>Exif Stripper removes private information from your photos stored as image metadata (exif) so you can share them safely.</b>
+<b>Exif Stripper removes private information from your photos stored as image metadata (exif) so you can share them safely.
+</b>
 
 Still in the early stages of development.
 The UI is still under construction.
 
-<b>Current Features:</b>
-
+<b>Current Features:
+</b>
 • Remove metadata from an image
 • Save/Share
 
-<b>Under development:</b>
-
+<b>Under development:
+</b>
 • Option to share image to the app for metadata removal
 • Option to remove a single attribute instead of all metadata
 • Option to remove metadata from multiple images at once
