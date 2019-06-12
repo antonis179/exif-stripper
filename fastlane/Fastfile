@@ -49,7 +49,7 @@ platform :android do
   end
 
   desc "Promote [flavor_env] to Production (10%). Usage fastlane release --env [flavor_env]"
-  lane :release do |options|
+  lane :release_10 do |options|
     validate(options)
     supplyOptions[:skip_upload_apk] = true
     supplyOptions[:track] = 'beta'
@@ -57,6 +57,16 @@ platform :android do
     supplyOptions[:rollout] = '0.1'
     supply(supplyOptions)
   end
+
+  desc "Promote [flavor_env] to Production (100%). Usage fastlane release --env [flavor_env]"
+    lane :release do |options|
+      validate(options)
+      supplyOptions[:skip_upload_apk] = true
+      supplyOptions[:track] = 'beta'
+      supplyOptions[:track_promote_to] = 'rollout'
+      supplyOptions[:rollout] = '1'
+      supply(supplyOptions)
+    end
 
   private_lane :validate do |options|
     if options[:test]
