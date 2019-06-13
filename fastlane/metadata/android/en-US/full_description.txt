@@ -12,7 +12,6 @@ The UI is still under construction.
 
 <b>Under development:
 </b>
-• Option to share image to the app for metadata removal
 • Option to remove a single attribute instead of all metadata
 • Option to remove metadata from multiple images at once
 • Option to monitor specific folders and automatically remove image metadata as new images are taken
