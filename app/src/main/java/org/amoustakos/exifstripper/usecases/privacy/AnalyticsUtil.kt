@@ -15,7 +15,7 @@ object AnalyticsUtil {
 
         FirebaseAnalytics.getInstance(ctx).setAnalyticsCollectionEnabled(true)
         FirebasePerformance.getInstance().isPerformanceCollectionEnabled = true
-        Fabric.with(Crashlytics.getInstance().context)
+        Fabric.with(ctx, Crashlytics())
     }
 
 }
