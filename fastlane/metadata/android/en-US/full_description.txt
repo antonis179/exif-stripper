@@ -12,8 +12,8 @@ The UI is still under construction.
 
 <b>Under development:
 </b>
-• Option to remove a single attribute instead of all metadata
-• Option to remove metadata from multiple images at once
-• Option to monitor specific folders and automatically remove image metadata as new images are taken
+• Option to remove a single attribute instead of all meta-data
+• Option to remove meta-data from multiple images at once
+• Option to monitor specific folders and automatically remove image meta-data as new images are taken
 
 If you have a feature idea you would like to see in the app please let me know.
