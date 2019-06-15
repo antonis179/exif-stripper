@@ -1,7 +1,7 @@
 <resources>
 
 	<!-- Base application theme. -->
-	<style name="AppTheme" parent="Theme.AppCompat">
+	<style name="AppTheme" parent="Theme.MaterialComponents">
 		<item name="colorPrimary">@color/primary</item>
 		<item name="colorPrimaryDark">@color/primaryDark</item>
 		<item name="colorAccent">@color/accent</item>
@@ -13,8 +13,8 @@
 	</style>
 
 	<style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-	<style name="AppTheme.NavDrawer" parent="ThemeOverlay.AppCompat.Light"/>
+	<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat"/>
+	<style name="AppTheme.NavDrawer" parent="ThemeOverlay.AppCompat"/>
 
 	<style name="FullscreenTheme" parent="AppTheme.NoActionBar">
 		<item name="android:windowActionBarOverlay">true</item>
@@ -28,21 +28,25 @@
 		<item name="android:tint">@color/secondaryToolbarAction</item>
 	</style>
 
-	<style name="ButtonPrimary" parent="android:Widget.ActionButton">
+	<style name="ButtonPrimary" parent="Widget.MaterialComponents.Button">
 		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">50dp</item>
+		<item name="android:layout_height">60dp</item>
 		<item name="android:background">@color/primaryBtnAction</item>
+		<item name="backgroundTint">@color/primaryBtnAction</item>
 		<item name="android:textColor">@color/primaryCTAText</item>
+		<item name="rippleColor">@color/primary</item>
 		<item name="android:textSize">16sp</item>
-		<item name="elevation">2dp</item>
+		<item name="elevation">5dp</item>
 		<item name="android:textAllCaps">true</item>
 	</style>
 
 	<style name="ButtonSecondary" parent="android:Widget.ActionButton">
 		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">40dp</item>
+		<item name="android:layout_height">50dp</item>
 		<item name="android:background">@color/secondaryBtnAction</item>
+		<item name="backgroundTint">@color/secondaryBtnAction</item>
 		<item name="android:textColor">@color/primaryCTAText</item>
+		<item name="rippleColor">@color/primary</item>
 		<item name="android:textSize">14sp</item>
 		<item name="elevation">2dp</item>
 		<item name="android:textAllCaps">true</item>

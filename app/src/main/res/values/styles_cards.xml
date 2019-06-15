@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+	<style name="Card.Large" parent="CardView">
+		<item name="android:focusable">true</item>
+		<item name="cardPreventCornerOverlap">false</item>
+		<item name="cardUseCompatPadding">true</item>
+
+		<item name="android:layout_width">match_parent</item>
+		<item name="android:layout_height">@dimen/card_height</item>
+
+		<item name="android:foreground">?android:attr/selectableItemBackground</item>
+		<item name="cardCornerRadius">5dp</item>
+		<item name="cardElevation">5dp</item>
+		<item name="contentPadding">2dp</item>
+	</style>
+
+
+	<style name="Card.ExifAttribute" parent="@style/Card.Large">
+		<item name="cardBackgroundColor">@color/gray</item>
+	</style>
+
+</resources>

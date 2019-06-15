@@ -57,7 +57,7 @@
 
 		</com.google.android.material.appbar.CollapsingToolbarLayout>
 
-		<Button
+		<com.google.android.material.button.MaterialButton
 			android:id="@+id/btn_remove_all"
 			style="@style/ButtonPrimary"
 			android:layout_margin="@dimen/margin_large"

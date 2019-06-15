@@ -47,21 +47,21 @@
 				app:layout_constraintTop_toTopOf="parent"
 				/>
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btn_toc"
 				style="@style/ButtonSecondary"
 				android:layout_gravity="center"
 				android:layout_margin="@dimen/margin_normal"
 				android:text="@string/label_toc"/>
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btn_privacy"
 				style="@style/ButtonSecondary"
 				android:layout_gravity="center"
 				android:layout_margin="@dimen/margin_normal"
 				android:text="@string/label_privacy_policy"/>
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 				android:id="@+id/btn_accept"
 				style="@style/ButtonPrimary"
 				android:layout_gravity="center"

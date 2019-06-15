@@ -36,6 +36,6 @@
 
 
 	<!-- Recyclers -->
-	<dimen name="card_exif_attribute_height">75dp</dimen>
+	<dimen name="card_exif_attribute_height">65dp</dimen>
 
 </resources>
