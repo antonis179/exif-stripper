@@ -10,7 +10,7 @@ buildscript {
 	dependencies { classpath gradle_plugins.values() }
 }
 
-apply plugin: ext.plugins.dependencyUpdates
+apply plugin: ext.applyPlugins.dependencyUpdates
 
 subprojects {
 

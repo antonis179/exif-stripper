@@ -20,19 +20,8 @@ project.ext {
 			realm                     : 'realm-android',
 			firebasePerformance       : 'com.google.firebase.firebase-perf',
 			fabric                    : 'io.fabric',
-			dependencyUpdates         : 'com.github.ben-manes.versions'
-	]
-
-	plugins = [
-			application               : 'com.android.application',
-			library                   : 'com.android.library',
-			kotlin                    : 'kotlin-android',
-			kapt                      : 'kotlin-kapt',
-			kotlinAndroidExtentions   : 'kotlin-android-extensions',
-			realm                     : 'realm-android',
-			firebasePerformance       : 'com.google.firebase.firebase-perf',
-			fabric                    : 'io.fabric',
-			dependencyUpdates         : 'com.github.ben-manes.versions'
+			dependencyUpdates         : 'com.github.ben-manes.versions',
+			google_gms                : 'com.google.gms.google-services'
 	]
 
 	plugin_versions = [

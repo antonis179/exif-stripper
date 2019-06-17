@@ -55,4 +55,4 @@ dependencies {
 //	implementation libs_injection.butterknife
 }
 
-apply plugin: 'com.google.gms.google-services'
+apply plugin: applyPlugins.google_gms
