@@ -12,7 +12,6 @@ The UI is still under construction.
 
 <b>Under development:
 </b>
-• Option to remove a single attribute instead of all meta-data
 • Option to remove meta-data from multiple images at once
 • Option to monitor specific folders and automatically remove image meta-data as new images are taken
 

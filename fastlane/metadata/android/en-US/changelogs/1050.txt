@@ -1,0 +1,1 @@
+Implemented option for single attribute removal
