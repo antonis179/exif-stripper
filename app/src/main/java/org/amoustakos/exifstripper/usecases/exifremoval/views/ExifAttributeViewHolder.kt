@@ -5,6 +5,7 @@ import kotlinx.android.synthetic.main.row_exif_attribute.view.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.view.recycler.BaseViewHolder
+import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 
 class ExifAttributeViewHolder(
@@ -17,8 +18,14 @@ class ExifAttributeViewHolder(
 
 	init {
 		itemView.setOnClickListener { onClick() }
+		itemView.iv_delete.setOnClickListener { onDelete() }
 		itemView.setOnLongClickListener { onLongClick() }
 	}
+
+	private fun onDelete() =
+			publishers
+					.filter { it.id == DELETION_PUBLISHER_ID }
+					.forEach { it.publisher.onNext(ClickEvent(mItem!!)) }
 
 	override fun loadItem(item: ExifAttributeViewData) {
 		super.loadItem(item)
@@ -28,6 +35,11 @@ class ExifAttributeViewHolder(
 	private fun loadExifAttribute() {
 		itemView.tv_title.text = mItem?.title
 		itemView.tv_value.text = mItem?.value
+	}
+
+
+	companion object {
+		const val DELETION_PUBLISHER_ID = "delete_publisher"
 	}
 
 }

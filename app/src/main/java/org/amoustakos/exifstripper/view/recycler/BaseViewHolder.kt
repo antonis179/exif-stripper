@@ -18,7 +18,7 @@ abstract class BaseViewHolder<Model>(
 		mItem = item
 	}
 
-	open fun onClick() =
+	protected open fun onClick() =
 			publishers
 					.filter {
 						it.type == Type.CLICK
@@ -27,7 +27,7 @@ abstract class BaseViewHolder<Model>(
 						it.publisher.onNext(ClickEvent(mItem!!))
 					}
 
-	open fun onLongClick(): Boolean {
+	protected open fun onLongClick(): Boolean {
 		publishers
 				.filter {
 					it.type == LONG_CLICK

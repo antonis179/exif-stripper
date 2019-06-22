@@ -140,6 +140,18 @@ class ExifFile(
 		}
 	}
 
+	fun removeAttribute(attribute: String) {
+		getPath()?.let {
+			try {
+				ExifUtil.removeAttribute(it, attribute)
+				exifAttributes = listOf()
+				loadExifAttributes()
+			} catch (e: Exception) {
+				Timber.e(e)
+			}
+		}
+	}
+
 	private fun updateSubscribers() {
 		exifAttributesSubject.onNext(exifAttributes)
 	}

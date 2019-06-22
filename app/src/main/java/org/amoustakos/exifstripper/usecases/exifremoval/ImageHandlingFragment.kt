@@ -22,6 +22,7 @@ import com.google.android.material.appbar.AppBarLayout.LayoutParams.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_image_handling.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.ResponseWrapper
@@ -31,8 +32,12 @@ import org.amoustakos.exifstripper.ui.fragments.BaseFragment
 import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeAdapter
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifViewModel
+import org.amoustakos.exifstripper.usecases.exifremoval.views.ExifAttributeViewHolder
 import org.amoustakos.exifstripper.utils.ExifFile
 import org.amoustakos.exifstripper.utils.FileUtils
+import org.amoustakos.exifstripper.view.recycler.ClickEvent
+import org.amoustakos.exifstripper.view.recycler.PublisherItem
+import org.amoustakos.exifstripper.view.recycler.Type
 import org.amoustakos.exifstripper.view.toolbars.ImageHandlingToolbar
 import org.amoustakos.utils.android.rx.disposer.disposeBy
 import org.amoustakos.utils.android.rx.disposer.onDestroy
@@ -67,6 +72,7 @@ class ImageHandlingFragment : BaseFragment() {
 	private var adapter: ExifAttributeAdapter? = null
 
 	private val clickListener: View.OnClickListener = View.OnClickListener { pickImage() }
+	private val deletionPublisher: PublishSubject<ClickEvent<ExifAttributeViewData>> = PublishSubject.create()
 
 	private val toolbar = ImageHandlingToolbar(R.id.toolbar)
 
@@ -175,7 +181,21 @@ class ImageHandlingFragment : BaseFragment() {
 		if (adapter == null) {
 			if (viewModel.adapterData.value == null)
 				viewModel.adapterData.value = mutableListOf()
-			adapter = ExifAttributeAdapter(viewModel.adapterData.value!!)
+
+			deletionPublisher
+					.observeOn(Schedulers.io())
+					.doOnNext {
+						viewModel.exifFile.value?.removeAttribute(it.item.title)
+					}
+					.doOnError(Timber::e)
+					.map { }
+					.onErrorReturn {  }
+					.disposeBy(onDestroy)
+					.subscribe()
+
+			adapter = ExifAttributeAdapter(viewModel.adapterData.value!!, listOf(
+					PublisherItem(deletionPublisher, Type.CLICK, ExifAttributeViewHolder.DELETION_PUBLISHER_ID)
+			))
 		}
 		rv_exif.adapter = adapter
 	}

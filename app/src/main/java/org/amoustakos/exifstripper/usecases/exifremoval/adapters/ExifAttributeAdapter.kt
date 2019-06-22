@@ -8,8 +8,9 @@ import org.amoustakos.exifstripper.view.recycler.RecyclerAdapter
 
 
 class ExifAttributeAdapter(
-		mItems: MutableList<ExifAttributeViewData>
-) : RecyclerAdapter<ExifAttributeViewHolder, ExifAttributeViewData>(mItems, ArrayList()) {
+		mItems: MutableList<ExifAttributeViewData>,
+		publishers: List<PublisherItem<ExifAttributeViewData>> = ArrayList()
+) : RecyclerAdapter<ExifAttributeViewHolder, ExifAttributeViewData>(mItems, publishers) {
 
 
 	override fun makeHolder(

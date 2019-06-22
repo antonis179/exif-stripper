@@ -15,7 +15,8 @@ interface BaseViewModel<out Holder : ViewHolder, Model : BaseViewModel<Holder, M
 
 data class PublisherItem<Model>(
 		val publisher: PublishSubject<ClickEvent<Model>>,
-		val type: Type
+		val type: Type,
+		val id: String? = null
 )
 
 data class ClickEvent<Model>(

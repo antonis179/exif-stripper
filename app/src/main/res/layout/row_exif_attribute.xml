@@ -4,9 +4,9 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	style="@style/Card.ExifAttribute"
 	android:layout_width="match_parent"
-	android:layout_height="@dimen/card_exif_attribute_height"
-	style="@style/Card.ExifAttribute">
+	android:layout_height="@dimen/card_exif_attribute_height">
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
@@ -17,37 +17,61 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
-			app:layout_constraintGuide_percent="0.45"/>
+			app:layout_constraintGuide_percent="0.4"/>
+
+		<androidx.constraintlayout.widget.Guideline
+			android:id="@+id/vg_2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			app:layout_constraintGuide_percent="0.9"/>
 
 		<TextView
 			android:id="@+id/tv_title"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="@dimen/margin_small"
-			android:gravity="start|center_vertical"
-			android:textAppearance="@style/Text.Regular"
 			android:ellipsize="end"
-			android:maxLines="1"
-			tools:text="Exif attribute"
-			app:layout_constraintStart_toStartOf="parent"
+			android:gravity="start|center_vertical"
+			android:maxLines="2"
+			android:textAppearance="@style/Text.Regular"
+			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toStartOf="@id/vg_1"
+			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"/>
+			tools:text="Exif attribute"/>
 
 		<TextView
 			android:id="@+id/tv_value"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_marginStart="@dimen/margin_small"
-			android:gravity="start|center_vertical"
-			android:textAppearance="@style/Text.Regular"
+			android:layout_marginEnd="@dimen/margin_small"
 			android:ellipsize="end"
-			android:maxLines="1"
-			tools:text="Exif attribute"
+			android:gravity="start|center_vertical"
+			android:maxLines="2"
+			android:textAppearance="@style/Text.Regular"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/vg_2"
 			app:layout_constraintStart_toEndOf="@id/vg_1"
-			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent"/>
+			tools:text="Exif attribute"/>
+
+		<ImageView
+			android:id="@+id/iv_delete"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:clickable="true"
+			android:focusable="true"
+			android:hapticFeedbackEnabled="true"
+			android:scaleType="centerInside"
+			android:src="@drawable/ic_delete"
+			android:tint="@color/primaryBtnAction"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@id/vg_2"
+			app:layout_constraintTop_toTopOf="parent"
+			tools:ignore="ContentDescription"/>
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
