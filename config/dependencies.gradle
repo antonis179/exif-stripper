@@ -47,15 +47,19 @@ project.ext {
 
 	lib_versions = [
 			//Support
-			play_services               : '17.0.0',
+			play_services_gcm           : '17.0.0',
+			play_services_maps          : '17.0.0',
+			play_services_location      : '17.0.0',
 			androidx_core               : '1.2.0-alpha02',
 			appcompat                   : '1.1.0-beta01',
 			support_design              : '1.1.0-alpha07',
-			constraint_layout           : '2.0.0-alpha4',
+			support_recycler            : '1.1.0-alpha06',
+			support_cardview            : '1.0.0',
+			constraint_layout           : '2.0.0-beta2',
 			lifecycle_extensions        : '2.2.0-alpha01',
 			lifecycle_java_8            : '2.2.0-alpha01',
 			lifecycle_runtime           : '2.2.0-alpha01',
-			androidx_ktx                : '1.1.0-alpha05',
+			androidx_ktx                : '1.2.0-alpha02',
 
 			//Annotation processors - injection - RX
 			dagger                      : '2.20',
@@ -90,7 +94,7 @@ project.ext {
 //			firebase_cloud_messaging    : '17.3.4',
 
 			//Job dispatcher
-//			job_dispatcher              : '0.8.5',
+//			job_dispatcher              : '0.8.6',
 
 			//Bus
 			event_bus                   : '3.1.1',
@@ -100,10 +104,7 @@ project.ext {
 			exif                        : '1.1.0-alpha01',
 
 			//Multidex
-//			multidex                    : '2.0.0',
-
-			//Policy
-			privacy_policy              : '1.0.10'
+//			multidex                    : '2.0.0'
 	]
 
 	annotation_processors = [
@@ -136,9 +137,9 @@ project.ext {
 	]
 
 	libs_play_services = [
-			play_gcm            : "com.google.android.gms:play-services-gcm:${lib_versions.play_services}",
-//			play_maps           : "com.google.android.gms:play-services-maps:${lib_versions.play_services}",
-//			play_location       : "com.google.android.gms:play-services-location:${lib_versions.play_services}",
+			play_gcm            : "com.google.android.gms:play-services-gcm:${lib_versions.play_services_gcm}",
+//			play_maps           : "com.google.android.gms:play-services-maps:${lib_versions.play_services_maps}",
+//			play_location       : "com.google.android.gms:play-services-location:${lib_versions.play_services_maps}",
 			play_awareness      : "com.google.android.gms:play-services-awareness:${lib_versions.play_services}",
 	]
 
