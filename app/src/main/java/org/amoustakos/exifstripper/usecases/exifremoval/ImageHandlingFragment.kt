@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.crashlytics.android.Crashlytics
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.*
 import io.reactivex.Single
@@ -210,6 +211,7 @@ class ImageHandlingFragment : BaseFragment() {
 			viewModel.exifFile.value?.shareImage(getString(R.string.share_with))
 		} catch (exc: Exception) {
 			Timber.e(exc)
+			Crashlytics.logException(exc)
 			showError(getString(R.string.error_msg_oops))
 		}
 	}
@@ -220,6 +222,8 @@ class ImageHandlingFragment : BaseFragment() {
 			startActivityForResult(intent, SAVE_IMAGE)
 		} catch (exc: Exception) {
 			Timber.e(exc)
+			Crashlytics.logException(exc)
+			showError(getString(R.string.error_msg_oops))
 		}
 	}
 
@@ -284,6 +288,7 @@ class ImageHandlingFragment : BaseFragment() {
 							.observeOn(AndroidSchedulers.mainThread())
 							.doOnError {
 								Timber.e(it)
+								Crashlytics.logException(it)
 								showError(getString(R.string.error_msg_storage_issue))
 							}
 							.onErrorReturn { }
@@ -356,9 +361,6 @@ class ImageHandlingFragment : BaseFragment() {
 				.load(path)
 				.placeholder(R.drawable.ic_placeholder)
 				.thumbnail(0.25f)
-//				.asBitmap()
-//				.format(DecodeFormat.PREFER_ARGB_8888)
-//				.downsample(DownsampleStrategy.AT_MOST)
 				.override(750)
 				.diskCacheStrategy(DiskCacheStrategy.NONE)
 				.dontAnimate()

@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
+import com.crashlytics.android.Crashlytics
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType.WILDCARD
 import timber.log.Timber
@@ -61,12 +62,14 @@ object FileUtils {
 				return destinationFile
 			} catch (e: IOException) {
 				Timber.e(e)
+				Crashlytics.logException(e)
 			} finally {
 				source.close()
 				out?.close()
 			}
 		} catch (e: IOException) {
 			Timber.e(e)
+			Crashlytics.logException(e)
 		}
 		return null
 	}
