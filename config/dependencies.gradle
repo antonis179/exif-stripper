@@ -25,12 +25,12 @@ project.ext {
 	]
 
 	plugin_versions = [
-			android                 : '3.3.0',
-			kotlin                  : '1.3.40',
+			android                 : '3.4.2',
+			kotlin                  : '1.3.41',
 			realm                   : '5.9.0',
-			firebase_gms            : '4.2.0',
+			firebase_gms            : '4.3.0',
 			firebase_performance    : '1.2.0',
-			fabric                  : '1.29.0',
+			fabric                  : '1.31.0',
 			gradleVersions          : '0.21.0'
 	]
 
@@ -51,14 +51,14 @@ project.ext {
 			play_services_maps          : '17.0.0',
 			play_services_location      : '17.0.0',
 			androidx_core               : '1.2.0-alpha02',
-			appcompat                   : '1.1.0-beta01',
-			support_design              : '1.1.0-alpha07',
+			appcompat                   : '1.1.0-rc01',
+			support_design              : '1.1.0-alpha08',
 			support_recycler            : '1.1.0-alpha06',
 			support_cardview            : '1.0.0',
 			constraint_layout           : '2.0.0-beta2',
-			lifecycle_extensions        : '2.2.0-alpha01',
-			lifecycle_java_8            : '2.2.0-alpha01',
-			lifecycle_runtime           : '2.2.0-alpha01',
+			lifecycle_extensions        : '2.2.0-alpha02',
+			lifecycle_java_8            : '2.2.0-alpha02',
+			lifecycle_runtime           : '2.2.0-alpha02',
 			androidx_ktx                : '1.2.0-alpha02',
 
 			//Annotation processors - injection - RX
@@ -87,7 +87,7 @@ project.ext {
 			//Analytics
 			crashlytics                 : '2.10.1',
 //			firebase_index              : '16.0.1',
-			firebase_core               : '17.0.0',
+			firebase_core               : '17.0.1',
 			firebase_performance        : '18.0.1',
 
 			//FCM
@@ -101,7 +101,7 @@ project.ext {
 
 			//Image
 			glide                       : '4.9.0',
-			exif                        : '1.1.0-alpha01',
+			exif                        : '1.1.0-beta01',
 
 			//Multidex
 //			multidex                    : '2.0.0'

@@ -41,7 +41,7 @@ abstract class BaseViewHolder<Model>(
 
 	companion object {
 		@JvmStatic
-		fun makeView(parent: ViewGroup, viewType: Int, attach: Boolean) =
+		fun makeView(parent: ViewGroup, viewType: Int, attach: Boolean): View =
 				LayoutInflater.from(parent.context).inflate(viewType, parent, attach)
 
 		@JvmStatic
