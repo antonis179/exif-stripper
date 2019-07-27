@@ -51,15 +51,6 @@
 # Event bus
 -keep class org.greenrobot.eventbus.**
 
-### GSON / Models
-#-keepattributes *Annotation*
-#-keep class com.google.gson.stream.** { *; }
-## Prevent proguard from stripping interface information from TypeAdapterFactory,
-## JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
-#-keep class * implements com.google.gson.TypeAdapterFactory
-#-keep class * implements com.google.gson.JsonSerializer
-#-keep class * implements com.google.gson.JsonDeserializer
-
 ### Crashlytics
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
