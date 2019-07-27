@@ -62,7 +62,7 @@
 
 		<!-- Provider -->
 		<provider
-			android:name=".utils.ImageFileProvider"
+			android:name=".io.providers.ImageFileProvider"
 			android:authorities="${applicationId}.imageprovider"
 			android:exported="false"
 			android:grantUriPermissions="true">

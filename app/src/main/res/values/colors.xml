@@ -12,7 +12,7 @@
 
 	<!-- CTA -->
 	<color name="primaryCTAText">@color/textWhite</color>
-	<color name="primaryBtnAction">@color/secondary</color>
+	<color name="primaryBtnAction">@color/accent</color>
 	<color name="secondaryToolbarAction">#2E0904</color>
 	<color name="secondaryBtnAction">@color/gray</color>
 

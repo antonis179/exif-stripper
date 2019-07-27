@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.utils
+package org.amoustakos.exifstripper.io.providers
 
 import androidx.core.content.FileProvider
 
