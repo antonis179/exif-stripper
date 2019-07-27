@@ -39,7 +39,6 @@ import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 import org.amoustakos.exifstripper.view.recycler.Type
-import org.amoustakos.exifstripper.view.toolbars.ImageHandlingToolbar
 import org.amoustakos.utils.android.rx.disposer.disposeBy
 import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber

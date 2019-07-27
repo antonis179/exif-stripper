@@ -1,10 +1,11 @@
-package org.amoustakos.exifstripper.view.toolbars
+package org.amoustakos.exifstripper.usecases.exifremoval
 
 import android.app.Activity
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 
 
 class ImageHandlingToolbar(id: Int) : BasicToolbar(id) {
