@@ -46,28 +46,6 @@ import timber.log.Timber
 
 class ImageHandlingFragment : BaseFragment() {
 
-	companion object {
-		private const val PERMISSION_REQUEST = 10566
-		private const val REQUEST_IMAGE = 10999
-		private const val SAVE_IMAGE = 11000
-
-		private const val KEY_URI = "key_uri"
-
-
-		fun newInstance(uri: Uri? = null): ImageHandlingFragment {
-			val frag = ImageHandlingFragment()
-
-			uri?.let {
-				val bundle = Bundle()
-				bundle.putParcelable(KEY_URI, it)
-				frag.arguments = bundle
-			}
-
-			return frag
-		}
-	}
-
-
 	private lateinit var viewModel: ExifViewModel
 	private var adapter: ExifAttributeAdapter? = null
 
@@ -110,6 +88,7 @@ class ImageHandlingFragment : BaseFragment() {
 		super.onCreateOptionsMenu(menu, inflater)
 	}
 
+	//TODO: Move to view component
 	private fun toggleAppbar() {
 		if (viewModel.exifFile.value?.isLoaded != true) {
 			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
@@ -147,20 +126,17 @@ class ImageHandlingFragment : BaseFragment() {
 		btn_remove_all.setOnClickListener { removeExifData() }
 		toolbar.setShareListener { shareImage() }
 		toolbar.setSaveListener { saveImage() }
-//		srl_refresh.setOnRefreshListener { refresh() }
 
 		setupRecycler()
 		refreshUI()
 	}
 
 	private fun refreshUI() {
-		setRefreshing(true)
 		loadPreview()
 		toggleRemoveAllButton()
 		restoreActions()
 		notifyAdapter()
 		toggleAppbar()
-		setRefreshing(false)
 	}
 
 	private fun refreshAdapter(items: List<ExifAttributeViewData>, notify: Boolean) {
@@ -198,11 +174,6 @@ class ImageHandlingFragment : BaseFragment() {
 			))
 		}
 		rv_exif.adapter = adapter
-	}
-
-	@Synchronized
-	private fun setRefreshing(refreshing: Boolean) {
-//		srl_refresh.isRefreshing = refreshing
 	}
 
 	private fun shareImage() {
@@ -263,7 +234,6 @@ class ImageHandlingFragment : BaseFragment() {
 	private fun reset() {
 		toggleActions(false)
 		viewModel.exifFile.value?.reset()
-//		srl_refresh.isRefreshing = false
 	}
 
 	override fun onActivityResult(
@@ -309,8 +279,6 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	private fun handleUri(uri: Uri) {
-		setRefreshing(true)
-
 		Single.fromCallable {}
 				.observeOn(Schedulers.computation())
 				.map { viewModel.exifFile.value?.load(uri) ?: ResponseWrapper() }
@@ -337,18 +305,6 @@ class ImageHandlingFragment : BaseFragment() {
 				.subscribe()
 	}
 
-	private fun refresh() {
-		Single.fromCallable {}
-				.observeOn(Schedulers.computation())
-				.map { viewModel.exifFile.value?.loadExifAttributes() }
-				.observeOn(AndroidSchedulers.mainThread())
-				.doOnError(Timber::e)
-				.onErrorReturn {}
-				.disposeBy(lifecycle.onDestroy)
-				.subscribe()
-	}
-
-	//TODO: Add full screen preview
 	private fun loadPreview() {
 		if (!isAdded || activity == null)
 			return
@@ -420,6 +376,29 @@ class ImageHandlingFragment : BaseFragment() {
 					//TODO show error
 				}
 			}
+		}
+	}
+
+
+
+	companion object {
+		private const val PERMISSION_REQUEST = 10566
+		private const val REQUEST_IMAGE = 10999
+		private const val SAVE_IMAGE = 11000
+
+		private const val KEY_URI = "key_uri"
+
+
+		fun newInstance(uri: Uri? = null): ImageHandlingFragment {
+			val frag = ImageHandlingFragment()
+
+			uri?.let {
+				val bundle = Bundle()
+				bundle.putParcelable(KEY_URI, it)
+				frag.arguments = bundle
+			}
+
+			return frag
 		}
 	}
 }

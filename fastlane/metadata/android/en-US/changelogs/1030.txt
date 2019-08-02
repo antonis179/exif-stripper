@@ -1,1 +1,0 @@
-Images can now be shared to the app to remove metadata without opening exif stripper.

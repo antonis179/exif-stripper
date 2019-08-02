@@ -10,10 +10,6 @@
 -dontnote **
 #-ignorewarnings
 
-### Speed things up!
-#-libraryjars <java.home>/lib/rt.jar
-
-
 ### Keep
 -keep class androidx.exifinterface.media.ExifInterface {*; }
 
