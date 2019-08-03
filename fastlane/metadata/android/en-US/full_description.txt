@@ -1,6 +1,8 @@
 <b>Exif Stripper removes private information from your photos stored as image metadata (exif) so you can share them safely.
 </b>
 
+This is an open-source project. The code can be found on <a href="https://github.com/antonis179/exif-stripper">Github</a>.
+
 Still in the early stages of development.
 The UI is still under construction.
 
