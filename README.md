@@ -1,10 +1,9 @@
+<a href="https://www.buymeacoffee.com/AoCpEcg" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
 
 # Exif Stripper #
 
 Exif Stripper removes private information from your photos stored as image metadata (exif) so you can share them safely!
-
-
-
 
 Download from [Play Store](https://play.google.com/store/apps/details?id=org.amoustakos.exifstripper)
 
