@@ -18,7 +18,10 @@ project.ext {
 			release_alias_pwd: 'release.key.alias.password',
 
 			app_version      : 'app.version',
-			app_version_name : 'app.version.name'
+			app_version_name : 'app.version.name',
+
+			admob_publisher  : 'admob.publisher',
+			admob_banner     : 'admob.banner'
 	]
 
 	methods = [
@@ -28,6 +31,10 @@ project.ext {
 
 			getPasswords           : {
 				methods.getProperties("passwords.properties", false)
+			},
+
+			getAds                 : {
+				methods.getProperties("ads.properties", false)
 			},
 
 			getAttribute           : { Properties props, String key ->
@@ -71,6 +78,28 @@ project.ext {
 				"${methods.getAttribute(props, "${key_config.app_version_name}")}"
 			}
 	]
+
+	ads = [
+			getAdmobPublisher: {
+				def props = project.ext.methods.getAds()
+				try {
+					return "${methods.getAttribute(props, "${key_config.admob_publisher}")}"
+				} catch (Exception ignored) {
+					System.err("AdMob publisher id not found. Returning empty string")
+					return ""
+				}
+			},
+
+	        getAdmobBanner: { int footerNumber ->
+		        def props = project.ext.methods.getAds()
+		        try {
+			        return "${methods.getAttribute(props, "${key_config.admob_banner}.$footerNumber")}"
+		        } catch (Exception ignored) {
+			        System.err("AdMob banner id not found. Returning empty string")
+			        return ""
+		        }
+	        }
+	]
 }
 
 
@@ -83,6 +112,13 @@ android {
 
 		minSdkVersion build_params.min_version
 		targetSdkVersion build_params.target_version
+
+
+		//AdMob
+
+		resValue "string", "admob_publisher", ads.getAdmobPublisher()
+		resValue "string", "admob_footer_banner", ads.getAdmobBanner(1)
+
 	}
 
 	signingConfigs {

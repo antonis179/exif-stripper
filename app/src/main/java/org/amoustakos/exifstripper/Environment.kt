@@ -2,10 +2,12 @@ package org.amoustakos.exifstripper
 
 import android.annotation.SuppressLint
 import android.content.Context
+import com.google.android.gms.ads.MobileAds
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
+import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.ExifFile
 import timber.log.Timber
 
@@ -18,6 +20,14 @@ class Environment (
         initLog()
         cleanup()
         initAnalytics()
+        initAds()
+    }
+
+    fun onGdprUpdate() {
+        Do safe {
+            initAnalytics()
+            initAds()
+        }
     }
 
     private fun initAnalytics() {
@@ -30,6 +40,11 @@ class Environment (
     private fun initLog() {
         if (BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
+    }
+
+    private fun initAds() {
+        if (GdprUtil.hasAcceptedTerms(context))
+            MobileAds.initialize(context) {}
     }
 
     @SuppressLint("CheckResult")

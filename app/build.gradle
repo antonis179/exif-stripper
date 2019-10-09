@@ -40,6 +40,7 @@ dependencies {
 	implementation libs_support.constraint_layout
 
 	implementation libs_play_services.play_gcm
+	implementation libs_play_services.play_ads
 	implementation libs_firebase.crashlytics
 	implementation libs_firebase.firebase_core
 	implementation libs_firebase.firebase_perf
@@ -50,9 +51,6 @@ dependencies {
 
 	implementation libs_kotlin.values()
 	implementation libs_rx.values()
-//	implementation libs_local_io.values()
-//	implementation libs_mapping.values()
-//	implementation libs_injection.butterknife
 }
 
 apply plugin: applyPlugins.google_gms

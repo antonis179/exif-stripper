@@ -9,7 +9,7 @@ import timber.log.Timber
 
 class ExifApplication : Application() {
 
-	private lateinit var environment: Environment
+	lateinit var environment: Environment
 
 	override fun onCreate() {
 		val start = System.currentTimeMillis()

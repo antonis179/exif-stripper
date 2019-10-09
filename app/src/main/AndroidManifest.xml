@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.amoustakos.exifstripper">
+	package="org.amoustakos.exifstripper">
 
-	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 	<application
 		android:name=".ExifApplication"
 		android:allowBackup="false"
-		android:label="@string/app_name"
 		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme">
@@ -19,16 +19,16 @@
 			android:name=".usecases.privacy.PrivacyActivity"
 			android:label="@string/title_activity_splash"
 			android:launchMode="singleInstance"
-			android:theme="@style/AppTheme.NoActionBar"/>
+			android:theme="@style/AppTheme.NoActionBar" />
 
 		<activity
 			android:name=".usecases.home.MainActivity"
-			android:theme="@style/AppTheme.NoActionBar"
+			android:label="@string/title_activity_main"
 			android:launchMode="singleInstance"
-			android:label="@string/title_activity_main">
+			android:theme="@style/AppTheme.NoActionBar">
 			<intent-filter>
-				<action android:name="android.intent.action.MAIN"/>
-				<category android:name="android.intent.category.LAUNCHER"/>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
 
 			<intent-filter>
@@ -37,28 +37,42 @@
 				<data android:mimeType="image/*" />
 			</intent-filter>
 			<!--<intent-filter>-->
-				<!--<action android:name="android.intent.action.SEND_MULTIPLE" />-->
-				<!--<category android:name="android.intent.category.DEFAULT" />-->
-				<!--<data android:mimeType="image/*" />-->
+			<!--<action android:name="android.intent.action.SEND_MULTIPLE" />-->
+			<!--<category android:name="android.intent.category.DEFAULT" />-->
+			<!--<data android:mimeType="image/*" />-->
 			<!--</intent-filter>-->
 		</activity>
 
 
 		<activity
 			android:name=".usecases.privacy.PrivacyTermsActivity"
+			android:label="@string/title_privacy_policy"
 			android:launchMode="singleInstance"
-			android:theme="@style/AppTheme.NoActionBar"
-			android:label="@string/title_privacy_policy"/>
+			android:theme="@style/AppTheme.NoActionBar" />
 
 
 		<!-- Metadata -->
+
 		<meta-data
 			android:name="com.google.android.gms.version"
-			android:value="@integer/google_play_services_version"/>
+			android:value="@integer/google_play_services_version" />
 
-		<meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false" />
-		<meta-data android:name="firebase_performance_collection_enabled" android:value="false" />
-		<meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+		<!-- Ads -->
+		<meta-data
+			android:name="com.google.android.gms.ads.APPLICATION_ID"
+			android:value="@string/admob_publisher" />
+
+
+		<!-- Firebase -->
+		<meta-data
+			android:name="firebase_crashlytics_collection_enabled"
+			android:value="false" />
+		<meta-data
+			android:name="firebase_performance_collection_enabled"
+			android:value="false" />
+		<meta-data
+			android:name="firebase_analytics_collection_enabled"
+			android:value="false" />
 
 		<!-- Provider -->
 		<provider
@@ -68,9 +82,8 @@
 			android:grantUriPermissions="true">
 			<meta-data
 				android:name="android.support.FILE_PROVIDER_PATHS"
-				android:resource="@xml/provider_paths"/>
+				android:resource="@xml/provider_paths" />
 		</provider>
 
 	</application>
-
 </manifest>

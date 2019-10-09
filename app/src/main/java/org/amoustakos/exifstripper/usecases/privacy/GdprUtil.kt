@@ -1,6 +1,7 @@
 package org.amoustakos.exifstripper.usecases.privacy
 
 import android.content.Context
+import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.io.prefs.BaseSharedPreferences
 
 object GdprUtil {
@@ -10,6 +11,8 @@ object GdprUtil {
 
 	fun acceptTerms(ctx: Context) {
 		PrivacySharedPrefs(ctx).hasAcceptedTerms = true
+
+		ExifApplication[ctx].environment.onGdprUpdate()
 	}
 
 
