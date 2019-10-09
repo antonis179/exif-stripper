@@ -84,20 +84,16 @@ project.ext {
 				def props = project.ext.methods.getAds()
 				try {
 					return "${methods.getAttribute(props, "${key_config.admob_publisher}")}"
-				} catch (Exception ignored) {
-					System.err("AdMob publisher id not found. Returning empty string")
-					return ""
-				}
+				} catch (Exception ignored) {}
+				return ""
 			},
 
 	        getAdmobBanner: { int footerNumber ->
 		        def props = project.ext.methods.getAds()
 		        try {
 			        return "${methods.getAttribute(props, "${key_config.admob_banner}.$footerNumber")}"
-		        } catch (Exception ignored) {
-			        System.err("AdMob banner id not found. Returning empty string")
-			        return ""
-		        }
+		        } catch (Exception ignored) {}
+		        return ""
 	        }
 	]
 }
