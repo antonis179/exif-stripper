@@ -68,10 +68,10 @@ project.ext {
 	]
 
 	app = [
-	        version: {
-		        def props = project.ext.methods.getEnv()
-		        methods.getAttribute(props, "${key_config.app_version}") as Integer
-	        },
+			version    : {
+				def props = project.ext.methods.getEnv()
+				methods.getAttribute(props, "${key_config.app_version}") as Integer
+			},
 
 			versionName: {
 				def props = project.ext.methods.getEnv()
@@ -84,17 +84,19 @@ project.ext {
 				def props = project.ext.methods.getAds()
 				try {
 					return "${methods.getAttribute(props, "${key_config.admob_publisher}")}"
-				} catch (Exception ignored) {}
+				} catch (Exception ignored) {
+				}
 				return ""
 			},
 
-	        getAdmobBanner: { int footerNumber ->
-		        def props = project.ext.methods.getAds()
-		        try {
-			        return "${methods.getAttribute(props, "${key_config.admob_banner}.$footerNumber")}"
-		        } catch (Exception ignored) {}
-		        return ""
-	        }
+			getAdmobBanner   : { int footerNumber ->
+				def props = project.ext.methods.getAds()
+				try {
+					return "${methods.getAttribute(props, "${key_config.admob_banner}.$footerNumber")}"
+				} catch (Exception ignored) {
+				}
+				return ""
+			}
 	]
 }
 
