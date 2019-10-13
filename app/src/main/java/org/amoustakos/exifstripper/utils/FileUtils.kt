@@ -2,6 +2,7 @@ package org.amoustakos.exifstripper.utils
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
@@ -74,7 +75,7 @@ object FileUtils {
 		return null
 	}
 
-	fun createFile(uri: Uri, file: File, context: Context) {
+	fun writeUriToFIle(uri: Uri, file: File, context: Context) {
 		val pfd = context.contentResolver.openFileDescriptor(uri, "w")
 				?: throw NullPointerException("Could not open file descriptor")
 		val fileOutputStream = FileOutputStream(pfd.fileDescriptor)
@@ -142,15 +143,13 @@ object FileUtils {
 		return Intent.createChooser(intent, title)
 	}
 
-	fun saveFileIntent(uri: Uri, mime: String, title: String, filename: String? = null): Intent {
-		val intent = Intent()
-		intent.action = Intent.ACTION_CREATE_DOCUMENT
-		intent.type = mime
-		intent.putExtra(Intent.EXTRA_STREAM, uri)
-		filename?.let { intent.putExtra(Intent.EXTRA_TITLE, it) }
-		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-		return Intent.createChooser(intent, title)
+	fun saveFileIntent(uri: Uri, mime: String, filename: String? = null) = Intent().apply {
+		action = Intent.ACTION_CREATE_DOCUMENT
+		type = mime
+		addCategory(Intent.CATEGORY_OPENABLE)
+		putExtra(Intent.EXTRA_STREAM, uri)
+		filename?.let { putExtra(Intent.EXTRA_TITLE, it) }
+		addFlags(FLAG_GRANT_WRITE_URI_PERMISSION)
 	}
 
 	fun createGetContentIntent(

@@ -49,9 +49,7 @@ class ExifFile(
 
 	private var name: String? = null
 	var isLoaded: Boolean = false
-		private set(value) {
-			field = value
-		}
+		private set
 
 	// =========================================================================================
 	// Initialization
@@ -168,7 +166,7 @@ class ExifFile(
 		ctx.startActivity(intent)
 	}
 
-	fun saveImageIntent(title: String): Intent {
+	fun saveImageIntent(): Intent {
 		val ctx = context.get() ?: throw NullPointerException("Cannot save image with null context")
 		val mime = getMime() ?: throw NullPointerException("Issue retrieving mime type")
 		val uri = FileProvider.getUriForFile(
@@ -176,7 +174,7 @@ class ExifFile(
 				"${ctx.applicationContext.packageName}.$IMAGE_PROVIDER",
 				file!!
 		)
-		return FileUtils.saveFileIntent(uri, mime, title, name)
+		return FileUtils.saveFileIntent(uri, mime, name)
 	}
 
 	fun store(destination: String): File? {
@@ -186,7 +184,7 @@ class ExifFile(
 		)
 	}
 
-	fun store(uri: Uri) {
-		FileUtils.createFile(uri, file!!, context.get()!!)
+	fun writeUriToFile(uri: Uri) {
+		FileUtils.writeUriToFIle(uri, file!!, context.get()!!)
 	}
 }

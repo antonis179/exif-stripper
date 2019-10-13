@@ -165,7 +165,7 @@ class ImageHandlingFragment : BaseFragment() {
 					}
 					.doOnError(Timber::e)
 					.map { }
-					.onErrorReturn {  }
+					.onErrorReturn { }
 					.disposeBy(onDestroy)
 					.subscribe()
 
@@ -188,7 +188,7 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private fun saveImage() {
 		try {
-			val intent = viewModel.exifFile.value?.saveImageIntent(getString(R.string.save_as))
+			val intent = viewModel.exifFile.value?.saveImageIntent()
 			startActivityForResult(intent, SAVE_IMAGE)
 		} catch (exc: Exception) {
 			Timber.e(exc)
@@ -248,22 +248,34 @@ class ImageHandlingFragment : BaseFragment() {
 			}
 
 			SAVE_IMAGE -> {
-				if (data != null) {
-					val uri = data.data ?: return
-
-					Single.fromCallable {}
-							.observeOn(Schedulers.computation())
-							.map { viewModel.exifFile.value?.store(uri) }
-							.observeOn(AndroidSchedulers.mainThread())
-							.doOnError {
-								Timber.e(it)
-								Crashlytics.logException(it)
-								showError(getString(R.string.error_msg_storage_issue))
-							}
-							.onErrorReturn { }
-							.disposeBy(lifecycle.onDestroy)
-							.subscribe()
+				if (data == null || resultCode != RESULT_OK) {
+					Crashlytics.log("Failed to store file")
+					showError(getString(R.string.error_msg_storage_issue))
+					return
 				}
+
+				val uri = data.data
+
+				if (uri == null) {
+					Crashlytics.log("Failed to store file")
+					showError(getString(R.string.error_msg_storage_issue))
+					return
+				}
+
+				//Write the file to the provided URI
+				Single.fromCallable {}
+						.observeOn(Schedulers.computation())
+						.map { viewModel.exifFile.value?.writeUriToFile(uri) }
+						.observeOn(AndroidSchedulers.mainThread())
+						.doOnError {
+							Timber.e(it)
+							Crashlytics.logException(it)
+							showError(getString(R.string.error_msg_storage_issue))
+						}
+						.onErrorReturn { }
+						.disposeBy(lifecycle.onDestroy)
+						.doOnSuccess { refreshUI() }
+						.subscribe()
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data)
@@ -378,7 +390,6 @@ class ImageHandlingFragment : BaseFragment() {
 			}
 		}
 	}
-
 
 
 	companion object {
