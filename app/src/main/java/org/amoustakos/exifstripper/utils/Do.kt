@@ -32,12 +32,11 @@ object Do {
 	 * Can be used to run a block of code "safely" inside a try catch method.
 	 * Only errors extending [Exception] are caught.
 	 */
-	inline fun <reified T> safe(any: () -> T, onErrorExecute: () -> T): T {
+	inline fun <reified T> safe(any: () -> T, onErrorExecute: (e: Exception) -> T): T {
 		return try {
 			any()
 		} catch (e: Exception) {
-			Timber.e(e)
-			onErrorExecute()
+			onErrorExecute(e)
 		}
 	}
 }

@@ -10,13 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_main.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
+import org.amoustakos.exifstripper.utils.ads.AdMobAds
 
 
 class MainActivity : BaseActivity() {
@@ -36,36 +35,10 @@ class MainActivity : BaseActivity() {
 			showPrivacySplash()
 			return
 		} else {
-			loadFooterAds()
+			AdMobAds.loadAd(avFooterBanner)
 		}
 
 		selectFragment(savedInstanceState)
-	}
-
-	private fun loadFooterAds() {
-		avFooterBanner.loadAd(AdRequest.Builder().build())
-		avFooterBanner.adListener = object : AdListener() {
-			override fun onAdLoaded() {
-				// Code to be executed when an ad finishes loading.
-			}
-			override fun onAdFailedToLoad(errorCode: Int) {
-				// Code to be executed when an ad request fails.
-			}
-			override fun onAdOpened() {
-				// Code to be executed when an ad opens an overlay that
-				// covers the screen.
-			}
-			override fun onAdClicked() {
-				// Code to be executed when the user clicks on an ad.
-			}
-			override fun onAdLeftApplication() {
-				// Code to be executed when the user has left the app.
-			}
-			override fun onAdClosed() {
-				// Code to be executed when the user is about to return
-				// to the app after tapping on an ad.
-			}
-		}
 	}
 
 	// =========================================================================================

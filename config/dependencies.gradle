@@ -90,9 +90,8 @@ project.ext {
 //			firebase_index              : '16.0.1',
 			firebase_core               : '17.2.0',
 			firebase_performance        : '19.0.0',
-
-			//FCM
 //			firebase_cloud_messaging    : '17.3.4',
+			firebase_ads                : '18.2.0',
 
 			//Job dispatcher
 //			job_dispatcher              : '0.8.6',
@@ -158,6 +157,7 @@ project.ext {
 
 			//FCM
 //			fcm                 : "com.google.firebase:firebase-messaging:${lib_versions.firebase_cloud_messaging}",
+			firebase_ads        : "com.google.firebase:firebase-ads:${lib_versions.firebase_ads}",
 	]
 
 	libs_local_io = [

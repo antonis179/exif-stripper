@@ -40,11 +40,13 @@ dependencies {
 	implementation libs_support.constraint_layout
 
 	implementation libs_play_services.play_gcm
-	implementation libs_play_services.play_ads
 	implementation libs_firebase.crashlytics
 	implementation libs_firebase.firebase_core
 	implementation libs_firebase.firebase_perf
 	implementation libs_logging.values()
+
+//	implementation libs_play_services.play_ads
+	implementation libs_firebase.firebase_ads
 
 	implementation libs_image.exif
 	implementation libs_image.glide
