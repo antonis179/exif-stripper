@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import android.view.ViewGroup
+import kotlinx.android.parcel.Parcelize
 import org.amoustakos.exifstripper.usecases.exifremoval.views.ExifAttributeViewHolder
 import org.amoustakos.exifstripper.view.recycler.BaseViewModel
 import org.amoustakos.exifstripper.view.recycler.PublisherItem

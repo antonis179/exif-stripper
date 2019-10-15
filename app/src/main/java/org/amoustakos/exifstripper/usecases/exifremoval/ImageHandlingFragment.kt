@@ -14,7 +14,8 @@ import android.view.View.VISIBLE
 import androidx.annotation.Nullable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.SavedStateViewModelFactory
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.crashlytics.android.Crashlytics
@@ -34,6 +35,7 @@ import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeAd
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifViewModel
 import org.amoustakos.exifstripper.usecases.exifremoval.views.ExifAttributeViewHolder
+import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.ExifFile
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
@@ -63,10 +65,10 @@ class ImageHandlingFragment : BaseFragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		viewModel = ViewModelProviders.of(this).get(ExifViewModel::class.java)
+		viewModel = ViewModelProvider(this, SavedStateViewModelFactory(application()!!, this)).get(ExifViewModel::class.java)
 
 		if (viewModel.exifFile.value == null)
-			viewModel.exifFile.value = ExifFile(context!!)
+			viewModel.exifFile.value = ExifFile()
 
 		if (savedInstanceState == null) {
 			arguments?.getParcelable<Uri>(KEY_URI)?.let {
@@ -161,7 +163,7 @@ class ImageHandlingFragment : BaseFragment() {
 			deletionPublisher
 					.observeOn(Schedulers.io())
 					.doOnNext {
-						viewModel.exifFile.value?.removeAttribute(it.item.title)
+						viewModel.exifFile.value?.removeAttribute(context!!, it.item.title)
 					}
 					.doOnError(Timber::e)
 					.map { }
@@ -178,7 +180,7 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private fun shareImage() {
 		try {
-			viewModel.exifFile.value?.shareImage(getString(R.string.share_with))
+			context?.let { viewModel.exifFile.value?.shareImage(getString(R.string.share_with), it) }
 		} catch (exc: Exception) {
 			Timber.e(exc)
 			Crashlytics.logException(exc)
@@ -188,8 +190,11 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private fun saveImage() {
 		try {
-			val intent = viewModel.exifFile.value?.saveImageIntent()
-			startActivityForResult(intent, SAVE_IMAGE)
+			context?.let {
+				val intent = viewModel.exifFile.value?.saveImageIntent(it)
+						?: throw NullPointerException("Fragment not attached. Cannot save image")
+				startActivityForResult(intent, SAVE_IMAGE)
+			}
 		} catch (exc: Exception) {
 			Timber.e(exc)
 			Crashlytics.logException(exc)
@@ -215,7 +220,7 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	private fun removeExifData() {
-		viewModel.exifFile.value?.removeExifData()
+		context?.let { viewModel.exifFile.value?.removeExifData(it) }
 	}
 
 	private fun toggleActions(show: Boolean) {
@@ -265,7 +270,7 @@ class ImageHandlingFragment : BaseFragment() {
 				//Write the file to the provided URI
 				Single.fromCallable {}
 						.observeOn(Schedulers.computation())
-						.map { viewModel.exifFile.value?.writeUriToFile(uri) }
+						.map { context?.let { it1 -> viewModel.exifFile.value?.writeUriToFile(uri, it1) } }
 						.observeOn(AndroidSchedulers.mainThread())
 						.doOnError {
 							Timber.e(it)
@@ -293,7 +298,11 @@ class ImageHandlingFragment : BaseFragment() {
 	private fun handleUri(uri: Uri) {
 		Single.fromCallable {}
 				.observeOn(Schedulers.computation())
-				.map { viewModel.exifFile.value?.load(uri) ?: ResponseWrapper() }
+				.map {
+					context?.let { it1 ->
+						viewModel.exifFile.value?.load(uri, it1) ?: ResponseWrapper()
+					} ?: ResponseWrapper()
+				}
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnSuccess {
 					val message: String? = when (it!!.value) {
@@ -321,7 +330,7 @@ class ImageHandlingFragment : BaseFragment() {
 		if (!isAdded || activity == null)
 			return
 
-		val path = viewModel.exifFile.value?.getPath()
+		val path = Do.safe({ context?.let { viewModel.exifFile.value?.getPath(it) } }, {null})
 
 		Glide
 				.with(this)
@@ -338,7 +347,7 @@ class ImageHandlingFragment : BaseFragment() {
 				if (path == null)
 					getString(R.string.select_image)
 				else
-					viewModel.exifFile.value?.getName()
+					context?.let { viewModel.exifFile.value?.getName(it) }
 	}
 
 	private fun pickImage() {

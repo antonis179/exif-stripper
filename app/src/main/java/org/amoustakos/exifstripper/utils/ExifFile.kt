@@ -3,22 +3,20 @@ package org.amoustakos.exifstripper.utils
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.core.content.FileProvider
 import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
-import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandler
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.utils.exif.Attributes
 import org.amoustakos.exifstripper.utils.exif.ExifUtil
 import timber.log.Timber
 import java.io.File
-import java.lang.ref.WeakReference
 
-class ExifFile(
-		context: Context
-) {
+class ExifFile() : Parcelable {
 
 	companion object {
 		private const val CACHE_FOLDER = "/exif_cache/"
@@ -37,19 +35,38 @@ class ExifFile(
 			if (file.exists() && file.isFile)
 				file.delete()
 		}
+
+		@JvmField val CREATOR = object : Parcelable.Creator<ExifFile> {
+			override fun createFromParcel(parcel: Parcel): ExifFile {
+				return ExifFile(parcel)
+			}
+
+			override fun newArray(size: Int): Array<ExifFile?> {
+				return arrayOfNulls(size)
+			}
+		}
+
 	}
 
-	private val context: WeakReference<Context> = WeakReference(context)
+
 	private var file: File? = null
-
-	private var handler: SchemeHandler? = null
-
-	private lateinit var exifAttributes: List<ExifAttributeViewData>
+	private var exifAttributes: List<ExifAttributeViewData> = ArrayList()
 	val exifAttributesSubject: PublishSubject<List<ExifAttributeViewData>> = PublishSubject.create()
 
-	private var name: String? = null
-	var isLoaded: Boolean = false
-		private set
+	val isLoaded: Boolean
+		get() = file != null
+
+	constructor(parcel: Parcel) : this() {
+		file = parcel.readString()?.let { File(it) }
+		exifAttributes = parcel.createTypedArrayList(ExifAttributeViewData.CREATOR) ?: ArrayList()
+	}
+
+	override fun writeToParcel(parcel: Parcel, flags: Int) {
+		parcel.writeString(file?.absolutePath)
+		parcel.writeTypedList(exifAttributes)
+	}
+
+	override fun describeContents() = 0
 
 	// =========================================================================================
 	// Initialization
@@ -64,56 +81,53 @@ class ExifFile(
 		object Success : LoadResult()
 	}
 
-	fun load(uri: Uri): ResponseWrapper<LoadResult> {
-		if (context.get() == null) {
+	fun load(uri: Uri, context: Context): ResponseWrapper<LoadResult> {
+		if (context == null) {
 			reset()
 			return ResponseWrapper(LoadResult.ContextError)
 		}
 
-		if (!SchemeHandlerFactory(context.get()!!).isSupported(uri.toString())) {
+		if (!SchemeHandlerFactory(context).isSupported(uri.toString())) {
 			reset()
 			return ResponseWrapper(LoadResult.UriError)
 		}
 
-		handler = SchemeHandlerFactory(context.get()!!)[uri.toString()]
-		name = handler!!.getName()
+		val handler = SchemeHandlerFactory(context)[uri.toString()]
 
-		if (!ContentType.Image.JPEG.checkExtension(handler!!.getFileExtension())) {
+		if (!ContentType.Image.JPEG.checkExtension(handler.getFileExtension())) {
 			reset()
 			return ResponseWrapper(LoadResult.FormatError)
 		}
 
-		val cachePath = getCacheFilePath(context.get()!!, name!!)
+		val cachePath = getCacheFilePath(context, handler.getName())
 
-		clearFile(context.get()!!, cachePath)
+		clearFile(context, cachePath)
 
-		file = store(cachePath)	?: return ResponseWrapper(LoadResult.CacheError)
-		handler = SchemeHandlerFactory(context.get()!!)[file!!.absolutePath]
-		isLoaded = true
+		file = handler.getInputStream()?.let {
+			FileUtils.createFile(it, cachePath)
+		} ?: return ResponseWrapper(LoadResult.CacheError)
 
-		loadExifAttributes()
+		loadExifAttributes(context)
 
 		return ResponseWrapper(LoadResult.Success)
 	}
 
+	private fun getHandler(context: Context) = getHandler(context, file!!.absolutePath)
+	private fun getHandler(context: Context, path: String) = SchemeHandlerFactory(context)[path]
+
 	fun reset() {
-		name = null
-		isLoaded = false
 		file = null
-		handler = null
 	}
 
 	// =========================================================================================
 	// Functionality
 	// =========================================================================================
 
-	fun getPath() = handler?.getPath()
-	fun getMime() = handler?.getContentType()
-	fun getName() = handler?.getName()
+	fun getPath(context: Context) = getHandler(context).getPath()
+	fun getName(context: Context) = getHandler(context).getName()
 
-
-	fun loadExifAttributes() {
-		getPath()?.let {
+	fun loadExifAttributes(context: Context) {
+		getPath(context)?.let {
 			try {
 				val attrMap = ExifUtil.getAttributes(it, Attributes())
 				exifAttributes = attrMap.map { entry ->
@@ -126,24 +140,24 @@ class ExifFile(
 		}
 	}
 
-	fun removeExifData() {
-		getPath()?.let {
+	fun removeExifData(context: Context) {
+		getPath(context)?.let {
 			try {
 				ExifUtil.removeAttributes(it, Attributes())
 				exifAttributes = listOf()
-				loadExifAttributes()
+				loadExifAttributes(context)
 			} catch (e: Exception) {
 				Timber.e(e)
 			}
 		}
 	}
 
-	fun removeAttribute(attribute: String) {
-		getPath()?.let {
+	fun removeAttribute(context: Context, attribute: String) {
+		getPath(context)?.let {
 			try {
 				ExifUtil.removeAttribute(it, attribute)
 				exifAttributes = listOf()
-				loadExifAttributes()
+				loadExifAttributes(context)
 			} catch (e: Exception) {
 				Timber.e(e)
 			}
@@ -154,37 +168,30 @@ class ExifFile(
 		exifAttributesSubject.onNext(exifAttributes)
 	}
 
-	fun shareImage(title: String) {
-		val ctx = context.get() ?: throw NullPointerException("Cannot share image with null context")
-		val mime = getMime() ?: throw NullPointerException("Issue retrieving mime type")
+	fun shareImage(title: String, context: Context) {
+		val handler = getHandler(context)
+		val mime = handler.getContentType()
 		val uri = FileProvider.getUriForFile(
-				ctx,
-				"${ctx.applicationContext.packageName}.$IMAGE_PROVIDER",
+				context,
+				"${context.applicationContext.packageName}.$IMAGE_PROVIDER",
 				file!!
 		)
 		val intent = FileUtils.shareFileIntent(uri, mime, title)
-		ctx.startActivity(intent)
+		context.startActivity(intent)
 	}
 
-	fun saveImageIntent(): Intent {
-		val ctx = context.get() ?: throw NullPointerException("Cannot save image with null context")
-		val mime = getMime() ?: throw NullPointerException("Issue retrieving mime type")
+	fun saveImageIntent(context: Context): Intent {
+		val handler = getHandler(context)
+		val mime = handler.getContentType()
 		val uri = FileProvider.getUriForFile(
-				ctx,
-				"${ctx.applicationContext.packageName}.$IMAGE_PROVIDER",
+				context,
+				"${context.applicationContext.packageName}.$IMAGE_PROVIDER",
 				file!!
 		)
-		return FileUtils.saveFileIntent(uri, mime, name)
+		return FileUtils.saveFileIntent(uri, mime, handler.getName())
 	}
 
-	fun store(destination: String): File? {
-		return FileUtils.createFile(
-				handler?.getInputStream() ?: return null,
-				destination
-		)
-	}
-
-	fun writeUriToFile(uri: Uri) {
-		FileUtils.writeUriToFIle(uri, file!!, context.get()!!)
+	fun writeUriToFile(uri: Uri, context: Context) {
+		FileUtils.writeUriToFIle(uri, file!!, context)
 	}
 }
