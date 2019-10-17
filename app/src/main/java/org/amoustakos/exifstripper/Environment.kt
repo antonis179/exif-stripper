@@ -7,8 +7,8 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
-import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.ExifFile
+import org.amoustakos.utils.android.kotlin.Do
 import timber.log.Timber
 
 class Environment (
@@ -26,7 +26,7 @@ class Environment (
     fun onGdprUpdate() {
         Do safe {
             initAnalytics()
-            initAds()
+            if (!BuildConfig.DEBUG)  initAds()
         }
     }
 

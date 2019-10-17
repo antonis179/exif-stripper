@@ -35,12 +35,12 @@ import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeAd
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifViewModel
 import org.amoustakos.exifstripper.usecases.exifremoval.views.ExifAttributeViewHolder
-import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.ExifFile
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 import org.amoustakos.exifstripper.view.recycler.Type
+import org.amoustakos.utils.android.kotlin.Do
 import org.amoustakos.utils.android.rx.disposer.disposeBy
 import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
