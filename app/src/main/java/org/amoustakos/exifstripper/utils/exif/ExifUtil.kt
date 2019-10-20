@@ -4,6 +4,14 @@ import androidx.exifinterface.media.ExifInterface
 
 object ExifUtil {
 
+	fun setAttribute(filename: String, tag: String, value: String?) {
+		ExifInterface(filename).apply {
+			setAttribute(tag, value)
+			saveAttributes()
+		}
+
+	}
+
 	fun removeAttribute(filename: String, tag: String) {
 		ExifInterface(filename).removeAttribute(tag)
 	}

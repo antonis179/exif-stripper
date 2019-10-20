@@ -6,6 +6,7 @@ import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.StatFs
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.crashlytics.android.Crashlytics
@@ -13,9 +14,7 @@ import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType.WILDCARD
 import timber.log.Timber
 import java.io.*
-import java.util.*
 import kotlin.experimental.and
-
 
 
 object FileUtils {
@@ -38,8 +37,6 @@ object FileUtils {
 
 		return builder.toString()
 	}
-
-	fun getLastModifiedFileDate(filePath: String) = Date(File(filePath).lastModified()).toString()
 
 	fun createFile(source: InputStream, destination: String): File? {
 		val destinationFile = File(destination)
@@ -87,7 +84,7 @@ object FileUtils {
 	fun renameFile(imageFile: File, name: String): File? {
 		try {
 			val dir = imageFile.parentFile
-			if (dir.exists()) {
+			if (dir?.exists() == true) {
 				val from = File(dir, imageFile.name)
 				val to = File(dir, name + getExtension(imageFile.path))
 				if (from.exists() && from.renameTo(to))
@@ -117,7 +114,28 @@ object FileUtils {
 		if (file.isFile)
 			file.delete()
 		else
-			file.listFiles().forEach { recursivelyDelete(it) }
+			file.listFiles()?.forEach { recursivelyDelete(it) }
+	}
+
+	fun makeDirectory(path: String): Boolean {
+		val directory = File(path)
+		return if (!directory.exists())
+			directory.mkdirs()
+		else
+			true
+	}
+
+	fun exists(path: String): Boolean = File(path).exists()
+
+	fun availableSpace(path: String, makeDirectory: Boolean = false): Long {
+		if (!exists(path)) {
+			if (!makeDirectory) return 0L
+			if (!makeDirectory(path)) return 0L
+		}
+		val stat = StatFs(path)
+		val blockSize = stat.blockSizeLong
+		val totalBlocks = stat.blockCountLong
+		return totalBlocks * blockSize
 	}
 
 	// =========================================================================================
@@ -188,47 +206,47 @@ object FileUtils {
 		return chooserIntent
 	}
 
-	fun getThumbnail(context: Context, uri: Uri, mimeType: String): Bitmap? {
-		if (!isMediaUri(uri)) {
-			Timber.w("You can only retrieve thumbnails for images and videos.")
-			return null
-		}
-
-		var bm: Bitmap? = null
-		val resolver = context.contentResolver
-		var cursor: Cursor? = null
-		try {
-			cursor = resolver.query(
-					uri,
-					null,
-					null,
-					null,
-					null
-			)
-			if (cursor != null && cursor.moveToFirst()) {
-				val id = cursor.getInt(0)
-
-				if (mimeType.contains("video")) {
-					bm = MediaStore.Video.Thumbnails.getThumbnail(
-							resolver,
-							id.toLong(),
-							MediaStore.Video.Thumbnails.MINI_KIND, null)
-				} else if (mimeType.contains(ContentType.Image.TYPE_GENERIC)) {
-					bm = MediaStore.Images.Thumbnails.getThumbnail(
-							resolver,
-							id.toLong(),
-							MediaStore.Images.Thumbnails.MINI_KIND, null)
-				}
-			}
-		} catch (e: Exception) {
-			Timber.e(e)
-		} finally {
-			cursor?.close()
-		}
-		return bm
-	}
-
-	fun isMediaUri(uri: Uri) = "media".equals(uri.authority, ignoreCase = true)
+//	fun getThumbnail(context: Context, uri: Uri, mimeType: String): Bitmap? {
+//		if (!isMediaUri(uri)) {
+//			Timber.w("You can only retrieve thumbnails for images and videos.")
+//			return null
+//		}
+//
+//		var bm: Bitmap? = null
+//		val resolver = context.contentResolver
+//		var cursor: Cursor? = null
+//		try {
+//			cursor = resolver.query(
+//					uri,
+//					null,
+//					null,
+//					null,
+//					null
+//			)
+//			if (cursor != null && cursor.moveToFirst()) {
+//				val id = cursor.getInt(0)
+//
+//				if (mimeType.contains("video")) {
+//					bm = MediaStore.Video.Thumbnails.getThumbnail(
+//							resolver,
+//							id.toLong(),
+//							MediaStore.Video.Thumbnails.MINI_KIND, null)
+//				} else if (mimeType.contains(ContentType.Image.TYPE_GENERIC)) {
+//					bm = MediaStore.Images.Thumbnails.getThumbnail(
+//							resolver,
+//							id.toLong(),
+//							MediaStore.Images.Thumbnails.MINI_KIND, null)
+//				}
+//			}
+//		} catch (e: Exception) {
+//			Timber.e(e)
+//		} finally {
+//			cursor?.close()
+//		}
+//		return bm
+//	}
+//
+//	fun isMediaUri(uri: Uri) = "media".equals(uri.authority, ignoreCase = true)
 
 	// =========================================================================================
 	// Bitwise operations

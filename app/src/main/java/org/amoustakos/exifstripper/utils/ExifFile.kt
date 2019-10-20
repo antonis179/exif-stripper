@@ -16,7 +16,7 @@ import org.amoustakos.exifstripper.utils.exif.ExifUtil
 import timber.log.Timber
 import java.io.File
 
-class ExifFile() : Parcelable {
+open class ExifFile() : Parcelable {
 
 	companion object {
 		private const val CACHE_FOLDER = "/exif_cache/"
@@ -156,6 +156,18 @@ class ExifFile() : Parcelable {
 		getPath(context)?.let {
 			try {
 				ExifUtil.removeAttribute(it, attribute)
+				exifAttributes = listOf()
+				loadExifAttributes(context)
+			} catch (e: Exception) {
+				Timber.e(e)
+			}
+		}
+	}
+
+	fun setAttribute(context: Context, attribute: String, value: String) {
+		getPath(context)?.let {
+			try {
+				ExifUtil.setAttribute(it, attribute, value)
 				exifAttributes = listOf()
 				loadExifAttributes(context)
 			} catch (e: Exception) {

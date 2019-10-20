@@ -26,7 +26,8 @@ class Environment (
     fun onGdprUpdate() {
         Do safe {
             initAnalytics()
-            if (!BuildConfig.DEBUG)  initAds()
+            if (!BuildConfig.DEBUG)
+	            initAds()
         }
     }
 

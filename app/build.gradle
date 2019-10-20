@@ -47,7 +47,6 @@ dependencies {
 	implementation libs_logging.values()
 
 	implementation libs_play_services.play_ads
-	implementation libs_firebase.firebase_ads
 
 	implementation libs_image.exif
 	implementation libs_image.glide
