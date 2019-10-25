@@ -3,7 +3,6 @@ package org.amoustakos.exifstripper.usecases.privacy
 import android.content.Context
 import com.crashlytics.android.Crashlytics
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.perf.FirebasePerformance
 import io.fabric.sdk.android.Fabric
 import org.amoustakos.exifstripper.BuildConfig
 
@@ -14,7 +13,7 @@ object AnalyticsUtil {
             return
 
         FirebaseAnalytics.getInstance(ctx).setAnalyticsCollectionEnabled(true)
-        FirebasePerformance.getInstance().isPerformanceCollectionEnabled = true
+//        FirebasePerformance.getInstance().isPerformanceCollectionEnabled = true
         Fabric.with(ctx, Crashlytics())
     }
 

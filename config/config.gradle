@@ -20,6 +20,7 @@ project.ext {
 			app_version      : 'app.version',
 			app_version_name : 'app.version.name',
 
+			appodeal_app_key : 'appodeal.appKey',
 			admob_publisher  : 'admob.publisher',
 			admob_banner     : 'admob.banner'
 	]
@@ -80,7 +81,16 @@ project.ext {
 	]
 
 	ads = [
-			getAdmobPublisher: {
+			getAppodealKey  : {
+				def props = project.ext.methods.getAds()
+				try {
+					return "${methods.getAttribute(props, "${key_config.appodeal_app_key}")}"
+				} catch (Exception ignored) {
+				}
+				return ""
+			},
+
+			getAdmobPublisher   : {
 				def props = project.ext.methods.getAds()
 				try {
 					return "${methods.getAttribute(props, "${key_config.admob_publisher}")}"
@@ -115,7 +125,10 @@ android {
 		//AdMob
 
 		resValue "string", "admob_publisher", ads.getAdmobPublisher()
-		resValue "string", "admob_footer_banner", ads.getAdmobBanner(1)
+//		resValue "string", "admob_footer_banner", ads.getAdmobBanner(1)
+
+		//Appodeal
+		resValue "string", "appodeal_app_key", ads.getAppodealKey()
 
 	}
 

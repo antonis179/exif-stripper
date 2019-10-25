@@ -10,12 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_main.*
+import com.appodeal.ads.Appodeal
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
-import org.amoustakos.exifstripper.utils.ads.AdMobAds
+import org.amoustakos.utils.android.kotlin.Do
 
 
 class MainActivity : BaseActivity() {
@@ -35,10 +35,26 @@ class MainActivity : BaseActivity() {
 			showPrivacySplash()
 			return
 		} else {
-			AdMobAds.loadAd(avFooterBanner)
+
+			Do safe {
+				Appodeal.initialize(
+						this,
+						getString(R.string.appodeal_app_key),
+						Appodeal.BANNER_VIEW,
+						GdprUtil.hasAcceptedTerms(this)
+				)
+				Appodeal.setBannerViewId(R.id.adFooterBanner)
+				Appodeal.show(this, Appodeal.BANNER_VIEW)
+			}
+
 		}
 
 		selectFragment(savedInstanceState)
+	}
+
+	override fun onResume() {
+		super.onResume()
+		Appodeal.onResume(this, Appodeal.BANNER_VIEW)
 	}
 
 	// =========================================================================================

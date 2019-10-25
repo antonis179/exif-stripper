@@ -2,7 +2,8 @@ package org.amoustakos.exifstripper
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.google.android.gms.ads.MobileAds
+import com.appodeal.ads.Appodeal
+import com.appodeal.ads.utils.Log
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
@@ -26,8 +27,7 @@ class Environment (
     fun onGdprUpdate() {
         Do safe {
             initAnalytics()
-            if (!BuildConfig.DEBUG)
-	            initAds()
+            initAds()
         }
     }
 
@@ -44,8 +44,11 @@ class Environment (
     }
 
     private fun initAds() {
-        if (GdprUtil.hasAcceptedTerms(context))
-            MobileAds.initialize(context) {}
+	    Appodeal.disableLocationPermissionCheck()
+	    Appodeal.disableWriteExternalStoragePermissionCheck()
+
+	    if (BuildConfig.DEBUG)
+		    Appodeal.setLogLevel(Log.LogLevel.verbose)
     }
 
     @SuppressLint("CheckResult")
