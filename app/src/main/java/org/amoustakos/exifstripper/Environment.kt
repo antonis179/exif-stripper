@@ -47,8 +47,12 @@ class Environment (
 	    Appodeal.disableLocationPermissionCheck()
 	    Appodeal.disableWriteExternalStoragePermissionCheck()
 
-	    if (BuildConfig.DEBUG)
+	    if (BuildConfig.DEBUG) {
 		    Appodeal.setLogLevel(Log.LogLevel.verbose)
+		    Appodeal.setTesting(true)
+	    }
+
+	    Appodeal.setAutoCache(Appodeal.BANNER_VIEW, true)
     }
 
     @SuppressLint("CheckResult")
