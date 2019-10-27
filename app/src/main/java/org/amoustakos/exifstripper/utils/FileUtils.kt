@@ -3,14 +3,10 @@ package org.amoustakos.exifstripper.utils
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-import android.database.Cursor
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.StatFs
-import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.crashlytics.android.Crashlytics
-import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType.WILDCARD
 import timber.log.Timber
 import java.io.*
@@ -191,7 +187,7 @@ object FileUtils {
 		// Only return URIs that can be opened with ContentResolver
 		sIntent.addCategory(Intent.CATEGORY_OPENABLE)
 		//Allow multiple files to be selected
-		sIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+		sIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
 
 		val chooserIntent: Intent
 		if (context.packageManager.resolveActivity(sIntent, 0) != null) {
