@@ -90,7 +90,6 @@ class ImageHandlingFragment : BaseFragment() {
 		super.onCreateOptionsMenu(menu, inflater)
 	}
 
-	//TODO: Move to view component
 	private fun toggleAppbar() {
 		if (viewModel.exifFile.value?.isLoaded != true) {
 			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
@@ -270,7 +269,7 @@ class ImageHandlingFragment : BaseFragment() {
 				//Write the file to the provided URI
 				Single.fromCallable {}
 						.observeOn(Schedulers.computation())
-						.map { context?.let { it1 -> viewModel.exifFile.value?.writeUriToFile(uri, it1) } }
+						.map { context?.let { it1 -> viewModel.exifFile.value?.writeToUri(uri, it1) } }
 						.observeOn(AndroidSchedulers.mainThread())
 						.doOnError {
 							Timber.e(it)

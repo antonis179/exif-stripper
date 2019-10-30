@@ -61,22 +61,6 @@ class MainActivity : BaseActivity() {
 	// Navigation
 	// =========================================================================================
 
-//	private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener {
-//		return@OnNavigationItemSelectedListener when (it.itemId) {
-//			R.id.navigation_home -> {
-//				loadFragment(ImageHandlingFragment(), null)
-//				true
-//			}
-//			R.id.navigation_dashboard -> {
-//				true
-//			}
-//			R.id.navigation_notifications -> {
-//				true
-//			}
-//			else -> false
-//		}
-//	}
-
 	private fun loadFragment(fragment: Fragment, tag: String?) {
 		val fragmentTransaction = supportFragmentManager.beginTransaction()
 		fragmentTransaction.replace(R.id.fl_container, fragment, tag)
@@ -112,15 +96,6 @@ class MainActivity : BaseActivity() {
 			loadFragment(ImageHandlingFragment.newInstance(uri), TAG_IMAGE_SELECTION)
 		}
 
-		//Bottom nav
-//		navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-//
-//		if (supportFragmentManager.fragments.size == 0) {
-//			val selId = navigation.selectedItemId
-//			mOnNavigationItemSelectedListener.onNavigationItemSelected(
-//					navigation.menu.findItem(selId)
-//			)
-//		}
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {

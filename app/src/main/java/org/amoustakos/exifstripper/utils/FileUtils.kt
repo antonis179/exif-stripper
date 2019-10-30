@@ -53,6 +53,9 @@ object FileUtils {
 					len = source.read(buf)
 				}
 				out.flush()
+				destinationFile.setReadable(true)
+				destinationFile.setWritable(true)
+				destinationFile.setExecutable(true)
 				return destinationFile
 			} catch (e: IOException) {
 				Timber.e(e)
@@ -157,6 +160,16 @@ object FileUtils {
 		return Intent.createChooser(intent, title)
 	}
 
+	fun shareMultipleFilesIntent(uris: ArrayList<Uri>, mime: String, title: String): Intent {
+		val intent = Intent()
+		intent.action = Intent.ACTION_SEND_MULTIPLE
+		intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris)
+		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+		intent.type = mime
+
+		return Intent.createChooser(intent, title)
+	}
+
 	fun saveFileIntent(uri: Uri, mime: String, filename: String? = null) = Intent().apply {
 		action = Intent.ACTION_CREATE_DOCUMENT
 		type = mime
@@ -201,48 +214,6 @@ object FileUtils {
 
 		return chooserIntent
 	}
-
-//	fun getThumbnail(context: Context, uri: Uri, mimeType: String): Bitmap? {
-//		if (!isMediaUri(uri)) {
-//			Timber.w("You can only retrieve thumbnails for images and videos.")
-//			return null
-//		}
-//
-//		var bm: Bitmap? = null
-//		val resolver = context.contentResolver
-//		var cursor: Cursor? = null
-//		try {
-//			cursor = resolver.query(
-//					uri,
-//					null,
-//					null,
-//					null,
-//					null
-//			)
-//			if (cursor != null && cursor.moveToFirst()) {
-//				val id = cursor.getInt(0)
-//
-//				if (mimeType.contains("video")) {
-//					bm = MediaStore.Video.Thumbnails.getThumbnail(
-//							resolver,
-//							id.toLong(),
-//							MediaStore.Video.Thumbnails.MINI_KIND, null)
-//				} else if (mimeType.contains(ContentType.Image.TYPE_GENERIC)) {
-//					bm = MediaStore.Images.Thumbnails.getThumbnail(
-//							resolver,
-//							id.toLong(),
-//							MediaStore.Images.Thumbnails.MINI_KIND, null)
-//				}
-//			}
-//		} catch (e: Exception) {
-//			Timber.e(e)
-//		} finally {
-//			cursor?.close()
-//		}
-//		return bm
-//	}
-//
-//	fun isMediaUri(uri: Uri) = "media".equals(uri.authority, ignoreCase = true)
 
 	// =========================================================================================
 	// Bitwise operations

@@ -112,8 +112,8 @@ open class ExifFile() : Parcelable {
 		return ResponseWrapper(LoadResult.Success)
 	}
 
-	private fun getHandler(context: Context) = getHandler(context, file!!.absolutePath)
-	private fun getHandler(context: Context, path: String) = SchemeHandlerFactory(context)[path]
+	protected fun getHandler(context: Context) = getHandler(context, file!!.absolutePath)
+	protected fun getHandler(context: Context, path: String) = SchemeHandlerFactory(context)[path]
 
 	fun reset() {
 		file = null
@@ -164,6 +164,17 @@ open class ExifFile() : Parcelable {
 		}
 	}
 
+	fun getAttribute(context: Context, attribute: String): String? {
+		return getPath(context)?.let {
+			try {
+				ExifUtil.getAttribute(it, attribute)
+			} catch (e: Exception) {
+				Timber.e(e)
+				null
+			}
+		}
+	}
+
 	fun setAttribute(context: Context, attribute: String, value: String) {
 		getPath(context)?.let {
 			try {
@@ -183,13 +194,17 @@ open class ExifFile() : Parcelable {
 	fun shareImage(title: String, context: Context) {
 		val handler = getHandler(context)
 		val mime = handler.getContentType()
-		val uri = FileProvider.getUriForFile(
+		val uri = getUri(context)
+		val intent = FileUtils.shareFileIntent(uri, mime, title)
+		context.startActivity(intent)
+	}
+
+	fun getUri(context: Context): Uri {
+		return FileProvider.getUriForFile(
 				context,
 				"${context.applicationContext.packageName}.$IMAGE_PROVIDER",
 				file!!
 		)
-		val intent = FileUtils.shareFileIntent(uri, mime, title)
-		context.startActivity(intent)
 	}
 
 	fun saveImageIntent(context: Context): Intent {
@@ -203,7 +218,7 @@ open class ExifFile() : Parcelable {
 		return FileUtils.saveFileIntent(uri, mime, handler.getName())
 	}
 
-	fun writeUriToFile(uri: Uri, context: Context) {
+	fun writeToUri(uri: Uri, context: Context) {
 		FileUtils.writeUriToFIle(uri, file!!, context)
 	}
 }

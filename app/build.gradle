@@ -50,7 +50,6 @@ dependencies {
 	implementation libs_ads.appodeal
 	implementation libs_ads.exoplayer_core
 	implementation libs_ads.exoplayer_hls
-//	implementation libs_remote_io.okhttp
 
 	implementation libs_image.exif
 	implementation libs_image.glide

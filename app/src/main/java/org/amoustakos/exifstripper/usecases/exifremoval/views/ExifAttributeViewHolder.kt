@@ -7,6 +7,7 @@ import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeView
 import org.amoustakos.exifstripper.view.recycler.BaseViewHolder
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
+import org.amoustakos.exifstripper.view.recycler.Type
 
 class ExifAttributeViewHolder(
 		parent: ViewGroup,
@@ -26,6 +27,15 @@ class ExifAttributeViewHolder(
 			publishers
 					.filter { it.id == DELETION_PUBLISHER_ID }
 					.forEach { it.publisher.onNext(ClickEvent(mItem!!)) }
+
+	override fun onClick() =
+			publishers
+					.filter {
+						it.type == Type.CLICK && it.id != DELETION_PUBLISHER_ID
+					}
+					.forEach {
+						it.publisher.onNext(ClickEvent(mItem!!))
+					}
 
 	override fun loadItem(item: ExifAttributeViewData) {
 		super.loadItem(item)
