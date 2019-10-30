@@ -15,7 +15,7 @@ import java.io.FileNotFoundException
 import java.io.InputStream
 import java.lang.ref.WeakReference
 
-internal class ContentSchemeHandler : SchemeHandler {
+class ContentSchemeHandler : SchemeHandler {
 
     private lateinit var uri: Uri
     private lateinit var context: WeakReference<Context>
