@@ -14,13 +14,12 @@ Photo Stripper can show you the metadata in your photos as well as delete them.
 
 <b>Current Features:
 </b>
-• Remove metadata from an image
+• Remove metadata from multiple images at once
 • Save or Share the stripped images
-• Share an image to the app directly from your gallery
+• Share images to the app directly from your gallery
 
 <b>Under development:
 </b>
-• Option to remove meta-data from multiple images at once
 • Option to monitor specific folders and automatically remove image meta-data as new images are taken
 
 If you have a feature idea you would like to see in the app please let me know.

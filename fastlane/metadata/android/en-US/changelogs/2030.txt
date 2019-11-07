@@ -1,2 +1,0 @@
-*Fixed single attribute removal to trigger properly by pressing 'X'
-*Fixed random reordering when removing an attribute
