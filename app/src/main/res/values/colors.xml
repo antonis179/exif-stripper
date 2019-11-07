@@ -28,6 +28,8 @@
 	<color name="gray_tr">#c8646464</color>
 	<color name="gray_light">#b9b9b9</color>
 
+	<!-- Image -->
+	<color name="indicator">@color/white</color>
 
 	<!-- Backgrounds -->
 	<color name="primaryBackground">#383838</color>

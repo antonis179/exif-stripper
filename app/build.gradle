@@ -42,6 +42,7 @@ dependencies {
 	implementation libs_play_services.play_gcm
 	implementation libs_firebase.crashlytics
 	implementation libs_firebase.firebase_core
+	implementation libs_firebase.firebaseAnalytics
 	implementation libs_logging.values()
 
 	//Ads
@@ -51,8 +52,7 @@ dependencies {
 	implementation libs_ads.exoplayer_core
 	implementation libs_ads.exoplayer_hls
 
-	implementation libs_image.exif
-	implementation libs_image.glide
+	implementation libs_image.values()
 
 	implementation libs_kotlin.values()
 	implementation libs_rx.values()

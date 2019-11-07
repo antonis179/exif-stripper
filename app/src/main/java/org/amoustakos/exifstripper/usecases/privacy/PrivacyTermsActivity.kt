@@ -33,7 +33,7 @@ class PrivacyTermsActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
-		title = intent.getStringExtra(KEY_TITLE)
+		title = intent.getStringExtra(KEY_TITLE) ?: run { finish(); return }
 		setupToolbar()
 		loadContent()
 	}

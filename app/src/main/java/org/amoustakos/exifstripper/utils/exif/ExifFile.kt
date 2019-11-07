@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.utils
+package org.amoustakos.exifstripper.utils.exif
 
 import android.content.Context
 import android.content.Intent
@@ -10,9 +10,7 @@ import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
-import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
-import org.amoustakos.exifstripper.utils.exif.Attributes
-import org.amoustakos.exifstripper.utils.exif.ExifUtil
+import org.amoustakos.exifstripper.utils.FileUtils
 import timber.log.Timber
 import java.io.File
 
@@ -50,15 +48,15 @@ open class ExifFile() : Parcelable {
 
 
 	private var file: File? = null
-	private var exifAttributes: List<ExifAttributeViewData> = ArrayList()
-	val exifAttributesSubject: PublishSubject<List<ExifAttributeViewData>> = PublishSubject.create()
+	private var exifAttributes: List<ExifAttributeData> = ArrayList()
+	val exifAttributesSubject: PublishSubject<List<ExifAttributeData>> = PublishSubject.create()
 
 	val isLoaded: Boolean
 		get() = file != null
 
 	constructor(parcel: Parcel) : this() {
 		file = parcel.readString()?.let { File(it) }
-		exifAttributes = parcel.createTypedArrayList(ExifAttributeViewData.CREATOR) ?: ArrayList()
+		exifAttributes = parcel.createTypedArrayList(ExifAttributeData) ?: ArrayList()
 	}
 
 	override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -131,7 +129,7 @@ open class ExifFile() : Parcelable {
 			try {
 				val attrMap = ExifUtil.getAttributes(it, Attributes())
 				exifAttributes = attrMap.map { entry ->
-					ExifAttributeViewData(entry.key, entry.value)
+					ExifAttributeData(entry.key, entry.value)
 				}
 				updateSubscribers()
 			} catch (e: Exception) {
@@ -221,4 +219,36 @@ open class ExifFile() : Parcelable {
 	fun writeToUri(uri: Uri, context: Context) {
 		FileUtils.writeUriToFIle(uri, file!!, context)
 	}
+}
+
+
+data class ExifAttributeData(
+		val title: String,
+		val value: String
+) : Parcelable {
+
+	constructor(parcel: Parcel) : this(
+			parcel.readString()!!,
+			parcel.readString()!!
+	)
+
+	override fun writeToParcel(parcel: Parcel, flags: Int) {
+		parcel.writeString(title)
+		parcel.writeString(value)
+	}
+
+	override fun describeContents(): Int {
+		return 0
+	}
+
+	companion object CREATOR : Parcelable.Creator<ExifAttributeData> {
+		override fun createFromParcel(parcel: Parcel): ExifAttributeData {
+			return ExifAttributeData(parcel)
+		}
+
+		override fun newArray(size: Int): Array<ExifAttributeData?> {
+			return arrayOfNulls(size)
+		}
+	}
+
 }

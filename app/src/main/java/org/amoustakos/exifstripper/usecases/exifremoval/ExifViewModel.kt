@@ -1,19 +1,24 @@
-package org.amoustakos.exifstripper.usecases.exifremoval.models
+package org.amoustakos.exifstripper.usecases.exifremoval
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import org.amoustakos.exifstripper.ui.dialogs.ErrorDialog
-import org.amoustakos.exifstripper.utils.ExifFile
+import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImageViewData
+import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 
 
 class ExifViewModel(private val state: SavedStateHandle) : ViewModel() {
 
-	var adapterData: MutableLiveData<MutableList<ExifAttributeViewData>>
+	var attrAdapterData: MutableLiveData<MutableList<ExifAttributeViewData>>
+		get() = state.getLiveData(KEY_ATTR_ADAPTER_DATA)
+		set(value) = state.set(KEY_ATTR_ADAPTER_DATA, value)
+
+	var adapterData: MutableLiveData<MutableList<ExifImageViewData>>
 		get() = state.getLiveData(KEY_ADAPTER_DATA)
 		set(value) = state.set(KEY_ADAPTER_DATA, value)
 
-	var exifFile: MutableLiveData<ExifFile?>
+	var exifFiles: MutableLiveData<MutableList<ExifRemovalFile>?>
 		get() = state.getLiveData(KEY_EXIF)
 		set(value) = state.set(KEY_EXIF, value)
 
@@ -21,6 +26,7 @@ class ExifViewModel(private val state: SavedStateHandle) : ViewModel() {
 
 	companion object {
 		private const val KEY_EXIF = "key_exif"
+		private const val KEY_ATTR_ADAPTER_DATA = "key_attr_adapter_data"
 		private const val KEY_ADAPTER_DATA = "key_adapter_data"
 	}
 

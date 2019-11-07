@@ -1,83 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/cl_content"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:background="@color/primaryBackground"
-	android:fitsSystemWindows="true">
+	android:layout_height="match_parent">
 
-	<com.google.android.material.appbar.AppBarLayout
+	<androidx.coordinatorlayout.widget.CoordinatorLayout
+		android:id="@+id/content"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:background="@color/primaryBackground"
-		app:elevation="0dp">
+		android:fitsSystemWindows="true">
 
-		<com.google.android.material.appbar.CollapsingToolbarLayout
-			android:id="@+id/ctToolbar"
+		<com.google.android.material.appbar.AppBarLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			app:elevation="0dp"
-			app:layout_scrollFlags="scroll|exitUntilCollapsed">
+			android:background="@color/primaryBackground"
+			app:elevation="0dp">
 
-			<LinearLayout
+			<com.google.android.material.appbar.CollapsingToolbarLayout
+				android:id="@+id/ctToolbar"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/margin_normal"
-				android:layout_marginTop="?attr/actionBarSize"
-				android:layout_marginEnd="@dimen/margin_normal"
-				android:orientation="vertical"
-				app:layout_collapseMode="parallax">
+				app:elevation="0dp"
+				app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-				<TextView
-					android:id="@+id/tv_select_image"
+				<androidx.constraintlayout.widget.ConstraintLayout
+					android:id="@+id/viewContent"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="@dimen/margin_normal"
-					android:gravity="center"
-					android:text="@string/select_image"
-					android:textAppearance="@style/Text.Bold.XLarge" />
+					android:layout_marginTop="?attr/actionBarSize"
+					android:orientation="vertical"
+					app:layout_collapseMode="parallax">
 
-				<ImageView
-					android:id="@+id/iv_preview"
-					android:layout_width="match_parent"
-					android:layout_height="@dimen/image_preview_height"
-					android:layout_marginBottom="@dimen/margin_normal"
-					android:contentDescription="@string/image_preview"
-					android:scaleType="fitCenter"
-					android:src="@drawable/ic_placeholder" />
+					<TextView
+						android:id="@+id/tvSelectImages"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="@dimen/margin_normal"
+						android:layout_marginEnd="@dimen/margin_normal"
+						android:layout_marginTop="@dimen/margin_large"
+						android:gravity="center"
+						android:text="@string/select_images"
+						android:textAppearance="@style/Text.Bold.XLarge"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toTopOf="parent" />
 
-			</LinearLayout>
+					<androidx.viewpager2.widget.ViewPager2
+						android:id="@+id/vpImageCollection"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="@dimen/margin_large"
+						app:layout_constraintEnd_toEndOf="parent"
+						app:layout_constraintHeight_max="@dimen/image_view_pager_max_height"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintTop_toBottomOf="@+id/tvSelectImages"
+						tools:layout_height="@dimen/image_view_pager_max_height" />
 
-			<include
-				layout="@layout/toolbar_image_handling"
-				app:layout_collapseMode="pin" />
+				</androidx.constraintlayout.widget.ConstraintLayout>
 
-		</com.google.android.material.appbar.CollapsingToolbarLayout>
+				<include
+					layout="@layout/toolbar_image_handling"
+					app:layout_collapseMode="pin" />
 
-		<com.google.android.material.button.MaterialButton
-			android:id="@+id/btn_remove_all"
-			style="@style/ButtonPrimary"
-			android:layout_margin="@dimen/margin_large"
-			android:text="@string/remove_all"
-			android:visibility="gone"
-			tools:visibility="visible" />
+			</com.google.android.material.appbar.CollapsingToolbarLayout>
 
-	</com.google.android.material.appbar.AppBarLayout>
+			<me.relex.circleindicator.CircleIndicator3
+				android:id="@+id/ciImageIndicator"
+				android:layout_width="match_parent"
+				android:layout_height="24dp"
+				android:layout_marginStart="@dimen/margin_normal"
+				android:layout_marginTop="@dimen/margin_normal"
+				android:layout_marginEnd="@dimen/margin_normal"
+				android:paddingStart="@dimen/margin_normal"
+				android:paddingEnd="@dimen/margin_normal"
+				app:ci_drawable="@drawable/selector_indicator"
+				app:ci_drawable_unselected="@drawable/selector_indicator_unselected"
+				app:ci_gravity="center"
+				app:ci_height="8dp"
+				app:ci_orientation="horizontal"
+				app:ci_width="8dp"/>
 
-	<androidx.recyclerview.widget.RecyclerView
-		android:id="@+id/rv_exif"
+			<com.google.android.material.button.MaterialButton
+				android:id="@+id/btn_remove_all"
+				style="@style/ButtonPrimary"
+				android:layout_margin="@dimen/margin_large"
+				android:text="@string/remove_all"
+				android:visibility="gone"
+				tools:visibility="visible" />
+
+		</com.google.android.material.appbar.AppBarLayout>
+
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/rv_exif"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/margin_normal"
+			android:layout_marginEnd="@dimen/margin_normal"
+			android:nestedScrollingEnabled="true"
+			android:orientation="vertical"
+			android:scrollbars="none"
+			app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior"
+			tools:listitem="@layout/row_exif_attribute" />
+
+	</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+	<include
+		android:id="@+id/viewEmpty"
+		layout="@layout/include_empty_screen"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/margin_normal"
-		android:layout_marginEnd="@dimen/margin_normal"
-		android:nestedScrollingEnabled="true"
-		android:orientation="vertical"
-		android:scrollbars="none"
-		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-		app:layout_behavior="@string/appbar_scrolling_view_behavior"
-		tools:listitem="@layout/row_exif_attribute" />
+		android:layout_height="match_parent"
+		android:visibility="gone" />
 
+	<FrameLayout
+		android:id="@+id/viewLoading"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:visibility="gone" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</FrameLayout>

@@ -2,7 +2,7 @@
 <resources>
 
 	<!-- App -->
-	<string name="app_name">Exif Stripper</string>
+	<string name="app_name">Photo Stripper</string>
 
 	<!-- Splash -->
 	<string name="title_activity_splash">@string/app_name</string>
@@ -12,7 +12,7 @@
 
 
 	<!-- Image -->
-	<string name="title_image_select">Select Image</string>
+	<string name="title_image_select">Select Photo</string>
 
 
 	<!-- Privacy/Terms -->

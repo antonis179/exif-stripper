@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.usecases.exifremoval.views
+package org.amoustakos.exifstripper.usecases.exifremoval.adapters
 
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.row_exif_attribute.view.*

@@ -42,7 +42,11 @@
 	<string name="share_with">Share with</string>
 	<string name="share">Share</string>
 	<string name="save">Save</string>
-	<string name="select_image">Click to select an image</string>
+	<string name="select_images">Click to select images</string>
+
+
+	<!-- Notifications -->
+	<string name="notif_stored">Image(s) stored in PhotoStripper under your pictures directory</string>
 
 
 	<!-- Errors -->

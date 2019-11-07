@@ -94,6 +94,7 @@ project.ext {
 			firebase_performance        : '19.0.0',
 //			firebase_cloud_messaging    : '17.3.4',
 			firebase_ads                : '18.2.0',
+			firebaseAnalytics           : '17.2.0',
 
 			//Job dispatcher
 //			job_dispatcher              : '0.8.6',
@@ -108,8 +109,10 @@ project.ext {
 			//Multidex
 //			multidex                    : '2.0.0',
 
+			circleindicator             : '2.1.4',
+
 			//Appodeal
-			appodeal                    : '2.5.9',
+			appodeal                    : '2.5.10',
 			exoplayer                   : '2.8.4'
 	]
 
@@ -155,6 +158,7 @@ project.ext {
 //			firebase_index      : "com.google.firebase:firebase-appindexing:${lib_versions.firebase_index}",
 
 			//Analytics
+			firebaseAnalytics   : "com.google.firebase:firebase-analytics:${lib_versions.firebaseAnalytics}",
 			firebase_core       : "com.google.firebase:firebase-core:${lib_versions.firebase_core}",
 			firebase_perf       : "com.google.firebase:firebase-perf:${lib_versions.firebase_performance}",
 			crashlytics         : "com.crashlytics.sdk.android:crashlytics:${lib_versions.crashlytics}",
@@ -196,7 +200,8 @@ project.ext {
 
 	libs_image = [
 			glide               : "com.github.bumptech.glide:glide:${lib_versions.glide}",
-			exif                : "androidx.exifinterface:exifinterface:${lib_versions.exif}"
+			exif                : "androidx.exifinterface:exifinterface:${lib_versions.exif}",
+			circleindicator     : "me.relex:circleindicator:${lib_versions.circleindicator}"
 	]
 
 	libs_logging = [

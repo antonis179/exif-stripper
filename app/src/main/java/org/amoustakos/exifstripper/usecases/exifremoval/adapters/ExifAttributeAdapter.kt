@@ -2,7 +2,6 @@ package org.amoustakos.exifstripper.usecases.exifremoval.adapters
 
 import android.view.ViewGroup
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
-import org.amoustakos.exifstripper.usecases.exifremoval.views.ExifAttributeViewHolder
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 import org.amoustakos.exifstripper.view.recycler.RecyclerAdapter
 

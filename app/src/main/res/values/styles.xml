@@ -52,4 +52,10 @@
 		<item name="android:textAllCaps">true</item>
 	</style>
 
+	<style name="FabImageSelection" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+		<item name="backgroundTint">@color/primaryBtnAction</item>
+		<item name="iconTint">@color/white</item>
+		<item name="android:textColor">@color/primaryCTAText</item>
+	</style>
+
 </resources>

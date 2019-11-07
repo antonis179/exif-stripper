@@ -5,13 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
+import org.amoustakos.exifstripper.BuildConfig
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
@@ -35,18 +36,18 @@ class MainActivity : BaseActivity() {
 			showPrivacySplash()
 			return
 		} else {
-
-			Do safe {
-				Appodeal.initialize(
-						this,
-						getString(R.string.appodeal_app_key),
-						Appodeal.BANNER_VIEW,
-						GdprUtil.hasAcceptedTerms(this)
-				)
-				Appodeal.setBannerViewId(R.id.adFooterBanner)
-				Appodeal.show(this, Appodeal.BANNER_VIEW)
+			if (!BuildConfig.DEBUG) {
+				Do safe {
+					Appodeal.initialize(
+							this,
+							getString(R.string.appodeal_app_key),
+							Appodeal.BANNER_VIEW,
+							GdprUtil.hasAcceptedTerms(this)
+					)
+					Appodeal.setBannerViewId(R.id.adFooterBanner)
+					Appodeal.show(this, Appodeal.BANNER_VIEW)
+				}
 			}
-
 		}
 
 		selectFragment(savedInstanceState)
@@ -84,16 +85,25 @@ class MainActivity : BaseActivity() {
 	private fun selectFragment(savedInstanceState: Bundle?) {
 
 		if (savedInstanceState == null) {
-			val uri: Uri? = when {
+			val uris: List<Uri>? = when {
+
 				intent?.action == Intent.ACTION_SEND -> {
-					if (intent.type?.startsWith("image/") == true) {
-						intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri
+					if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
+						val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+						uri?.let { listOf(it) }
 					} else null
 				}
+
+				intent?.action == Intent.ACTION_SEND_MULTIPLE -> {
+					if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
+						intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
+					} else null
+				}
+
 				else -> null
 			}
 
-			loadFragment(ImageHandlingFragment.newInstance(uri), TAG_IMAGE_SELECTION)
+			loadFragment(ImageHandlingFragment.newInstance(uris), TAG_IMAGE_SELECTION)
 		}
 
 	}

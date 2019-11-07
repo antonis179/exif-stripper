@@ -182,12 +182,17 @@ object FileUtils {
 	fun createGetContentIntent(
 			context: Context,
 			type: String = WILDCARD,
+			extraTypes: Array<String>? = null,
 			title: String,
 			allowMultiple: Boolean = false
 	): Intent {
 		//Document picker intent
 		val intent = Intent(Intent.ACTION_GET_CONTENT)
 		intent.type = type
+		//extra types
+		if (extraTypes != null) {
+			intent.putExtra(Intent.EXTRA_MIME_TYPES, extraTypes)
+		}
 		//Allow multiple files to be selected
 		intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, allowMultiple)
 		// Only return URIs that can be opened with ContentResolver

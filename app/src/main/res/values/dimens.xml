@@ -21,11 +21,6 @@
 	<dimen name="card_image_button_size">60dp</dimen>
 	<dimen name="card_height">80dp</dimen>
 
-
-	<!-- Images -->
-	<dimen name="image_preview_height">300dp</dimen>
-
-
 	<!-- Font sizes -->
 	<dimen name="text_xxsmall">8sp</dimen>
 	<dimen name="text_xsmall">10sp</dimen>
@@ -37,5 +32,8 @@
 
 	<!-- Recyclers -->
 	<dimen name="card_exif_attribute_height">65dp</dimen>
+
+	<!-- View Pagers -->
+	<dimen name="image_view_pager_max_height">350dp</dimen>
 
 </resources>

@@ -1,4 +1,4 @@
-package org.amoustakos.exifstripper.usecases.exifremoval
+package org.amoustakos.exifstripper.usecases.exifremoval.views
 
 import android.app.Activity
 import android.view.View
