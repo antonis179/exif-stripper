@@ -10,7 +10,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
-import org.amoustakos.exifstripper.BuildConfig
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
@@ -36,17 +35,15 @@ class MainActivity : BaseActivity() {
 			showPrivacySplash()
 			return
 		} else {
-			if (!BuildConfig.DEBUG) {
-				Do safe {
-					Appodeal.initialize(
-							this,
-							getString(R.string.appodeal_app_key),
-							Appodeal.BANNER_VIEW,
-							GdprUtil.hasAcceptedTerms(this)
-					)
-					Appodeal.setBannerViewId(R.id.adFooterBanner)
-					Appodeal.show(this, Appodeal.BANNER_VIEW)
-				}
+			Do safe {
+				Appodeal.initialize(
+						this,
+						getString(R.string.appodeal_app_key),
+						Appodeal.BANNER_VIEW,
+						GdprUtil.hasAcceptedTerms(this)
+				)
+				Appodeal.setBannerViewId(R.id.adFooterBanner)
+				Appodeal.show(this, Appodeal.BANNER_VIEW)
 			}
 		}
 

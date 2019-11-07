@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="primary">#F6AA1C</color>
-	<color name="primaryDark">#220901</color>
-	<color name="accent">#BC3908</color>
+	<color name="primary">#BC5F04</color>
+	<color name="primaryDark">#2B0504</color>
+	<color name="accent">#F4442E</color>
 
-	<color name="secondary">#941B0C</color>
-	<color name="secondaryDark">#621708</color>
-
+	<color name="secondary">#B32F20</color>
+	<color name="secondaryDark">#691B13</color>
 
 	<color name="transparent">#00000000</color>
 
 	<!-- CTA -->
 	<color name="primaryCTAText">@color/textWhite</color>
-	<color name="primaryBtnAction">@color/accent</color>
-	<color name="secondaryToolbarAction">#2E0904</color>
+	<color name="primaryBtnAction">@color/secondary</color>
+	<color name="secondaryToolbarAction">#FFFFFF</color>
 	<color name="secondaryBtnAction">@color/gray</color>
 
 	<!-- Text -->
