@@ -5,27 +5,14 @@
 
 	<string name="toast_back_to_exit">Click back once again to exit</string>
 
-	<!-- Notifications -->
-
-	<string name="notif_default_channel_id">General</string>
-
-
-	<!-- Navigation -->
-
-	<string name="title_home">Home</string>
-	<string name="title_dashboard">Dashboard</string>
-	<string name="title_notifications">Notifications</string>
-
 	<!-- Toolbar -->
 
 	<string name="menu_exit">Exit</string>
 	<string name="menu_policy">Privacy Policy</string>
 	<string name="menu_toc">Terms and Conditions</string>
 
-
 	<!-- Layout resources -->
 
-	<string name="image_preview">Image preview</string>
 	<string name="label_terms">By continuing you agree to the terms and conditions.
 		Make sure you have read and understand both the terms and conditions and the privacy policy.
 		\n\n
