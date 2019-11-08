@@ -82,12 +82,12 @@ class MainActivity : BaseActivity() {
 	private fun selectFragment(savedInstanceState: Bundle?) {
 
 		if (savedInstanceState == null) {
-			val uris: List<Uri>? = when {
+			val uris: ArrayList<Uri>? = when {
 
 				intent?.action == Intent.ACTION_SEND -> {
 					if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
 						val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-						uri?.let { listOf(it) }
+						uri?.let { arrayListOf(it) }
 					} else null
 				}
 

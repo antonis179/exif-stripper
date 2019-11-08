@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
@@ -502,12 +501,12 @@ class ImageHandlingFragment : BaseFragment() {
 		private const val KEY_URI = "key_uri"
 
 
-		fun newInstance(uris: List<Uri>? = null): ImageHandlingFragment {
+		fun newInstance(uris: ArrayList<Uri>? = null): ImageHandlingFragment {
 			val frag = ImageHandlingFragment()
 
 			uris?.let {
 				val bundle = Bundle()
-				bundle.putParcelableArrayList(KEY_URI, it as java.util.ArrayList<out Parcelable>)
+				bundle.putParcelableArrayList(KEY_URI, it)
 				frag.arguments = bundle
 			}
 

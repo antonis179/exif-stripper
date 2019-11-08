@@ -61,7 +61,7 @@ class PrivacyTermsActivity : BaseActivity() {
 		Single.fromCallable { }
 				.observeOn(Schedulers.io())
 				.doOnSuccess {
-					content = FileUtils.readStream(FileUtils.readAsset(this, contentLocation))
+					content = FileUtils.readStream(FileUtils.readAsset(this, contentLocation!!))
 				}
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnSuccess {
@@ -100,6 +100,7 @@ class PrivacyTermsActivity : BaseActivity() {
 					.putExtra(KEY_CONTENT, PRIVACY_POLICY)
 		}
 
+		@Suppress("DEPRECATION")
 		private fun fromHtml(source: String): Spanned {
 			return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
 				Html.fromHtml(source, Html.FROM_HTML_MODE_LEGACY)
