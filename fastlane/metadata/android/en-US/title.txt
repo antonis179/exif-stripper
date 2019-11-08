@@ -1,1 +1,1 @@
-Photo Stripper - Protect your privacy!
+Photo Stripper - Remove exif metadata
