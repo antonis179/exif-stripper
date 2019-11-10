@@ -11,9 +11,10 @@
 
 	<!-- CTA -->
 	<color name="primaryCTAText">@color/textWhite</color>
+	<color name="secondaryCTAText">@color/textWhite</color>
 	<color name="primaryBtnAction">@color/secondary</color>
 	<color name="secondaryToolbarAction">#FFFFFF</color>
-	<color name="secondaryBtnAction">@color/gray</color>
+	<color name="secondaryBtnAction">@color/primary</color>
 
 	<!-- Text -->
 	<color name="textWhite">#ffffff</color>
@@ -31,9 +32,14 @@
 	<color name="indicator">@color/white</color>
 
 	<!-- Backgrounds -->
-	<color name="primaryBackground">#383838</color>
+	<color name="primaryBackground">#313131</color>
 
 	<!-- System -->
 	<color name="splashStatusBarBG">#A3351C1C</color>
+
+	<!-- Navigation -->
+	<color name="navHeaderStartColor">@color/primary</color>
+	<color name="navHeaderCenterColor">#8D4404</color>
+	<color name="navHeaderEndColor">@color/primaryDark</color>
 
 </resources>

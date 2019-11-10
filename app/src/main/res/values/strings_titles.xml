@@ -10,9 +10,11 @@
 	<!-- Home -->
 	<string name="title_activity_main">@string/app_name</string>
 
-
 	<!-- Image -->
 	<string name="title_image_select">Select Photo</string>
+
+	<!-- Donations -->
+	<string name="title_activity_donations">Donate</string>
 
 
 	<!-- Privacy/Terms -->

@@ -2,17 +2,22 @@ package org.amoustakos.exifstripper.usecases.home
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
+import kotlinx.android.synthetic.main.activity_main.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
+import org.amoustakos.exifstripper.usecases.donations.DonationsActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.utils.android.kotlin.Do
@@ -21,6 +26,7 @@ import org.amoustakos.utils.android.kotlin.Do
 class MainActivity : BaseActivity() {
 
 	private var isDoubleBackToExitPressedOnce = false
+	private var drawerToggle: ActionBarDrawerToggle? = null
 
 	// =========================================================================================
 	// View
@@ -55,9 +61,44 @@ class MainActivity : BaseActivity() {
 		Appodeal.onResume(this, Appodeal.BANNER_VIEW)
 	}
 
+	override fun onResumeFragments() {
+		super.onResumeFragments()
+		setupNavView()
+	}
+
 	// =========================================================================================
 	// Navigation
 	// =========================================================================================
+
+	private fun setupNavView() {
+		drawerToggle = ActionBarDrawerToggle(
+				this,
+				navDrawer,
+				R.string.navigation_drawer_open,
+				R.string.navigation_drawer_close
+		)
+
+		navView.setNavigationItemSelectedListener { item ->
+			when (item.itemId) {
+				R.id.nav_donations -> {
+					startActivity(Intent(this, DonationsActivity::class.java))
+					if (isDrawerOpen()) closeDrawer()
+					false
+				}
+				else -> true
+			}
+		}
+
+		drawerToggle?.isDrawerIndicatorEnabled = true
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+		navDrawer.postDelayed({ drawerToggle?.syncState() }, 250 )
+	}
+
+	override fun onConfigurationChanged(newConfig: Configuration) {
+		super.onConfigurationChanged(newConfig)
+		drawerToggle?.onConfigurationChanged(newConfig)
+	}
 
 	private fun loadFragment(fragment: Fragment, tag: String?) {
 		val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -66,6 +107,10 @@ class MainActivity : BaseActivity() {
 	}
 
 	override fun onBackPressed() {
+		if (isDrawerOpen()) {
+			closeDrawer()
+			return
+		}
 		if (isDoubleBackToExitPressedOnce) {
 			super.onBackPressed()
 			return
@@ -74,6 +119,16 @@ class MainActivity : BaseActivity() {
 		Toast.makeText(this, getString(R.string.toast_back_to_exit), Toast.LENGTH_SHORT).show()
 		Handler().postDelayed({ isDoubleBackToExitPressedOnce = false }, 2000)
 	}
+
+	private fun closeDrawer() {
+		navDrawer.closeDrawer(GravityCompat.START)
+	}
+
+	private fun openDrawer() {
+		navDrawer.openDrawer(GravityCompat.START)
+	}
+
+	private fun isDrawerOpen() = navDrawer.isDrawerOpen(GravityCompat.START)
 
 	// =========================================================================================
 	// Menu
@@ -115,6 +170,7 @@ class MainActivity : BaseActivity() {
 			R.id.toolbar_policy -> showPrivacyPolicy()
 			R.id.toolbar_toc    -> showTerms()
 			R.id.toolbar_exit   -> finish()
+			android.R.id.home -> openDrawer()
 			else                -> return super.onOptionsItemSelected(item)
 		}
 

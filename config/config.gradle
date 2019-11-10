@@ -22,7 +22,8 @@ project.ext {
 
 			appodeal_app_key : 'appodeal.appKey',
 			admob_publisher  : 'admob.publisher',
-			admob_banner     : 'admob.banner'
+			admob_banner     : 'admob.banner',
+			admob_rewarded   : 'admob.rewarded'
 	]
 
 	methods = [
@@ -106,6 +107,15 @@ project.ext {
 				} catch (Exception ignored) {
 				}
 				return ""
+			},
+
+			getAdmobRewarded : { String rewardedNumber ->
+				def props = project.ext.methods.getAds()
+				try {
+					return "${methods.getAttribute(props, "${key_config.admob_rewarded}.$rewardedNumber")}"
+				} catch (Exception ignored) {
+				}
+				return ""
 			}
 	]
 }
@@ -163,6 +173,8 @@ android {
 		debug {
 			debuggable true
 			signingConfig signingConfigs.debug
+
+			resValue "string", "admob_rewarded", ads.getAdmobRewarded("test")
 		}
 		release {
 			debuggable false
@@ -173,6 +185,8 @@ android {
 			signingConfig signingConfigs.release
 			proguardFiles getDefaultProguardFile('proguard-android.txt'),
 					"$project.rootDir/config/proguard-rules.pro"
+
+			resValue "string", "admob_rewarded", ads.getAdmobRewarded("1")
 		}
 	}
 

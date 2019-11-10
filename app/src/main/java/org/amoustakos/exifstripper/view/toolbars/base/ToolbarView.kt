@@ -10,6 +10,7 @@ interface ToolbarView {
 
 	fun setAsActionbar(activity: AppCompatActivity)
 	fun toggleBackButton(enabled: Boolean)
+	fun showHome(enabled: Boolean)
 
 	fun setTitle(title: String)
 	fun setTitle(title: CharSequence)

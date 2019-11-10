@@ -36,4 +36,7 @@
 	<!-- View Pagers -->
 	<dimen name="image_view_pager_max_height">350dp</dimen>
 
+	<!-- Donations -->
+	<dimen name="donationCardMaxWidth">450dp</dimen>
+
 </resources>

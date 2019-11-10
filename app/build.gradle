@@ -38,6 +38,7 @@ dependencies {
 	implementation libs_support.lifecycle_extensions
 	implementation libs_support.lifecycle_view_model_state
 	implementation libs_support.constraint_layout
+	implementation libs_support.play_billing
 
 	implementation libs_play_services.play_gcm
 	implementation libs_firebase.crashlytics

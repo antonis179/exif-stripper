@@ -35,6 +35,9 @@ open class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarVie
 
 	override fun toggleBackButton(enabled: Boolean) {
 		activity.get()?.supportActionBar?.setDisplayHomeAsUpEnabled(enabled)
+	}
+
+	override fun showHome(enabled: Boolean) {
 		activity.get()?.supportActionBar?.setDisplayShowHomeEnabled(enabled)
 	}
 

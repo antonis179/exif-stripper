@@ -1,11 +1,12 @@
 -keepattributes SourceFile, LineNumberTable, *Annotation*, EnclosingMethod
+-keep public class * extends java.lang.Exception
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #-optimizations code/removal/simple, code/removal/advanced, class/unboxing/enum
 -optimizationpasses 3
--dontobfuscate
+#-dontobfuscate
 #-dontwarn **
 -dontnote **
 #-ignorewarnings
@@ -54,3 +55,5 @@
 ### Kotlin
 -dontwarn kotlin.reflect.jvm.**
 -keep class kotlin.jvm.internal.**
+
+-keep class com.android.vending.billing.**

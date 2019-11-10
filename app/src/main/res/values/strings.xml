@@ -21,6 +21,8 @@
 	<string name="label_toc">Terms and Conditions</string>
 	<string name="label_privacy_policy">Privacy Policy</string>
 	<string name="label_accept">Accept</string>
+	<string name="title_donation"><b>This application is open source and free and will always remain free!</b> \n\nIf my work helped you please consider donating by watching an ad or making an in-app purchase below (developers need pizza too!)</string>
+	<string name="label_donation_reward_text">You rock!!! Thank you for your support!</string>
 
 
 	<!-- Button resources -->
@@ -30,10 +32,19 @@
 	<string name="share">Share</string>
 	<string name="save">Save</string>
 	<string name="select_images">Click to select images</string>
+	<string name="watch_ad">Watch an Ad</string>
 
 
 	<!-- Notifications -->
 	<string name="notif_stored">Image(s) stored in PhotoStripper under your pictures directory</string>
+
+	<!-- Navigation -->
+
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+	<string name="nav_header_desc">Navigation header</string>
+
+	<string name="menu_donations">Donations</string>
 
 
 	<!-- Errors -->

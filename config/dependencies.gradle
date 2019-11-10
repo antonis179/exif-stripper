@@ -64,6 +64,7 @@ project.ext {
 			lifecycle_view_model_state  : '1.0.0-rc02',
 			androidx_ktx                : '1.1.0',
 			preferences                 : '1.1.0',
+			play_billing                : '2.0.3',
 
 			//Annotation processors - injection - RX
 //			dagger                      : '2.20',
@@ -79,7 +80,7 @@ project.ext {
 			//Net
 //			retrofit                    : '2.5.0',
 //			gson                        : '2.8.5',
-			okhttp                      : '3.12.1',
+			okhttp                      : '4.2.0',
 
 			//Logging
 			timber                      : '4.7.1',
@@ -145,6 +146,8 @@ project.ext {
 			cardview_v7         : "androidx.cardview:cardview:${lib_versions.support}",
 			support_design      : "com.google.android.material:material:${lib_versions.support_design}",
 			constraint_layout   : "androidx.constraintlayout:constraintlayout:${lib_versions.constraint_layout}",
+			preferences         : "androidx.preference:preference:${lib_versions.preferences}",
+			play_billing        : "com.android.billingclient:billing:${lib_versions.play_billing}"
 	]
 
 	libs_play_services = [
