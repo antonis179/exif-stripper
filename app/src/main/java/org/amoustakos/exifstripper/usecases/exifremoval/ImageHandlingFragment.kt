@@ -359,16 +359,16 @@ class ImageHandlingFragment : BaseFragment() {
 						it.map { exifData -> ExifAttributeViewData(exifData.title, exifData.value) }
 					}
 					.observeOn(AndroidSchedulers.mainThread())
-					.doOnNext {
-						refreshAttributeAdapter(it)
-					}
+					.doOnError(Timber::e)
+					.onErrorReturn { mutableListOf() }
+					.doOnNext { refreshAttributeAdapter(it)	}
 					.doOnNext { refreshUI() }
 					.doOnError(Timber::e)
 					.onErrorReturn { mutableListOf() }
 					.disposeBy(lifecycle.onDestroy)
 					.subscribe()
 
-			context?.let { image.loadExifAttributes(it) }
+			context?.let { if (image.isLoaded) image.loadExifAttributes(it) }
 		}, {
 			Timber.e(it)
 			Crashlytics.logException(it)
