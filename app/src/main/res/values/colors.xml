@@ -14,7 +14,8 @@
 	<color name="secondaryCTAText">@color/textWhite</color>
 	<color name="primaryBtnAction">@color/secondary</color>
 	<color name="secondaryToolbarAction">#FFFFFF</color>
-	<color name="secondaryBtnAction">@color/primary</color>
+	<color name="secondaryBtnAction">@color/gray</color>
+	<color name="adBtnAction">@color/primary</color>
 
 	<!-- Text -->
 	<color name="textWhite">#ffffff</color>

@@ -55,4 +55,10 @@
 	<string name="error_msg_storage_issue">Could not store the file</string>
 
 
+	<!-- Donations -->
+	<string name="donation_1_title">Coffee</string>
+	<string name="donation_3_title">Beer</string>
+	<string name="donation_5_title">Pizza</string>
+
+
 </resources>

@@ -13,7 +13,6 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_donations.*
-import org.amoustakos.exifstripper.BuildConfig
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationViewData
@@ -27,6 +26,9 @@ import org.amoustakos.utils.android.rx.disposer.disposeBy
 import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
 
+/*
+ * WIP
+ */
 class DonationsActivity : BaseActivity() {
 
 	private val toolbar = BasicToolbar(R.id.toolbar)
@@ -123,7 +125,7 @@ class DonationsActivity : BaseActivity() {
 		val viewData = skuDetailsList.mapIndexed { index, sku ->
 			DonationViewData(
 					index,
-					sku.title,
+					BillingUtil.getTitleForId(sku.sku, this),
 					sku.description,
 					sku.price
 			)
@@ -157,13 +159,7 @@ class DonationsActivity : BaseActivity() {
 	}
 
 
-	private fun getDonationIds(): List<String> {
-		return if (BuildConfig.DEBUG) {
-			listOf("android.test.purchased", "android.test.canceled", "android.test.item_unavailable")
-		} else {
-			listOf("donation_1", "donation_3", "donation_5")
-		}
-	}
+	private fun getDonationIds() = BillingUtil.playIds
 
 
 	private fun makeAndLoadRewardedAd() {

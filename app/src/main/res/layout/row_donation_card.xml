@@ -1,61 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	style="@style/Card.Large"
 	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	style="@style/Card.Large">
+	android:layout_height="wrap_content">
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_margin="@dimen/margin_normal">
 
-
 		<TextView
 			android:id="@+id/tvTitle"
-			style="@style/Text.Bold.Large"
-			android:gravity="start"
+			style="@style/Text.Bold.XLarge"
 			android:layout_width="0dp"
 			android:layout_height="wrap_content"
-			android:maxLines="1"
+			android:layout_marginEnd="@dimen/margin_normal"
 			android:ellipsize="end"
-			android:layout_marginEnd="@dimen/margin_large"
-			tools:text="Title"
+			android:gravity="start"
+			android:maxLines="3"
+			app:layout_constraintEnd_toEndOf="parent"
 			app:layout_constraintStart_toStartOf="parent"
 			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintEnd_toStartOf="@id/btnBuy"
-			/>
+			tools:text="Title" />
 
 
 		<TextView
 			android:id="@+id/tvDescription"
 			style="@style/Text.Regular"
-			android:gravity="start"
 			android:layout_width="0dp"
-			android:layout_height="wrap_content"
-			android:lines="2"
-			android:maxLines="3"
-			android:layout_marginTop="@dimen/margin_large"
+			android:layout_height="0dp"
 			android:layout_marginEnd="@dimen/margin_large"
-			android:layout_marginBottom="@dimen/margin_normal"
-			tools:text="Description"
-			app:layout_constraintStart_toStartOf="parent"
-			app:layout_constraintTop_toBottomOf="@id/tvTitle"
+			android:gravity="start|center_vertical"
+			android:maxLines="3"
+			app:layout_constraintBottom_toBottomOf="@id/btnBuy"
 			app:layout_constraintEnd_toStartOf="@id/btnBuy"
-			app:layout_constraintBottom_toBottomOf="parent"
-			/>
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="@id/btnBuy"
+			tools:text="Description" />
 
 		<Button
 			android:id="@+id/btnBuy"
 			style="@style/ButtonPrimary"
 			android:layout_width="110dp"
+			android:layout_marginTop="@dimen/margin_large"
 			android:layout_marginEnd="@dimen/margin_normal"
-			tools:text="Buy"
+			app:layout_constraintBottom_toBottomOf="parent"
 			app:layout_constraintEnd_toEndOf="parent"
-			app:layout_constraintTop_toTopOf="parent"
-			app:layout_constraintBottom_toBottomOf="parent" />
+			app:layout_constraintTop_toBottomOf="@id/tvTitle"
+			tools:text="Buy" />
 
 	</androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -41,10 +41,22 @@
 	</style>
 
 	<style name="ButtonSecondary" parent="android:Widget.ActionButton">
-		<item name="android:layout_width">100dp</item>
-		<item name="android:layout_height">55dp</item>
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">50dp</item>
 		<item name="android:background">@color/secondaryBtnAction</item>
 		<item name="backgroundTint">@color/secondaryBtnAction</item>
+		<item name="android:textColor">@color/primaryCTAText</item>
+		<item name="rippleColor">@color/primary</item>
+		<item name="android:textSize">14sp</item>
+		<item name="elevation">2dp</item>
+		<item name="android:textAllCaps">true</item>
+	</style>
+
+	<style name="ButtonAd" parent="android:Widget.ActionButton">
+		<item name="android:layout_width">wrap_content</item>
+		<item name="android:layout_height">55dp</item>
+		<item name="android:background">@color/adBtnAction</item>
+		<item name="backgroundTint">@color/adBtnAction</item>
 		<item name="android:textColor">@color/secondaryCTAText</item>
 		<item name="rippleColor">@color/gray</item>
 		<item name="android:textSize">16sp</item>
