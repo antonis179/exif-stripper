@@ -21,7 +21,9 @@ platform :android do
   before_all do
     ensure_git_status_clean
     flavor = ENV['FLAVOR']
+#    mapping_path = app/build/outputs/mapping/release/mapping.txt
     supplyOptions[:metadata_path] = ENV["METADATA_PATH"]
+#    supplyOptions[:mapping] = mapping_path
   end
 
   desc "Submit [flavor_env] build to Alpha. Usage fastlane alpha --env [flavor_env]"

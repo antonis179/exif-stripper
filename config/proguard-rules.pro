@@ -6,7 +6,7 @@
 #-renamesourcefileattribute SourceFile
 #-optimizations code/removal/simple, code/removal/advanced, class/unboxing/enum
 -optimizationpasses 3
-#-dontobfuscate
+-dontobfuscate
 #-dontwarn **
 -dontnote **
 #-ignorewarnings
