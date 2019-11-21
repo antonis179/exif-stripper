@@ -1,3 +1,0 @@
-* New feature: Multiple image attribute removal and save/share
-* UI changes
-* Minor bug fixes / improvements
