@@ -45,6 +45,7 @@ platform :android do
   lane :beta do |options|
     validate(options)
     supplyOptions[:skip_upload_apk] = true
+    supplyOptions[:skip_upload_changelogs] = true
     supplyOptions[:track] = 'alpha'
     supplyOptions[:track_promote_to] = 'beta'
     supply(supplyOptions)
@@ -54,6 +55,7 @@ platform :android do
   lane :release_10 do |options|
     validate(options)
     supplyOptions[:skip_upload_apk] = true
+    supplyOptions[:skip_upload_changelogs] = true
     supplyOptions[:track] = 'beta'
     supplyOptions[:track_promote_to] = 'rollout'
     supplyOptions[:rollout] = '0.1'
@@ -64,6 +66,7 @@ platform :android do
     lane :release do |options|
       validate(options)
       supplyOptions[:skip_upload_apk] = true
+      supplyOptions[:skip_upload_changelogs] = true
       supplyOptions[:track] = 'beta'
       supplyOptions[:track_promote_to] = 'production'
       supply(supplyOptions)
