@@ -38,8 +38,8 @@
 						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:layout_marginStart="@dimen/margin_normal"
-						android:layout_marginEnd="@dimen/margin_normal"
 						android:layout_marginTop="@dimen/margin_large"
+						android:layout_marginEnd="@dimen/margin_normal"
 						android:gravity="center"
 						android:text="@string/select_images"
 						android:textAppearance="@style/Text.Bold.XLarge"
@@ -66,29 +66,44 @@
 
 			</com.google.android.material.appbar.CollapsingToolbarLayout>
 
-			<me.relex.circleindicator.CircleIndicator3
-				android:id="@+id/ciImageIndicator"
+			<androidx.constraintlayout.widget.ConstraintLayout
 				android:layout_width="match_parent"
-				android:layout_height="24dp"
+				android:layout_height="wrap_content"
 				android:layout_marginStart="@dimen/margin_normal"
 				android:layout_marginTop="@dimen/margin_normal"
-				android:layout_marginEnd="@dimen/margin_normal"
-				android:paddingStart="@dimen/margin_normal"
-				android:paddingEnd="@dimen/margin_normal"
-				app:ci_drawable="@drawable/selector_indicator"
-				app:ci_drawable_unselected="@drawable/selector_indicator_unselected"
-				app:ci_gravity="center"
-				app:ci_height="8dp"
-				app:ci_orientation="horizontal"
-				app:ci_width="8dp"/>
+				android:layout_marginEnd="@dimen/margin_normal">
 
-			<com.google.android.material.button.MaterialButton
-				android:id="@+id/btn_remove_all"
-				style="@style/ButtonPrimary"
-				android:layout_margin="@dimen/margin_large"
-				android:text="@string/remove_all"
-				android:visibility="gone"
-				tools:visibility="visible" />
+				<me.relex.circleindicator.CircleIndicator3
+					android:id="@+id/ciImageIndicator"
+					android:layout_width="match_parent"
+					android:layout_height="24dp"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					android:paddingStart="@dimen/margin_normal"
+					android:paddingEnd="@dimen/margin_normal"
+					app:ci_drawable="@drawable/selector_indicator"
+					app:ci_drawable_unselected="@drawable/selector_indicator_unselected"
+					app:ci_gravity="center"
+					app:ci_height="8dp"
+					app:ci_orientation="horizontal"
+					app:ci_width="8dp"/>
+
+				<com.google.android.material.button.MaterialButton
+					android:id="@+id/btn_remove_all"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintTop_toBottomOf="@id/ciImageIndicator"
+					app:layout_constraintBottom_toBottomOf="parent"
+					android:layout_width="0dp"
+					app:layout_constraintWidth_max="@dimen/content_width_max"
+					style="@style/ButtonPrimary"
+					android:layout_margin="@dimen/margin_large"
+					android:text="@string/remove_all"
+					android:visibility="gone"
+					tools:visibility="visible" />
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
 
 		</com.google.android.material.appbar.AppBarLayout>
 

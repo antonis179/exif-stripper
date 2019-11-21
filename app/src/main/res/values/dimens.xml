@@ -30,6 +30,9 @@
 	<dimen name="text_xlarge">18sp</dimen>
 
 
+	<!-- Content -->
+	<dimen name="content_width_max">500dp</dimen>
+
 	<!-- Recyclers -->
 	<dimen name="card_exif_attribute_height">65dp</dimen>
 
