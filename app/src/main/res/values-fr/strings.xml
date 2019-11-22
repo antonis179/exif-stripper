@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="title_image_select">Sélectionnez une photo</string>
+	<string name="title_activity_donations">Faire un don</string>
+	<string name="title_privacy_policy">Politique de confidentialité</string>
+	<string name="title_terms">Termes et conditions</string>
+	<string name="toast_back_to_exit">Cliquez à nouveau pour quitter</string>
+	<string name="menu_exit">Sortie</string>
+	<string name="menu_policy">Politique de confidentialité</string>
+	<string name="menu_toc">Termes et conditions</string>
+	<string name="label_terms">En continuant, vous acceptez les termes et conditions. Assurez-vous d\'avoir lu et compris les conditions générales et la politique de confidentialité.\n\n Cette application ne peut fonctionner que si vous acceptez les conditions.</string>
+	<string name="label_toc">Termes et conditions</string>
+	<string name="label_privacy_policy">Politique de confidentialité</string>
+	<string name="label_accept">Acceptez</string>
+	<string name="title_donation"><b>Cette application est open source et gratuite et restera toujours gratuite!</b> \n\nSi mon travail vous a aidé, envisagez de faire un don en regardant une annonce ou en effectuant un achat intégré (les développeurs ont aussi besoin de pizza!)</string>
+	<string name="label_donation_reward_text">Tu gères!!! Merci pour votre soutien!</string>
+	<string name="remove_all">Enlever tout</string>
+	<string name="share_with">Partager avec</string>
+	<string name="share">Partager</string>
+	<string name="save">sauver</string>
+	<string name="select_images">Cliquez pour sélectionner des images</string>
+	<string name="watch_ad">Regarder une annonce</string>
+	<string name="notif_stored">Image (s) enregistrée (s) dans PhotoStripper sous votre répertoire d\'images</string>
+	<string name="navigation_drawer_open">Ouvrir le tiroir de navigation</string>
+	<string name="navigation_drawer_close">Fermer le tiroir de navigation</string>
+	<string name="nav_header_desc">En-tête de navigation</string>
+	<string name="menu_donations">Des dons</string>
+	<string name="error_msg_oops">Oops! Quelque chose a mal tourné! Veuillez réessayer!</string>
+	<string name="error_msg_uri_issue_external">L\'application de partage ne fournissait pas d\'accès aux fichiers. Veuillez réessayer avec une autre application.</string>
+	<string name="error_msg_format">Ce format de fichier n\'est pas supporté</string>
+	<string name="error_msg_storage_issue">Impossible de stocker le fichier</string>
+	<string name="donation_1_title">café</string>
+	<string name="donation_3_title">Bière</string>
+	<string name="donation_5_title">Pizza</string>
+</resources>

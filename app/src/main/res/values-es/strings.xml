@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="title_image_select">Seleccione Foto</string>
+	<string name="title_activity_donations">Donar</string>
+	<string name="title_privacy_policy">Política de privacidad</string>
+	<string name="title_terms">Términos y Condiciones</string>
+	<string name="toast_back_to_exit">Haga clic nuevamente para salir</string>
+	<string name="menu_exit">Salida</string>
+	<string name="menu_policy">Política de privacidad</string>
+	<string name="menu_toc">Términos y Condiciones</string>
+	<string name="label_terms">Al continuar, acepta los términos y condiciones. Asegúrese de haber leído y entendido los términos y condiciones y la política de privacidad.\n\nEsta aplicación solo puede funcionar si acepta las condiciones.</string>
+	<string name="label_toc">Términos y Condiciones</string>
+	<string name="label_privacy_policy">Política de privacidad</string>
+	<string name="label_accept">Aceptar</string>
+	<string name="title_donation"><b>¡Esta aplicación es de código abierto y gratuita y siempre lo será!</b> \n\nSi mi trabajo lo ayudó, considere donar viendo un anuncio o haciendo una compra en la aplicación a continuación (¡los desarrolladores también necesitan pizza!)</string>
+	<string name="label_donation_reward_text">Tu rock! ¡Gracias por tu apoyo!</string>
+	<string name="remove_all">Eliminar todo</string>
+	<string name="share_with">Compartir con</string>
+	<string name="share">Compartir</string>
+	<string name="save">Salvar</string>
+	<string name="select_images">Haga clic para seleccionar imágenes</string>
+	<string name="watch_ad">Mira un anuncio</string>
+	<string name="notif_stored">Imágenes almacenadas en PhotoStripper en su directorio de imágenes</string>
+	<string name="navigation_drawer_open">Abrir el cajón de navegación</string>
+	<string name="navigation_drawer_close">Cerrar el cajón de navegación</string>
+	<string name="nav_header_desc">Encabezado de navegación</string>
+	<string name="menu_donations">Donaciones</string>
+	<string name="error_msg_oops">¡Uy! ¡Algo salió horriblemente mal! ¡Inténtalo de nuevo!</string>
+	<string name="error_msg_uri_issue_external">La aplicación para compartir no proporcionó acceso a archivos. Intenta nuevamente con una aplicación diferente</string>
+	<string name="error_msg_format">Este formato de archivo no es compatible</string>
+	<string name="error_msg_storage_issue">No se pudo almacenar el archivo</string>
+	<string name="donation_1_title">Café</string>
+	<string name="donation_3_title">Cerveza</string>
+	<string name="donation_5_title">Pizza</string>
+</resources>

@@ -1,5 +1,14 @@
 <resources>
 
+	<!-- Titles	-->
+
+	<string name="app_name" translatable="false">Photo Stripper</string>
+	<string name="title_activity_splash" translatable="false">@string/app_name</string>
+	<string name="title_activity_main" translatable="false">@string/app_name</string>
+	<string name="title_image_select">Select Photo</string>
+	<string name="title_activity_donations">Donate</string>
+	<string name="title_privacy_policy">Privacy Policy</string>
+	<string name="title_terms">Terms and Conditions</string>
 
 	<!-- Toasts -->
 

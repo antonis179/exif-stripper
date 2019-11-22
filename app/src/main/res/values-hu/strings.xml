@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="title_image_select">Válassza a Fotó lehetőséget</string>
+	<string name="title_activity_donations">Adományoz</string>
+	<string name="title_privacy_policy">Adatvédelmi irányelvek</string>
+	<string name="title_terms">Felhasználási feltételek</string>
+	<string name="toast_back_to_exit">A kilépéshez kattintson ismét a Vissza gombra</string>
+	<string name="menu_exit">Kijárat</string>
+	<string name="menu_policy">Adatvédelmi irányelvek</string>
+	<string name="menu_toc">Felhasználási feltételek</string>
+	<string name="label_terms">Folytatással elfogadja a feltételeket. Győződjön meg arról, hogy elolvasta és megértette mind a feltételeket, mind az adatvédelmi irányelveket. \n\n Ez az alkalmazás csak akkor működhet, ha elfogadja a feltételeket.</string>
+	<string name="label_toc">Felhasználási feltételek</string>
+	<string name="label_privacy_policy">Adatvédelmi irányelvek</string>
+	<string name="label_accept">Elfogad</string>
+	<string name="title_donation"><b>Ez az alkalmazás nyílt forráskódú és ingyenes, és mindig ingyenes marad!</b> \n\nHa munkám segített, kérjük, fontolja meg az adományozást az alábbiakban szereplő hirdetés megnézése vagy alkalmazáson belüli vásárlás révén (a fejlesztőknek pizzára is szükségük van!)</string>
+	<string name="label_donation_reward_text">Király vagy!!! Köszönöm a tamogatásod!</string>
+	<string name="remove_all">Összes eltávolítása</string>
+	<string name="share_with">Oszd</string>
+	<string name="share">Ossza meg</string>
+	<string name="save">Mentés</string>
+	<string name="select_images">Kattintson a képek kiválasztásához</string>
+	<string name="watch_ad">Nézze meg a hirdetést</string>
+	<string name="notif_stored">Kép (ek) a PhotoStripper alkalmazásban a képeket tartalmazó mappában</string>
+	<string name="navigation_drawer_open">Nyissa meg a navigációs fiókot</string>
+	<string name="navigation_drawer_close">Zárja be a navigációs fiókot</string>
+	<string name="nav_header_desc">Navigációs fejléc</string>
+	<string name="menu_donations">Adományok</string>
+	<string name="error_msg_oops">Hoppá! Valami borzasztóan rosszul ment! Kérlek próbáld újra!</string>
+	<string name="error_msg_uri_issue_external">A megosztó alkalmazás nem biztosít hozzáférést a fájlokhoz. Próbálkozzon újra egy másik alkalmazással</string>
+	<string name="error_msg_format">Ez a fájlformátum nem támogatott</string>
+	<string name="error_msg_storage_issue">Nem sikerült tárolni a fájlt</string>
+	<string name="donation_1_title">Kávé</string>
+	<string name="donation_3_title">Sör</string>
+	<string name="donation_5_title">Pizza</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="title_image_select">Foto auswählen</string>
+	<string name="title_activity_donations">Spenden</string>
+	<string name="title_privacy_policy">Datenschutz-Bestimmungen</string>
+	<string name="title_terms">Geschäftsbedingungen</string>
+	<string name="toast_back_to_exit">Klicken Sie erneut zurück, um den Vorgang zu beenden</string>
+	<string name="menu_exit">Ausgang</string>
+	<string name="menu_policy">Datenschutz-Bestimmungen</string>
+	<string name="menu_toc">Geschäftsbedingungen</string>
+	<string name="label_terms">Indem Sie fortfahren, stimmen Sie den Allgemeinen Geschäftsbedingungen zu. Stellen Sie sicher, dass Sie sowohl die Allgemeinen Geschäftsbedingungen als auch die Datenschutzbestimmungen gelesen und verstanden haben.\n\n Diese App kann nur funktionieren, wenn Sie die Bedingungen akzeptieren.</string>
+	<string name="label_toc">Geschäftsbedingungen</string>
+	<string name="label_privacy_policy">Datenschutz-Bestimmungen</string>
+	<string name="label_accept">Akzeptieren</string>
+	<string name="title_donation"><b>Diese Anwendung ist Open Source und kostenlos und wird immer kostenlos bleiben!</b> \n\nWenn meine Arbeit Ihnen geholfen hat, überlegen Sie bitte, ob Sie spenden möchten, indem Sie eine Anzeige ansehen oder eine In-App kaufen (Entwickler benötigen ebenfalls Pizza!).</string>
+	<string name="label_donation_reward_text">Du rockst!!! Danke für Ihre Unterstützung!</string>
+	<string name="remove_all">Alles entfernen</string>
+	<string name="share_with">Teilen mit</string>
+	<string name="share">Teilen</string>
+	<string name="save">speichern</string>
+	<string name="select_images">Klicken Sie, um Bilder auszuwählen</string>
+	<string name="watch_ad">Eine Anzeige ansehen</string>
+	<string name="notif_stored">Bilder, die in PhotoStripper in Ihrem Bilderverzeichnis gespeichert sind</string>
+	<string name="navigation_drawer_open">Navigationsleiste öffnen</string>
+	<string name="navigation_drawer_close">Navigationsschublade schließen</string>
+	<string name="nav_header_desc">Navigationskopfzeile</string>
+	<string name="menu_donations">Spenden</string>
+	<string name="error_msg_oops">Hoppla! Irgendwas ist furchtbar schief gelaufen! Bitte versuche es erneut!</string>
+	<string name="error_msg_uri_issue_external">Die Freigabeanwendung bot keinen Dateizugriff. Bitte versuchen Sie es mit einer anderen App erneut</string>
+	<string name="error_msg_format">Dieses Dateiformat wird nicht unterstützt</string>
+	<string name="error_msg_storage_issue">Datei konnte nicht gespeichert werden</string>
+	<string name="donation_1_title">Kaffee</string>
+	<string name="donation_3_title">Bier</string>
+	<string name="donation_5_title">Pizza</string>
+</resources>
