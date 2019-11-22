@@ -20,7 +20,7 @@ Photo Stripper can show you the metadata in your photos as well as delete them.
 
 <b>Under development:
 </b>
-• Translations for other languages
+• Translations for other languages (If you would like to contribute please do by a github issue or pull request!)
 • Ability to edit metadata
 • Option to monitor specific folders and automatically remove image meta-data as new images are taken
 
