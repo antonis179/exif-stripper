@@ -4,12 +4,9 @@ import android.app.AlertDialog
 import android.os.Bundle
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
+import com.appodeal.ads.Appodeal
+import com.appodeal.ads.RewardedVideoCallbacks
 import com.crashlytics.android.Crashlytics
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.rewarded.RewardItem
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdCallback
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.activity_donations.*
@@ -17,6 +14,7 @@ import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationViewData
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationsAdapter
+import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 import org.amoustakos.exifstripper.view.recycler.Type
@@ -26,13 +24,13 @@ import org.amoustakos.utils.android.rx.disposer.disposeBy
 import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
 
+
 /*
  * WIP
  */
 class DonationsActivity : BaseActivity() {
 
 	private val toolbar = BasicToolbar(R.id.toolbar)
-	private var rewardedAd: RewardedAd? = null
 	private lateinit var billingClient: BillingClient
 
 	private var skuDetails: List<SkuDetails>? = null
@@ -47,6 +45,8 @@ class DonationsActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setupToolbar()
+
+		cacheRewardedAd()
 
 		loadBilling()
 
@@ -132,9 +132,7 @@ class DonationsActivity : BaseActivity() {
 		}.toMutableList()
 
 		setupRecycler(viewData)
-
 	}
-
 
 	private fun purchase(item: SkuDetails) {
 		val flowParams = BillingFlowParams.newBuilder()
@@ -158,30 +156,35 @@ class DonationsActivity : BaseActivity() {
 		}
 	}
 
-
 	private fun getDonationIds() = BillingUtil.playIds
 
+	private fun cacheRewardedAd() {
+		Do safe {
+			Appodeal.initialize(
+					this,
+					getString(R.string.appodeal_app_key),
+					Appodeal.REWARDED_VIDEO,
+					GdprUtil.hasAcceptedTerms(this)
+			)
+
+			Appodeal.setRewardedVideoCallbacks(object : RewardedVideoCallbacks {
+				override fun onRewardedVideoLoaded(isPrecache: Boolean) {}
+				override fun onRewardedVideoFailedToLoad() {}
+				override fun onRewardedVideoClicked() {}
+				override fun onRewardedVideoClosed(finished: Boolean) {}
+				override fun onRewardedVideoExpired() {}
+				override fun onRewardedVideoShown() {}
+
+				override fun onRewardedVideoFinished(amount: Double, name: String) {
+					showReward()
+				}
+			})
+			Appodeal.cache(this, Appodeal.REWARDED_VIDEO)
+		}
+	}
 
 	private fun makeAndLoadRewardedAd() {
-		val adId = getString(R.string.admob_rewarded)
-		rewardedAd = RewardedAd(this, adId)
-
-		rewardedAd?.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-			override fun onRewardedAdFailedToLoad(p0: Int) {
-				super.onRewardedAdFailedToLoad(p0)
-				btnAd.isEnabled = true
-			}
-
-			override fun onRewardedAdLoaded() {
-				super.onRewardedAdLoaded()
-				btnAd.isEnabled = true
-				rewardedAd?.show(this@DonationsActivity, object : RewardedAdCallback() {
-					override fun onUserEarnedReward(p0: RewardItem) {
-						showReward()
-					}
-				})
-			}
-		})
+		Do safe { Appodeal.show(this, Appodeal.REWARDED_VIDEO) }
 	}
 
 	private fun setupToolbar() {
