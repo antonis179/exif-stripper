@@ -106,7 +106,12 @@ class ImageHandlingFragment : BaseFragment() {
 		tvSelectImages.setOnClickListener(imageSelectionListener)
 		abSelectImages.setOnClickListener(imageSelectionListener)
 		vpImageCollection.setOnClickListener(imageSelectionListener)
-		btn_remove_all.setOnClickListener { removeAllExifData() }
+        btn_remove_all.setOnClickListener {
+            Do.safe(
+                    { removeAllExifData() },
+                    { Timber.e(it); Crashlytics.logException(it) }
+            )
+        }
 		toolbar.setShareListener { shareImage() }
 		toolbar.setSaveListener { saveImage() }
 
