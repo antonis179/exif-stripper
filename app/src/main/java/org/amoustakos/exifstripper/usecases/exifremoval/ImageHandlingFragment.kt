@@ -107,16 +107,24 @@ class ImageHandlingFragment : BaseFragment() {
 		abSelectImages.setOnClickListener(imageSelectionListener)
 		vpImageCollection.setOnClickListener(imageSelectionListener)
         btn_remove_all.setOnClickListener {
-            Do.safe(
-                    { removeAllExifData() },
-                    { Timber.e(it); Crashlytics.logException(it) }
-            )
+	        Single.fromCallable {  }
+			        .observeOn(updaterThread)
+			        .subscribeOn(AndroidSchedulers.mainThread())
+			        .map {
+				        removeAllExifData()
+			        }
+			        .doOnError { Timber.e(it); Crashlytics.logException(it) }
+			        .map { }
+			        .onErrorReturn { }
+			        .disposeBy(onDestroy)
+			        .subscribe()
         }
 		toolbar.setShareListener { shareImage() }
 		toolbar.setSaveListener { saveImage() }
 
 		deletionPublisher
-				.observeOn(Schedulers.io())
+				.observeOn(updaterThread)
+				.subscribeOn(AndroidSchedulers.mainThread())
 				.doOnNext {
 					viewModel.exifFiles.value?.get(vpImageCollection.currentItem)?.removeAttribute(context!!, it.item.title)
 				}
@@ -320,10 +328,12 @@ class ImageHandlingFragment : BaseFragment() {
 		btn_remove_all.visibility = if (isImageLoaded()) VISIBLE else GONE
 	}
 
+	@Synchronized
 	private fun removeAllExifData() {
 		viewModel.exifFiles.value?.forEach { removeExifData(it) }
 	}
 
+	@Synchronized
 	private fun removeExifData(file: ExifFile) {
 		context?.let { file.removeExifData(it) }
 	}
