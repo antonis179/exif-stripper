@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.fragment_image_handling.*
 import kotlinx.android.synthetic.main.include_empty_screen.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.ResponseWrapper
+import org.amoustakos.exifstripper.io.ResponseWrapperList
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.ui.dialogs.ErrorDialog
 import org.amoustakos.exifstripper.ui.fragments.BaseFragment
@@ -86,7 +87,7 @@ class ImageHandlingFragment : BaseFragment() {
 		if (savedInstanceState == null) {
 			arguments?.getParcelableArrayList<Uri>(KEY_URI)?.let {
 				if (context == null || activity == null) return
-				handleUris(it, false)
+				handleUris(it)
 			}
 		}
 	}
@@ -106,19 +107,19 @@ class ImageHandlingFragment : BaseFragment() {
 		tvSelectImages.setOnClickListener(imageSelectionListener)
 		abSelectImages.setOnClickListener(imageSelectionListener)
 		vpImageCollection.setOnClickListener(imageSelectionListener)
-        btn_remove_all.setOnClickListener {
-	        Single.fromCallable {  }
-			        .observeOn(updaterThread)
-			        .subscribeOn(AndroidSchedulers.mainThread())
-			        .map {
-				        removeAllExifData()
-			        }
-			        .doOnError { Timber.e(it); Crashlytics.logException(it) }
-			        .map { }
-			        .onErrorReturn { }
-			        .disposeBy(onDestroy)
-			        .subscribe()
-        }
+		btn_remove_all.setOnClickListener {
+			Single.fromCallable { }
+					.observeOn(updaterThread)
+					.subscribeOn(AndroidSchedulers.mainThread())
+					.map {
+						removeAllExifData()
+					}
+					.doOnError { Timber.e(it); Crashlytics.logException(it) }
+					.map { }
+					.onErrorReturn { }
+					.disposeBy(onDestroy)
+					.subscribe()
+		}
 		toolbar.setShareListener { shareImage() }
 		toolbar.setSaveListener { saveImage() }
 
@@ -320,6 +321,10 @@ class ImageHandlingFragment : BaseFragment() {
 		viewModel.errorDialog.value?.show(childFragmentManager, null)
 	}
 
+	private fun showSnackbarError(msg: String) {
+		Snackbar.make(content, msg, Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok) {}.show()
+	}
+
 	// =========================================================================================
 	// Views
 	// =========================================================================================
@@ -376,7 +381,7 @@ class ImageHandlingFragment : BaseFragment() {
 					.observeOn(AndroidSchedulers.mainThread())
 					.doOnError(Timber::e)
 					.onErrorReturn { mutableListOf() }
-					.doOnNext { refreshAttributeAdapter(it)	}
+					.doOnNext { refreshAttributeAdapter(it) }
 					.doOnNext { refreshUI() }
 					.doOnError(Timber::e)
 					.onErrorReturn { mutableListOf() }
@@ -394,13 +399,13 @@ class ImageHandlingFragment : BaseFragment() {
 		when (requestCode) {
 			REQUEST_IMAGE -> if (resultCode == Activity.RESULT_OK) {
 				if (context == null || activity == null) return
-				handleUris(data, false)
+				handleUris(data)
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data)
 	}
 
-	private fun handleUris(data: Intent?, ignoreError: Boolean = false) {
+	private fun handleUris(data: Intent?) {
 		val uris = mutableListOf<Uri>()
 
 		if (data?.clipData?.itemCount ?: 0 < 1)
@@ -409,51 +414,60 @@ class ImageHandlingFragment : BaseFragment() {
 		for (i in 0 until (data?.clipData?.itemCount ?: -1))
 			uris.add(data!!.clipData!!.getItemAt(i).uri)
 
-		handleUris(uris, ignoreError)
+		handleUris(uris)
 	}
 
-	private fun handleUris(uris: List<Uri>, ignoreError: Boolean) {
+	private fun handleUris(uris: List<Uri>) {
 		reset()
 		Single.fromCallable {}
 				.observeOn(Schedulers.computation())
 				.map {
+					val response: ResponseWrapperList<ExifFile.LoadResult> = ResponseWrapperList(mutableListOf())
 					context?.let {
-						var response: ResponseWrapper<ExifFile.LoadResult> = ResponseWrapper()
 						uris.forEach { uri ->
 							val exifFile = ExifRemovalFile()
 							val innerResponse = exifFile.load(uri, it)
 
-							viewModel.exifFiles.value?.add(exifFile)
-							if (innerResponse.value != ExifFile.LoadResult.Success)
-								response = ResponseWrapper(innerResponse.value)
+							response plus ResponseWrapper(innerResponse.value)
+
+							if (innerResponse.value == ExifFile.LoadResult.Success)
+								viewModel.exifFiles.value?.add(exifFile)
 						}
-						response
 					}
+					response
 				}
 				.observeOn(AndroidSchedulers.mainThread())
 				.doOnSuccess {
-					val message: String? = when (it!!.value) {
-						ExifFile.LoadResult.ContextError -> getString(R.string.error_msg_oops)
-						ExifFile.LoadResult.UriError -> getString(R.string.error_msg_uri_issue_external)
-						ExifFile.LoadResult.FormatError -> getString(R.string.error_msg_format)
-						ExifFile.LoadResult.CacheError -> getString(R.string.error_msg_oops)
-						ExifFile.LoadResult.Success -> null
-						null -> null
+					val errorMessages: MutableList<String> = mutableListOf()
+
+					it?.values?.forEach { innerResponse ->
+						when (innerResponse.value) {
+							ExifFile.LoadResult.ContextError -> getString(R.string.error_msg_generic)
+							ExifFile.LoadResult.UriError -> getString(R.string.error_msg_uri_issue_external)
+							ExifFile.LoadResult.CacheError -> getString(R.string.error_msg_generic)
+							ExifFile.LoadResult.FormatError -> getString(R.string.error_msg_format)
+							ExifFile.LoadResult.Success -> null
+							null -> null
+						}?.let { msg ->
+							errorMessages.add(msg)
+						}
 					}
 
-					message?.let { msg ->
-						if (!ignoreError) showError(msg)
-					} ?: updateAdapters()
+					errorMessages.forEach { msg ->
+						showError(msg)
+						return@forEach
+					}
+
+					updateAdapters()
 				}
 				.doOnError {
 					Timber.e(it)
-					if (!ignoreError) {
-						reset()
-						showError(getString(R.string.error_msg_oops))
-					}
+					Crashlytics.logException(it)
+					reset()
+					showError(getString(R.string.error_msg_oops))
 				}
-				.onErrorReturn { ResponseWrapper() }
-				.disposeBy(lifecycle.onDestroy)
+				.onErrorReturn { ResponseWrapperList() }
+				.disposeBy(onDestroy)
 				.subscribe()
 	}
 

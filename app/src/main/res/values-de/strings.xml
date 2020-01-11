@@ -26,10 +26,11 @@
 	<string name="nav_header_desc">Navigationskopfzeile</string>
 	<string name="menu_donations">Spenden</string>
 	<string name="error_msg_oops">Hoppla! Irgendwas ist furchtbar schief gelaufen! Bitte versuche es erneut!</string>
-	<string name="error_msg_uri_issue_external">Die Freigabeanwendung bot keinen Dateizugriff. Bitte versuchen Sie es mit einer anderen App erneut</string>
-	<string name="error_msg_format">Dieses Dateiformat wird nicht unterstützt</string>
 	<string name="error_msg_storage_issue">Datei konnte nicht gespeichert werden</string>
 	<string name="donation_1_title">Kaffee</string>
 	<string name="donation_3_title">Bier</string>
 	<string name="donation_5_title">Pizza</string>
+	<string name="error_msg_generic">Ein oder mehrere Fotos konnten aufgrund eines Fehlers nicht geladen werden</string>
+	<string name="error_msg_uri_issue_external">Ein oder mehrere Fotos konnten aufgrund eines Fehlers nicht geladen werden, da die Freigabeanwendung keinen Dateizugriff bereitgestellt hat</string>
+	<string name="error_msg_format">Ein oder mehrere Fotos konnten nicht geladen werden, da ihr Format keine EXIF-Metadaten enthält</string>
 </resources>

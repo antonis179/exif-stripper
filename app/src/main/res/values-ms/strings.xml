@@ -26,10 +26,11 @@
 	<string name="nav_header_desc">Pengepala navigasi</string>
 	<string name="menu_donations">Sumbangan</string>
 	<string name="error_msg_oops">Oops! Sesuatu yang teruk sekali! Sila cuba lagi!</string>
-	<string name="error_msg_uri_issue_external">Aplikasi perkongsian tidak menyediakan akses fail. Sila cuba lagi dengan aplikasi lain</string>
-	<string name="error_msg_format">Format fail ini tidak disokong</string>
 	<string name="error_msg_storage_issue">Tidak dapat menyimpan fail tersebut</string>
 	<string name="donation_1_title">Kopi</string>
 	<string name="donation_3_title">Bir</string>
 	<string name="donation_5_title">Pizza</string>
+	<string name="error_msg_generic">Satu atau lebih foto tidak boleh dimuatkan disebabkan ralat</string>
+	<string name="error_msg_uri_issue_external">Satu atau lebih foto tidak boleh dimuatkan disebabkan oleh ralat kerana aplikasi perkongsian tidak menyediakan akses fail</string>
+	<string name="error_msg_format">Satu atau lebih foto tidak dapat dimuatkan kerana formatnya tidak mengandungi metadata EXIF</string>
 </resources>

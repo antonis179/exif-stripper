@@ -59,9 +59,10 @@
 	<!-- Errors -->
 
 	<string name="error_msg_oops">Oops! Something went horribly wrong! Please try again!</string>
-	<string name="error_msg_uri_issue_external">Sharing application did not provide file access. Please try again with a different app</string>
-	<string name="error_msg_format">This file format is not supported</string>
 	<string name="error_msg_storage_issue">Could not store the file</string>
+	<string name="error_msg_generic">One or more photos could not be loaded due to an error</string>
+	<string name="error_msg_uri_issue_external">One or more photos could not be loaded due to an error because the sharing application did not provide file access</string>
+	<string name="error_msg_format">One or more photos could not be loaded because their format does not contain EXIF metadata</string>
 
 
 	<!-- Donations -->

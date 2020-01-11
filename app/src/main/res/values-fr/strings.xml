@@ -26,10 +26,11 @@
 	<string name="nav_header_desc">En-tête de navigation</string>
 	<string name="menu_donations">Des dons</string>
 	<string name="error_msg_oops">Oops! Quelque chose a mal tourné! Veuillez réessayer!</string>
-	<string name="error_msg_uri_issue_external">L\'application de partage ne fournissait pas d\'accès aux fichiers. Veuillez réessayer avec une autre application.</string>
-	<string name="error_msg_format">Ce format de fichier n\'est pas supporté</string>
 	<string name="error_msg_storage_issue">Impossible de stocker le fichier</string>
 	<string name="donation_1_title">café</string>
 	<string name="donation_3_title">Bière</string>
 	<string name="donation_5_title">Pizza</string>
+	<string name="error_msg_generic">Une ou plusieurs photos n\'ont pas pu être chargées en raison d\'une erreur</string>
+	<string name="error_msg_uri_issue_external">Une ou plusieurs photos n\'ont pas pu être chargées en raison d\'une erreur car l\'application de partage n\'a pas fourni l\'accès aux fichiers</string>
+	<string name="error_msg_format">Une ou plusieurs photos n\'ont pas pu être chargées car leur format ne contient pas de métadonnées EXIF</string>
 </resources>

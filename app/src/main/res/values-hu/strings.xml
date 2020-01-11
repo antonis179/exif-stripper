@@ -26,10 +26,11 @@
 	<string name="nav_header_desc">Navigációs fejléc</string>
 	<string name="menu_donations">Adományok</string>
 	<string name="error_msg_oops">Hoppá! Valami borzasztóan rosszul ment! Kérlek próbáld újra!</string>
-	<string name="error_msg_uri_issue_external">A megosztó alkalmazás nem biztosít hozzáférést a fájlokhoz. Próbálkozzon újra egy másik alkalmazással</string>
-	<string name="error_msg_format">Ez a fájlformátum nem támogatott</string>
 	<string name="error_msg_storage_issue">Nem sikerült tárolni a fájlt</string>
 	<string name="donation_1_title">Kávé</string>
 	<string name="donation_3_title">Sör</string>
 	<string name="donation_5_title">Pizza</string>
+	<string name="error_msg_generic">Egy vagy több fényképet nem sikerült betölteni hiba miatt</string>
+	<string name="error_msg_uri_issue_external">Egy vagy több fényképet nem sikerült betölteni hiba miatt, mert a megosztási alkalmazás nem biztosította a fájlhozzáférést</string>
+	<string name="error_msg_format">Egy vagy több fényképet nem sikerült betölteni, mert formátumuk nem tartalmazza az EXIF metaadatokat</string>
 </resources>
