@@ -11,7 +11,7 @@
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "2.136.0"
+fastlane_version "2.140.0"
 
 default_platform :android
 supplyOptions = {}
@@ -57,7 +57,7 @@ platform :android do
     supplyOptions[:skip_upload_apk] = true
     supplyOptions[:skip_upload_changelogs] = true
     supplyOptions[:track] = 'beta'
-    supplyOptions[:track_promote_to] = 'rollout'
+    supplyOptions[:track_promote_to] = 'production'
     supplyOptions[:rollout] = '0.1'
     supply(supplyOptions)
   end
