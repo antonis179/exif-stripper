@@ -12,6 +12,11 @@ Photos you take with your phone contain a lot of metadata - some are benign, whi
 
 Photo Stripper can show you the metadata in your photos as well as delete them.
 
+Any data gathered by this application cannot be used to identify you. Some data gathering is required to serve ads and
+perform bug fixing (see the <a href="https://appert.home.blog/photo-stripper-privacy-policy/">privacy policy</a>).
+The app can be used offline and if you would prefer no data gathering you can build the app from source
+making any required changes.
+
 <b>Current Features:
 </b>
 • Remove metadata from multiple images at once
