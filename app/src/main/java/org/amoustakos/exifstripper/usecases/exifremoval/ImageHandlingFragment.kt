@@ -75,7 +75,11 @@ class ImageHandlingFragment : BaseFragment() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		retainInstance = true
+		init(savedInstanceState)
+	}
 
+	private fun init(savedInstanceState: Bundle?) {
 		viewModel = ViewModelProvider(
 				this,
 				SavedStateViewModelFactory(application()!!, this)
@@ -245,8 +249,13 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private fun notifyAdapters() {
 		adapter?.notifyDataSetChanged()
-		if (!viewModel.exifFiles.value.isNullOrEmpty() && attrSubscription == null)
-			onImageSelected(0)
+		if (!viewModel.exifFiles.value.isNullOrEmpty() && attrSubscription == null) {
+			val currentItem = vpImageCollection.currentItem
+			if (currentItem >= 0 && currentItem < viewModel.exifFiles.value!!.size)
+				onImageSelected(currentItem)
+			else
+				onImageSelected(0)
+		}
 		attrAdapter?.notifyDataSetChanged()
 	}
 
@@ -385,7 +394,7 @@ class ImageHandlingFragment : BaseFragment() {
 					.doOnNext { refreshUI() }
 					.doOnError(Timber::e)
 					.onErrorReturn { mutableListOf() }
-					.disposeBy(lifecycle.onDestroy)
+					.disposeBy(onDestroy)
 					.subscribe()
 
 			context?.let { if (image.isLoaded) image.loadExifAttributes(it) }
