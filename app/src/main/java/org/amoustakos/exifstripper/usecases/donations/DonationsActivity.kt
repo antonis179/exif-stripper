@@ -1,7 +1,11 @@
 package org.amoustakos.exifstripper.usecases.donations
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.content.Intent.ACTION_VIEW
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
 import com.appodeal.ads.Appodeal
@@ -44,7 +48,9 @@ class DonationsActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
 		setupToolbar()
+		setGithubListener()
 
 		cacheRewardedAd()
 
@@ -65,6 +71,16 @@ class DonationsActivity : BaseActivity() {
 				.onErrorReturn { }
 				.disposeBy(onDestroy)
 				.subscribe()
+	}
+
+	private fun setGithubListener() {
+		val listener = View.OnClickListener {
+			val browserIntent = Intent(ACTION_VIEW, Uri.parse("https://github.com/antonis179/exif-stripper"))
+			startActivity(browserIntent)
+		}
+
+		ivGithub.setOnClickListener(listener)
+		tvGithub.setOnClickListener(listener)
 	}
 
 	private fun loadBilling() {

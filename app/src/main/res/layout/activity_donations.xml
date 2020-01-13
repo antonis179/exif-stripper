@@ -26,46 +26,73 @@
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:layout_marginStart="@dimen/margin_large"
+			android:layout_marginEnd="@dimen/margin_large">
 
 			<TextView
 				android:id="@+id/tvDonationDescr"
 				style="@style/Text.Regular"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginStart="@dimen/margin_large"
 				android:layout_marginTop="@dimen/margin_large"
-				android:layout_marginEnd="@dimen/margin_large"
-				android:text="@string/title_donation"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toTopOf="parent" />
+				android:text="@string/title_donation"/>
 
-			<Button
-				android:id="@+id/btnAd"
-				style="@style/ButtonAd"
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/margin_large"
 				android:layout_gravity="center_horizontal"
-				android:layout_marginTop="@dimen/margin_large"
-				android:text="@string/watch_ad"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@+id/tvDonationDescr" />
+				android:orientation="horizontal">
 
+				<Button
+					android:id="@+id/btnAd"
+					style="@style/ButtonAd"
+					android:text="@string/watch_ad"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					/>
+
+				<ImageView
+					android:id="@+id/ivGithub"
+					android:layout_width="40dp"
+					android:layout_height="40dp"
+					android:scaleType="fitXY"
+					android:layout_marginStart="@dimen/margin_x_large"
+					android:src="@drawable/ic_github"
+					app:layout_constraintTop_toTopOf="@id/btnAd"
+					app:layout_constraintEnd_toStartOf="@id/tvGithub"
+					app:layout_constraintBottom_toBottomOf="@id/btnAd"
+					app:layout_constraintStart_toEndOf="@id/btnAd"
+					tools:ignore="ContentDescription" />
+
+				<TextView
+					android:id="@+id/tvGithub"
+					style="@style/Text.Regular"
+					android:layout_width="wrap_content"
+					android:layout_height="0dp"
+					android:layout_marginStart="@dimen/margin_small"
+					android:layout_marginEnd="@dimen/margin_normal"
+					app:layout_constraintTop_toTopOf="@id/ivGithub"
+					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintBottom_toBottomOf="@id/ivGithub"
+					app:layout_constraintStart_toEndOf="@id/ivGithub"
+					android:text="@string/github"/>
+
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
 
 			<androidx.recyclerview.widget.RecyclerView
 				android:id="@+id/rvDonations"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_margin="@dimen/margin_large"
+				app:layout_constraintWidth_max="@dimen/donationCardMaxWidth"
+				android:layout_marginTop="@dimen/margin_large"
 				app:layout_behavior="@string/appbar_scrolling_view_behavior"
 				android:nestedScrollingEnabled="false"
 				android:scrollbars="none"
 				app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-				app:layout_constraintBottom_toBottomOf="parent"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintTop_toBottomOf="@id/btnAd"
-				app:layout_constraintWidth_max="@dimen/donationCardMaxWidth"
 				tools:listitem="@layout/row_donation_card" />
 
 		</LinearLayout>
