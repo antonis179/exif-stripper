@@ -17,6 +17,8 @@ perform bug fixing (see the <a href="https://appert.home.blog/photo-stripper-pri
 The app can be used offline and if you would prefer no data gathering you can build the app from source
 making any required changes.
 
+By downloading this app you agree to the privacy policy.
+
 <b>Current Features:
 </b>
 • Remove metadata from multiple images at once
