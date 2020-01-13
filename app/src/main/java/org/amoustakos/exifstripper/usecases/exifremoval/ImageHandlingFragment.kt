@@ -76,7 +76,6 @@ class ImageHandlingFragment : BaseFragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		retainInstance = true
-		init(savedInstanceState)
 	}
 
 	private fun init(savedInstanceState: Bundle?) {
@@ -107,6 +106,8 @@ class ImageHandlingFragment : BaseFragment() {
 
 		if (!hasPermissions())
 			requestPermissions()
+
+		init(savedInstanceState)
 
 		tvSelectImages.setOnClickListener(imageSelectionListener)
 		abSelectImages.setOnClickListener(imageSelectionListener)
@@ -364,9 +365,9 @@ class ImageHandlingFragment : BaseFragment() {
 	private fun reset() {
 		Do safe {
 			context?.let { ExifFile.clearCache(it) }
-			toggleActions(false)
 			viewModel.exifFiles.value?.clear()
 			updateAdapters()
+			toggleActions(false)
 		}
 	}
 
