@@ -6,20 +6,16 @@ import android.media.MediaScannerConnection
 import android.os.Build
 import android.os.Environment
 import android.os.Parcel
+import android.os.Parcelable
 import android.provider.MediaStore
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.exif.ExifFile
 import java.io.File
 
-class ExifRemovalFile : ExifFile {
-
-	companion object {
-		const val PATH_SIGNED = "PhotoStripper/"
-	}
+class ExifRemovalFile : ExifFile, Parcelable {
 
 	constructor()
 	constructor(parcel: Parcel) : super(parcel)
-
 
 	@Throws
 	fun saveToSigned(context: Context) {
@@ -42,6 +38,20 @@ class ExifRemovalFile : ExifFile {
 			getHandler(context).getInputStream()?.let { FileUtils.createFile(it, dest) }
 
 			MediaScannerConnection.scanFile(context, arrayOf(dest), null) { _, _ ->  }
+		}
+	}
+
+	override fun describeContents() = 0
+
+	override fun writeToParcel(parcel: Parcel, flags: Int) = super.writeToParcel(parcel, flags)
+
+	companion object {
+		const val PATH_SIGNED = "PhotoStripper/"
+
+		@JvmField
+		val CREATOR: Parcelable.Creator<ExifRemovalFile> = object : Parcelable.Creator<ExifRemovalFile> {
+			override fun createFromParcel(source: Parcel): ExifRemovalFile = ExifRemovalFile(source)
+			override fun newArray(size: Int): Array<ExifRemovalFile?> = arrayOfNulls(size)
 		}
 	}
 
