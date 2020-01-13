@@ -2,6 +2,7 @@ package org.amoustakos.exifstripper
 
 import android.app.Application
 import android.content.Context
+import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import timber.log.Timber
 
 
@@ -17,6 +18,9 @@ class ExifApplication : Application() {
 		super.onCreate()
 
 		environment = Environment(this)
+
+		if (!GdprUtil.hasAcceptedTerms(this))
+			GdprUtil.acceptTerms(this)
 
 		val end = System.currentTimeMillis() - start
 		Timber.d("Application initialized in $end ms.")
