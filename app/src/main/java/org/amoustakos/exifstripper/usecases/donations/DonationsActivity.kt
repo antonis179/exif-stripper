@@ -18,6 +18,7 @@ import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationViewData
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationsAdapter
+import org.amoustakos.exifstripper.usecases.home.MainActivity
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
@@ -71,6 +72,13 @@ class DonationsActivity : BaseActivity() {
 				.onErrorReturn { }
 				.disposeBy(onDestroy)
 				.subscribe()
+	}
+
+	override fun onBackPressed() {
+		super.onBackPressed()
+		val intent = MainActivity.getReturnIntent(this)
+		startActivity(intent)
+		finish()
 	}
 
 	private fun setGithubListener() {

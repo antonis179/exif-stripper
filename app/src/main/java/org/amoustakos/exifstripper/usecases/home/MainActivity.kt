@@ -186,5 +186,10 @@ class MainActivity : BaseActivity() {
 					.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
 					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 		}
+
+		fun getReturnIntent(ctx: Context): Intent {
+			return Intent(ctx, MainActivity::class.java)
+					.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+		}
 	}
 }
