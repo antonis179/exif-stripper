@@ -6,11 +6,13 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.content.FileProvider
+import com.crashlytics.android.Crashlytics
 import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
 import org.amoustakos.exifstripper.utils.FileUtils
+import org.amoustakos.utils.android.kotlin.Do
 import timber.log.Timber
 import java.io.File
 
@@ -99,11 +101,21 @@ open class ExifFile() : Parcelable {
 
 		val cachePath = getCacheFilePath(context, handler.getName())
 
-		clearFile(context, cachePath)
+		Do.safe({
+			clearFile(context, cachePath)
+		}, {
+			Crashlytics.logException(it)
+			Timber.e(it)
+		})
 
-		file = handler.getInputStream()?.let {
-			FileUtils.createFile(it, cachePath)
-		} ?: return ResponseWrapper(LoadResult.CacheError)
+        file =
+                Do.safe({
+                    handler.getInputStream()?.let { FileUtils.createFile(it, cachePath) }
+                }, {
+                    Crashlytics.logException(it)
+                    Timber.e(it)
+                    null
+                }) ?: return ResponseWrapper(LoadResult.CacheError)
 
 		loadExifAttributes(context)
 
