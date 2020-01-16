@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
@@ -79,6 +80,14 @@ class DonationsActivity : BaseActivity() {
 		val intent = MainActivity.getReturnIntent(this)
 		startActivity(intent)
 		finish()
+	}
+
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		when (item.itemId) {
+			android.R.id.home -> onBackPressed()
+			else              -> return super.onOptionsItemSelected(item)
+		}
+		return true
 	}
 
 	private fun setGithubListener() {
