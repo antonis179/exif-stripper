@@ -46,6 +46,7 @@ class Environment (
     private fun initAds() {
 	    Appodeal.disableLocationPermissionCheck()
 	    Appodeal.disableWriteExternalStoragePermissionCheck()
+	    Appodeal.set728x90Banners(true)
 
 	    if (BuildConfig.DEBUG) {
 		    Appodeal.setLogLevel(Log.LogLevel.verbose)

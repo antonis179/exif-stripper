@@ -8,7 +8,6 @@
 
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
 	<uses-permission android:name="com.android.vending.BILLING" />
 
@@ -20,7 +19,8 @@
 		android:supportsRtl="true"
 		android:theme="@style/AppTheme"
 		android:networkSecurityConfig="@xml/network_security_config"
-		tools:targetApi="n">
+		tools:targetApi="n"
+		tools:ignore="AllowBackup">
 
 		<uses-library
 			android:name="org.apache.http.legacy"

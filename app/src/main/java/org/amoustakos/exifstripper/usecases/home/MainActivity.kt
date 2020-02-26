@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.appodeal.ads.Appodeal
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
@@ -39,6 +40,7 @@ class MainActivity : BaseActivity() {
 
 		if (!GdprUtil.hasAcceptedTerms(this)) {
 			showPrivacySplash()
+			Do safe { FirebaseAnalytics.getInstance(this).logEvent("privacy_terms_not_accepted", null) }
 			return
 		} else {
 			Do safe {
@@ -46,7 +48,7 @@ class MainActivity : BaseActivity() {
 						this,
 						getString(R.string.appodeal_app_key),
 						Appodeal.BANNER_VIEW,
-						GdprUtil.hasAcceptedTerms(this)
+						true
 				)
 				Appodeal.setBannerViewId(R.id.adFooterBanner)
 				Appodeal.show(this, Appodeal.BANNER_VIEW)

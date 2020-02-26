@@ -19,11 +19,15 @@ class ExifApplication : Application() {
 
 		environment = Environment(this)
 
-		if (!GdprUtil.hasAcceptedTerms(this))
-			GdprUtil.acceptTerms(this)
+		overrideTerms()
 
 		val end = System.currentTimeMillis() - start
 		Timber.d("Application initialized in $end ms.")
+	}
+
+	private fun overrideTerms() {
+		if (!GdprUtil.hasAcceptedTerms(this))
+			GdprUtil.acceptTerms(this)
 	}
 
 	companion object {
