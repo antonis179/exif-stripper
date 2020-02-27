@@ -114,7 +114,7 @@ project.ext {
 			circleindicator             : '2.1.4',
 
 			//Appodeal
-			appodeal                    : '2.6.1.0'
+			appodeal                    : '2.6.2.0'
 	]
 
 	annotation_processors = [
