@@ -13,7 +13,7 @@ Download from [Play Store](https://play.google.com/store/apps/details?id=org.amo
 - Setup a signing key through android studio
 - Setup a firebase project and add google-services.json as per instructions
 - Add `_SENSITIVE_HIDE_FROM_GIT_` folder in project root
-- Add password.properties in `_SENSITIVE_HIDE_FROM_GIT_`:
+- Add password.properties in `_SENSITIVE_HIDE_FROM_GIT_` (the location path should point to your key):
     ```properties
     debug.key.location=
     debug.key.password=

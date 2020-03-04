@@ -132,6 +132,11 @@ object ContentType {
 		companion object {
 			const val TYPE = "image/"
 			const val TYPE_GENERIC = "$TYPE*"
+
+			fun isTypeOf(extension: String?, types: Array<Image>): Boolean {
+				types.forEach { if (it.checkExtension(extension)) return true }
+				return false
+			}
 		}
 
 		object JPEG : Image("jpeg", alts = arrayOf("jpg"))
@@ -144,8 +149,9 @@ object ContentType {
 		object IEF : Image("ief")
 		object PIPEG : Image("pipeg")
 		object PNG : Image("png")
+		object WEBP : Image("webp")
 		object SVG : Image("svg+xml")
-		object TIFF : Image("tiff")
+		object TIFF : Image("tiff", alts = arrayOf("tif"))
 		object CmuRaster : Image("x-cmu-raster")
 		object CMX : Image("x-cmx")
 		object ICO : Image("x-icon")

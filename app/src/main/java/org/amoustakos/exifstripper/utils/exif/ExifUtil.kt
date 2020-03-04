@@ -1,6 +1,8 @@
 package org.amoustakos.exifstripper.utils.exif
 
 import androidx.exifinterface.media.ExifInterface
+import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType.Image
+import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType.Image.*
 
 object ExifUtil {
 
@@ -43,5 +45,7 @@ object ExifUtil {
 
 		return attrMap
 	}
+
+	fun supportedFormats(): Array<Image> = arrayOf(JPEG, TIFF, PNG, WEBP)
 
 }

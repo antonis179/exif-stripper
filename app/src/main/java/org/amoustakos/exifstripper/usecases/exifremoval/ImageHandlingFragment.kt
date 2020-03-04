@@ -149,6 +149,7 @@ class ImageHandlingFragment : BaseFragment() {
 		setupViewComponent(toolbar)
 		setHasOptionsMenu(true)
 		toolbar.setTitle(R.string.app_name)
+		toolbar.setAsActionbar(activity as AppCompatActivity)
 	}
 
 	private fun setupViewPager() {

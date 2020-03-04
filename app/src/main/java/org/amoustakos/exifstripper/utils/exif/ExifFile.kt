@@ -82,11 +82,6 @@ open class ExifFile() : Parcelable {
 	}
 
 	fun load(uri: Uri, context: Context): ResponseWrapper<LoadResult> {
-		if (context == null) {
-			reset()
-			return ResponseWrapper(LoadResult.ContextError)
-		}
-
 		if (!SchemeHandlerFactory(context).isSupported(uri.toString())) {
 			reset()
 			return ResponseWrapper(LoadResult.UriError)
@@ -94,7 +89,7 @@ open class ExifFile() : Parcelable {
 
 		val handler = SchemeHandlerFactory(context)[uri.toString()]
 
-		if (!ContentType.Image.JPEG.checkExtension(handler.getFileExtension())) {
+		if (!ContentType.Image.isTypeOf(handler.getFileExtension(), ExifUtil.supportedFormats())) {
 			reset()
 			return ResponseWrapper(LoadResult.FormatError)
 		}

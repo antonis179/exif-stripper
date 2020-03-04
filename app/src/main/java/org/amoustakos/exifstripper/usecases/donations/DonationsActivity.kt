@@ -57,8 +57,6 @@ class DonationsActivity : BaseActivity() {
 		setupToolbar()
 		setGithubListener()
 
-//		cacheAppodealRewardedAd()
-
 		loadBilling()
 
 		btnAd.setOnClickListener {
@@ -76,6 +74,14 @@ class DonationsActivity : BaseActivity() {
 				.onErrorReturn { }
 				.disposeBy(onDestroy)
 				.subscribe()
+	}
+
+	private fun setupToolbar() {
+		setupViewComponent(toolbar)
+		toolbar.toggleBackButton(true)
+		toolbar.showHome(true)
+		toolbar.setTitle(R.string.title_activity_donations)
+		toolbar.setAsActionbar(this)
 	}
 
 	override fun onBackPressed() {
@@ -96,7 +102,13 @@ class DonationsActivity : BaseActivity() {
 	private fun setGithubListener() {
 		val listener = View.OnClickListener {
 			val browserIntent = Intent(ACTION_VIEW, Uri.parse("https://github.com/antonis179/exif-stripper"))
-			startActivity(browserIntent)
+			Do.safe(
+					{ startActivity(browserIntent) },
+					{
+						Timber.e(it)
+						Crashlytics.logException(it)
+					}
+			)
 		}
 
 		ivGithub.setOnClickListener(listener)
@@ -194,33 +206,7 @@ class DonationsActivity : BaseActivity() {
 
 	private fun getDonationIds() = BillingUtil.playIds
 
-//	private fun cacheAppodealRewardedAd() {
-//		Do safe {
-//			Appodeal.initialize(
-//					this,
-//					getString(R.string.appodeal_app_key),
-//					Appodeal.REWARDED_VIDEO,
-//					GdprUtil.hasAcceptedTerms(this)
-//			)
-//
-//			Appodeal.setRewardedVideoCallbacks(object : RewardedVideoCallbacks {
-//				override fun onRewardedVideoLoaded(isPrecache: Boolean) {}
-//				override fun onRewardedVideoFailedToLoad() {}
-//				override fun onRewardedVideoClicked() {}
-//				override fun onRewardedVideoClosed(finished: Boolean) {}
-//				override fun onRewardedVideoExpired() {}
-//				override fun onRewardedVideoShown() {}
-//
-//				override fun onRewardedVideoFinished(amount: Double, name: String) {
-//					showReward()
-//				}
-//			})
-//			Appodeal.cache(this, Appodeal.REWARDED_VIDEO)
-//		}
-//	}
-
 	private fun makeAndLoadRewardedAd() {
-//		Do safe { Appodeal.show(this, Appodeal.REWARDED_VIDEO) }
 		Do.safe({loadAdMobRewardedAd()},{
 			Timber.e(it)
 			Crashlytics.logException(it)
@@ -247,13 +233,6 @@ class DonationsActivity : BaseActivity() {
 				})
 			}
 		})
-	}
-
-	private fun setupToolbar() {
-		setupViewComponent(toolbar)
-		toolbar.toggleBackButton(true)
-		toolbar.showHome(true)
-		toolbar.setTitle(R.string.title_activity_donations)
 	}
 
 	private fun showReward() {

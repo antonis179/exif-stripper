@@ -38,6 +38,12 @@ class MainActivity : BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
+		setupAds()
+
+		selectFragment(savedInstanceState)
+	}
+
+	private fun setupAds() {
 		if (!GdprUtil.hasAcceptedTerms(this)) {
 			showPrivacySplash()
 			Do safe { FirebaseAnalytics.getInstance(this).logEvent("privacy_terms_not_accepted", null) }
@@ -54,8 +60,6 @@ class MainActivity : BaseActivity() {
 				Appodeal.show(this, Appodeal.BANNER_VIEW)
 			}
 		}
-
-		selectFragment(savedInstanceState)
 	}
 
 	override fun onResume() {
@@ -73,6 +77,7 @@ class MainActivity : BaseActivity() {
 	// =========================================================================================
 
 	private fun setupNavView() {
+		supportActionBar?.setDisplayHomeAsUpEnabled(true)
 		drawerToggle = ActionBarDrawerToggle(
 				this,
 				navDrawer,
@@ -92,8 +97,6 @@ class MainActivity : BaseActivity() {
 		}
 
 		drawerToggle?.isDrawerIndicatorEnabled = true
-		supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
 		navDrawer.postDelayed({ drawerToggle?.syncState() }, 250 )
 	}
 
