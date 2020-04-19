@@ -7,6 +7,7 @@
 	<string name="title_activity_main" translatable="false">@string/app_name</string>
 	<string name="title_image_select">Select Photo</string>
 	<string name="title_activity_donations">Donate</string>
+	<string name="title_activity_exif_edit">Edit Attribute</string>
 	<string name="title_privacy_policy">Privacy Policy</string>
 	<string name="title_terms">Terms and Conditions</string>
 
@@ -33,6 +34,7 @@
 	<string name="title_donation"><b>This application is open source and free and will always remain free!</b> \n\nIf my work helped you please consider donating by watching an ad or making an in-app purchase below (developers need pizza too!)</string>
 	<string name="label_donation_reward_text">You rock!!! Thank you for your support!</string>
 	<string name="github" translatable="false">GitHub</string>
+	<string name="et_hint_exif_value">Value</string>
 
 	<!-- Button resources -->
 
@@ -63,7 +65,7 @@
 	<string name="error_msg_generic">One or more photos could not be loaded due to an error</string>
 	<string name="error_msg_uri_issue_external">One or more photos could not be loaded due to an error because the sharing application did not provide file access</string>
 	<string name="error_msg_format">One or more photos could not be loaded because their format does not contain EXIF metadata</string>
-
+	<string name="error_msg_write_format_invalid">Write is only supported for JPEG and WEBP (partial support) formats</string>
 
 	<!-- Donations -->
 	<string name="donation_1_title">Coffee</string>

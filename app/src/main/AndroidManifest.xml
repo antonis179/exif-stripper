@@ -65,6 +65,13 @@
 			android:launchMode="singleInstance"
 			android:theme="@style/AppTheme.NoActionBar"/>
 
+		<activity
+			android:name=".usecases.exifaddedit.ExifEditActivity"
+			android:parentActivityName=".usecases.home.MainActivity"
+			android:label="@string/title_activity_exif_edit"
+			android:launchMode="singleInstance"
+			android:theme="@style/AppTheme.NoActionBar"/>
+
 
 		<!-- Metadata -->
 

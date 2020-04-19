@@ -46,6 +46,7 @@ object ExifUtil {
 		return attrMap
 	}
 
-	fun supportedFormats(): Array<Image> = arrayOf(JPEG, TIFF, PNG, WEBP)
+	fun supportedReadFormats(): Array<Image> = arrayOf(JPEG, TIFF, PNG, WEBP)
+	fun supportedWriteFormats(): Array<Image> = arrayOf(JPEG, WEBP)
 
 }

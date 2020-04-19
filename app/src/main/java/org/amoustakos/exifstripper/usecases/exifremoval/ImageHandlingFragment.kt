@@ -11,7 +11,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.annotation.Nullable
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.SavedStateViewModelFactory
@@ -32,10 +32,13 @@ import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.ResponseWrapperList
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
+import org.amoustakos.exifstripper.io.model.ExifAttribute
 import org.amoustakos.exifstripper.ui.dialogs.ErrorDialog
 import org.amoustakos.exifstripper.ui.fragments.BaseFragment
+import org.amoustakos.exifstripper.usecases.exifaddedit.ExifEditActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeAdapter
-import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeViewHolder
+import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeViewHolder.Companion.DELETION_PUBLISHER_ID
+import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifAttributeViewHolder.Companion.EDIT_PUBLISHER_ID
 import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImagePagerAdapter
 import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImageViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
@@ -49,6 +52,7 @@ import org.amoustakos.utils.android.kotlin.Do
 import org.amoustakos.utils.android.rx.disposer.disposeBy
 import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
+import java.io.IOException
 
 
 class ImageHandlingFragment : BaseFragment() {
@@ -60,6 +64,7 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private val imageSelectionListener: View.OnClickListener = View.OnClickListener { pickImage() }
 	private val deletionPublisher: PublishSubject<ClickEvent<ExifAttributeViewData>> = PublishSubject.create()
+	private val clickPublisher: PublishSubject<ClickEvent<ExifAttributeViewData>> = PublishSubject.create()
 
 	private var attrSubscription: Disposable? = null
 
@@ -117,11 +122,33 @@ class ImageHandlingFragment : BaseFragment() {
 					.observeOn(updaterThread)
 					.subscribeOn(AndroidSchedulers.mainThread())
 					.map {
-						removeAllExifData()
+						val errors: MutableList<Throwable> = mutableListOf()
+						viewModel.exifFiles.value?.forEach {
+							Do.safe({
+								removeExifData(it)
+							}, {
+								Timber.e(it)
+								errors.add(it)
+							})
+						}
+						errors
 					}
-					.doOnError { Timber.e(it); Crashlytics.logException(it) }
-					.map { }
-					.onErrorReturn { }
+					.observeOn(AndroidSchedulers.mainThread())
+					.doOnSuccess {
+						if (it.isNotEmpty()) {
+							if (it.filterIsInstance(IOException::class.java).isNotEmpty())
+								showInvalidFormatError()
+							else
+								showGenericError()
+						}
+					}
+					.doOnError {
+						Timber.e(it)
+						Crashlytics.logException(it)
+						showGenericError()
+					}
+					.map {}
+					.onErrorReturn {}
 					.disposeBy(onDestroy)
 					.subscribe()
 		}
@@ -133,6 +160,28 @@ class ImageHandlingFragment : BaseFragment() {
 				.subscribeOn(AndroidSchedulers.mainThread())
 				.doOnNext {
 					viewModel.exifFiles.value?.get(vpImageCollection.currentItem)?.removeAttribute(context!!, it.item.title)
+				}
+				.doOnError {
+					Timber.e(it)
+					if (it is IOException)
+						showInvalidFormatError()
+					else
+						Crashlytics.logException(it)
+				}
+				.map { }
+				.onErrorReturn { }
+				.disposeBy(onDestroy)
+				.subscribe()
+
+		clickPublisher
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(AndroidSchedulers.mainThread())
+				.doOnNext {
+					val attr = ExifAttribute(it.item.title, it.item.value)
+					startActivityForResult(
+							ExifEditActivity.getStartIntent(context!!, attr),
+							REQUEST_ATTR_EDIT
+					)
 				}
 				.doOnError(Timber::e)
 				.map { }
@@ -266,7 +315,8 @@ class ImageHandlingFragment : BaseFragment() {
 			viewModel.attrAdapterData.value = mutableListOf()
 
 		attrAdapter = ExifAttributeAdapter(viewModel.attrAdapterData.value!!, listOf(
-				PublisherItem(deletionPublisher, Type.CLICK, ExifAttributeViewHolder.DELETION_PUBLISHER_ID)
+				PublisherItem(deletionPublisher, Type.CLICK, DELETION_PUBLISHER_ID),
+				PublisherItem(clickPublisher, Type.CLICK, EDIT_PUBLISHER_ID)
 		))
 
 		rv_exif.adapter = attrAdapter
@@ -332,6 +382,14 @@ class ImageHandlingFragment : BaseFragment() {
 		viewModel.errorDialog.value?.show(childFragmentManager, null)
 	}
 
+	private fun showGenericError() {
+		showError(getString(R.string.error_msg_oops))
+	}
+
+	private fun showInvalidFormatError() {
+		showError(getString(R.string.error_msg_write_format_invalid))
+	}
+
 	private fun showSnackbarError(msg: String) {
 		Snackbar.make(content, msg, Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok) {}.show()
 	}
@@ -342,11 +400,6 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private fun toggleRemoveAllButton() {
 		btn_remove_all.visibility = if (isImageLoaded()) VISIBLE else GONE
-	}
-
-	@Synchronized
-	private fun removeAllExifData() {
-		viewModel.exifFiles.value?.forEach { removeExifData(it) }
 	}
 
 	@Synchronized
@@ -406,15 +459,43 @@ class ImageHandlingFragment : BaseFragment() {
 		})
 	}
 
-	override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		if (resultCode != Activity.RESULT_OK || context == null || activity == null) {
+			super.onActivityResult(requestCode, resultCode, data)
+			return
+		}
+
 		when (requestCode) {
-			REQUEST_IMAGE -> if (resultCode == Activity.RESULT_OK) {
-				if (context == null || activity == null) return
-				handleUris(data)
-			}
+			REQUEST_IMAGE       -> handleUris(data)
+			REQUEST_ATTR_EDIT   -> updateAttribute(data)
 		}
 		super.onActivityResult(requestCode, resultCode, data)
 	}
+
+	private fun updateAttribute(data: Intent?) {
+		if (data == null || data.extras == null)   return
+
+		val attr = ExifEditActivity.getAttributeFromIntent(data)
+		val item = getCurrentItem()
+
+		if (item == null || attr == null) {
+			showGenericError()
+			return
+		}
+
+		Do.safe(
+				{ item.setAttribute(context!!, attr.key, attr.value) },
+				{
+					Timber.e(it)
+					if (it is IOException)
+						showInvalidFormatError()
+					else
+						showGenericError()
+				}
+		)
+	}
+
+	private fun getCurrentItem(): ExifRemovalFile? = viewModel.exifFiles.value?.get(vpImageCollection.currentItem)
 
 	private fun handleUris(data: Intent?) {
 		val uris = mutableListOf<Uri>()
@@ -475,7 +556,7 @@ class ImageHandlingFragment : BaseFragment() {
 					Timber.e(it)
 					Crashlytics.logException(it)
 					reset()
-					showError(getString(R.string.error_msg_oops))
+					showGenericError()
 				}
 				.onErrorReturn { ResponseWrapperList() }
 				.disposeBy(onDestroy)
@@ -537,6 +618,7 @@ class ImageHandlingFragment : BaseFragment() {
 	companion object {
 		private const val PERMISSION_REQUEST = 10566
 		private const val REQUEST_IMAGE = 10999
+		private const val REQUEST_ATTR_EDIT = 11000
 
 		private const val KEY_URI = "key_uri"
 

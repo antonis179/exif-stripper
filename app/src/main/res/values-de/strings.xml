@@ -33,4 +33,7 @@
 	<string name="error_msg_generic">Ein oder mehrere Fotos konnten aufgrund eines Fehlers nicht geladen werden</string>
 	<string name="error_msg_uri_issue_external">Ein oder mehrere Fotos konnten aufgrund eines Fehlers nicht geladen werden, da die Freigabeanwendung keinen Dateizugriff bereitgestellt hat</string>
 	<string name="error_msg_format">Ein oder mehrere Fotos konnten nicht geladen werden, da ihr Format keine EXIF-Metadaten enthält</string>
+	<string name="title_activity_exif_edit">Attribut bearbeiten</string>
+	<string name="et_hint_exif_value">Wert</string>
+	<string name="error_msg_write_format_invalid">Az írást csak JPEG és WEBP (részleges támogatás) formátumok támogatják</string>
 </resources>

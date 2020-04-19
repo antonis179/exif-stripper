@@ -12,9 +12,11 @@ import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
 import org.amoustakos.exifstripper.utils.FileUtils
+import org.amoustakos.exifstripper.utils.exif.errors.InvalidFormatException
 import org.amoustakos.utils.android.kotlin.Do
 import timber.log.Timber
 import java.io.File
+import java.io.IOException
 
 open class ExifFile() : Parcelable {
 
@@ -36,7 +38,8 @@ open class ExifFile() : Parcelable {
 				file.delete()
 		}
 
-		@JvmField val CREATOR = object : Parcelable.Creator<ExifFile> {
+		@JvmField
+		val CREATOR = object : Parcelable.Creator<ExifFile> {
 			override fun createFromParcel(parcel: Parcel): ExifFile {
 				return ExifFile(parcel)
 			}
@@ -89,7 +92,7 @@ open class ExifFile() : Parcelable {
 
 		val handler = SchemeHandlerFactory(context)[uri.toString()]
 
-		if (!ContentType.Image.isTypeOf(handler.getFileExtension(), ExifUtil.supportedFormats())) {
+		if (!ContentType.Image.isTypeOf(handler.getFileExtension(), ExifUtil.supportedReadFormats())) {
 			reset()
 			return ResponseWrapper(LoadResult.FormatError)
 		}
@@ -103,14 +106,14 @@ open class ExifFile() : Parcelable {
 			Timber.e(it)
 		})
 
-        file =
-                Do.safe({
-                    handler.getInputStream()?.let { FileUtils.createFile(it, cachePath) }
-                }, {
-                    Crashlytics.logException(it)
-                    Timber.e(it)
-                    null
-                }) ?: return ResponseWrapper(LoadResult.CacheError)
+		file =
+				Do.safe({
+					handler.getInputStream()?.let { FileUtils.createFile(it, cachePath) }
+				}, {
+					Crashlytics.logException(it)
+					Timber.e(it)
+					null
+				}) ?: return ResponseWrapper(LoadResult.CacheError)
 
 		loadExifAttributes(context)
 
@@ -145,27 +148,23 @@ open class ExifFile() : Parcelable {
 		}
 	}
 
+	@Throws(IOException::class, InvalidFormatException::class)
 	fun removeExifData(context: Context) {
+		validForWriteOrThrow(context)
 		getPath(context)?.let {
-			try {
-				ExifUtil.removeAttributes(it, Attributes())
-				exifAttributes = listOf()
-				loadExifAttributes(context)
-			} catch (e: Exception) {
-				Timber.e(e)
-			}
+			ExifUtil.removeAttributes(it, Attributes())
+			exifAttributes = listOf()
+			loadExifAttributes(context)
 		}
 	}
 
+	@Throws(IOException::class, InvalidFormatException::class)
 	fun removeAttribute(context: Context, attribute: String) {
+		validForWriteOrThrow(context)
 		getPath(context)?.let {
-			try {
-				ExifUtil.removeAttribute(it, attribute)
-				exifAttributes = listOf()
-				loadExifAttributes(context)
-			} catch (e: Exception) {
-				Timber.e(e)
-			}
+			ExifUtil.removeAttribute(it, attribute)
+			exifAttributes = listOf()
+			loadExifAttributes(context)
 		}
 	}
 
@@ -180,15 +179,19 @@ open class ExifFile() : Parcelable {
 		}
 	}
 
-	fun setAttribute(context: Context, attribute: String, value: String) {
+	fun setAttribute(context: Context, attribute: String, value: String?) {
+		validForWriteOrThrow(context)
 		getPath(context)?.let {
-			try {
-				ExifUtil.setAttribute(it, attribute, value)
-				exifAttributes = listOf()
-				loadExifAttributes(context)
-			} catch (e: Exception) {
-				Timber.e(e)
-			}
+			ExifUtil.setAttribute(it, attribute, value)
+			exifAttributes = listOf()
+			loadExifAttributes(context)
+		}
+	}
+
+	@Throws(InvalidFormatException::class)
+	private fun validForWriteOrThrow(context: Context) {
+		if (!ContentType.Image.isTypeOf(getHandler(context).getFileExtension(), ExifUtil.supportedWriteFormats())) {
+			throw InvalidFormatException()
 		}
 	}
 

@@ -33,4 +33,7 @@
 	<string name="error_msg_generic">No se pudieron cargar una o más fotos debido a un error</string>
 	<string name="error_msg_uri_issue_external">No se pudieron cargar una o más fotos debido a un error porque la aplicación para compartir no proporcionó acceso a los archivos</string>
 	<string name="error_msg_format">No se pudieron cargar una o más fotos porque su formato no contiene metadatos EXIF</string>
+	<string name="title_activity_exif_edit">Editar atributo</string>
+	<string name="et_hint_exif_value">Valor</string>
+	<string name="error_msg_write_format_invalid">La escritura solo es compatible con los formatos JPEG y WEBP (soporte parcial)</string>
 </resources>

@@ -33,4 +33,7 @@
 	<string name="error_msg_generic">Satu atau lebih foto tidak boleh dimuatkan disebabkan ralat</string>
 	<string name="error_msg_uri_issue_external">Satu atau lebih foto tidak boleh dimuatkan disebabkan oleh ralat kerana aplikasi perkongsian tidak menyediakan akses fail</string>
 	<string name="error_msg_format">Satu atau lebih foto tidak dapat dimuatkan kerana formatnya tidak mengandungi metadata EXIF</string>
+	<string name="title_activity_exif_edit">Edit Atribut</string>
+	<string name="et_hint_exif_value">Nilai</string>
+	<string name="error_msg_write_format_invalid">Az írást csak JPEG és WEBP (részleges támogatás) formátumok támogatják</string>
 </resources>

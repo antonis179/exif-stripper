@@ -33,4 +33,7 @@
 	<string name="error_msg_generic">Egy vagy több fényképet nem sikerült betölteni hiba miatt</string>
 	<string name="error_msg_uri_issue_external">Egy vagy több fényképet nem sikerült betölteni hiba miatt, mert a megosztási alkalmazás nem biztosította a fájlhozzáférést</string>
 	<string name="error_msg_format">Egy vagy több fényképet nem sikerült betölteni, mert formátumuk nem tartalmazza az EXIF metaadatokat</string>
+	<string name="title_activity_exif_edit">Attribútum szerkesztése</string>
+	<string name="et_hint_exif_value">Érték</string>
+	<string name="error_msg_write_format_invalid">Az írást csak JPEG és WEBP (részleges támogatás) formátumok támogatják</string>
 </resources>

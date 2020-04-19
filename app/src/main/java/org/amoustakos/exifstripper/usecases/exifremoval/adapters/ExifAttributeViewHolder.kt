@@ -50,6 +50,7 @@ class ExifAttributeViewHolder(
 
 	companion object {
 		const val DELETION_PUBLISHER_ID = "delete_publisher"
+		const val EDIT_PUBLISHER_ID = "edit_publisher"
 	}
 
 }
