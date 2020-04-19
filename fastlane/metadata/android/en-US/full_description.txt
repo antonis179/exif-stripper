@@ -22,13 +22,13 @@ By downloading this app you agree to the privacy policy.
 <b>Current Features:
 </b>
 • Remove metadata from multiple images at once
+• Edit metadata
 • Save or Share the stripped images
 • Share images to the app directly from your gallery
 
 <b>Under development:
 </b>
 • Translations for other languages (If you would like to contribute please do by a github issue or pull request!)
-• Ability to edit metadata
 • Option to monitor specific folders and automatically remove image meta-data as new images are taken
 
 If you have a feature idea you would like to see in the app please let me know.

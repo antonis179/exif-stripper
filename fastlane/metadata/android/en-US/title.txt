@@ -1,1 +1,1 @@
-Photo Stripper - Remove exif metadata
+Photo Stripper - Remove, edit EXIF metadata

@@ -1,0 +1,4 @@
+* Exif data is now editable (click on one to edit)
+* Added read support for TIFF (without preview), PNG images
+* Added partial write support for WEBP
+* Bug fixes
