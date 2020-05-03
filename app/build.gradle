@@ -48,7 +48,6 @@ dependencies {
 
 	//Ads
 	implementation libs_play_services.play_ads
-	implementation libs_play_services.play_location
 	implementation libs_ads.appodeal
 
 	implementation libs_image.values()
