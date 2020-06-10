@@ -71,6 +71,9 @@ class ImageHandlingFragment : BaseFragment() {
 	private val toolbar = ImageHandlingToolbar(R.id.toolbar)
 
 	private val updaterThread = Schedulers.newThread()
+	private val exifThread = Schedulers.newThread()
+
+	private var isLoading = false
 
 	// =========================================================================================
 	// View
@@ -118,8 +121,9 @@ class ImageHandlingFragment : BaseFragment() {
 		abSelectImages.setOnClickListener(imageSelectionListener)
 		vpImageCollection.setOnClickListener(imageSelectionListener)
 		btn_remove_all.setOnClickListener {
+			setLoading(true)
 			Single.fromCallable { }
-					.observeOn(updaterThread)
+					.observeOn(exifThread)
 					.subscribeOn(AndroidSchedulers.mainThread())
 					.map {
 						val errors: MutableList<Throwable> = mutableListOf()
@@ -149,6 +153,7 @@ class ImageHandlingFragment : BaseFragment() {
 					}
 					.map {}
 					.onErrorReturn {}
+					.doOnSuccess { setLoading(false) }
 					.disposeBy(onDestroy)
 					.subscribe()
 		}
@@ -156,7 +161,7 @@ class ImageHandlingFragment : BaseFragment() {
 		toolbar.setSaveListener { saveImage() }
 
 		deletionPublisher
-				.observeOn(updaterThread)
+				.observeOn(exifThread)
 				.subscribeOn(AndroidSchedulers.mainThread())
 				.doOnNext {
 					viewModel.exifFiles.value?.get(vpImageCollection.currentItem)?.removeAttribute(context!!, it.item.title)
@@ -220,20 +225,16 @@ class ImageHandlingFragment : BaseFragment() {
 		})
 	}
 
+	private fun setLoading(loading: Boolean) {
+		isLoading = loading
+		setState()
+	}
+
 	private fun setState() {
-		//FIXME: Move to view state class
-		//TODO: Add loading state
-		if (isImageLoaded()) {
-			viewContent.visibility = VISIBLE
-			rv_exif.visibility = VISIBLE
-			viewEmpty.visibility = GONE
-			viewLoading.visibility = GONE
-		} else {
-			viewContent.visibility = GONE
-			rv_exif.visibility = GONE
-			viewEmpty.visibility = VISIBLE
-			viewLoading.visibility = GONE
-		}
+		viewContent.visibility = if (isImageLoaded()) VISIBLE else GONE
+		rv_exif.visibility = if (isImageLoaded()) VISIBLE else GONE
+		viewLoading.visibility = if (isLoading) VISIBLE else GONE
+		viewEmpty.visibility = if (isImageLoaded()) GONE else VISIBLE
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -512,6 +513,7 @@ class ImageHandlingFragment : BaseFragment() {
 	private fun handleUris(uris: List<Uri>) {
 		reset()
 		Single.fromCallable {}
+				.doOnSubscribe { setLoading(true) }
 				.observeOn(Schedulers.computation())
 				.map {
 					val response: ResponseWrapperList<ExifFile.LoadResult> = ResponseWrapperList(mutableListOf())
@@ -559,6 +561,7 @@ class ImageHandlingFragment : BaseFragment() {
 					showGenericError()
 				}
 				.onErrorReturn { ResponseWrapperList() }
+				.doOnSuccess { setLoading(false) }
 				.disposeBy(onDestroy)
 				.subscribe()
 	}

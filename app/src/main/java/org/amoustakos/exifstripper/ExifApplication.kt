@@ -6,23 +6,14 @@ import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import timber.log.Timber
 
 
-
-
 class ExifApplication : Application() {
 
 	lateinit var environment: Environment
 
 	override fun onCreate() {
-		val start = System.currentTimeMillis()
-
 		super.onCreate()
-
 		environment = Environment(this)
-
 		overrideTerms()
-
-		val end = System.currentTimeMillis() - start
-		Timber.d("Application initialized in $end ms.")
 	}
 
 	private fun overrideTerms() {

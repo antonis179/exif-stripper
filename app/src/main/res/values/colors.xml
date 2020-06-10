@@ -34,6 +34,7 @@
 
 	<!-- Backgrounds -->
 	<color name="primaryBackground">#313131</color>
+	<color name="loadingBackground">#A6000000</color>
 
 	<!-- System -->
 	<color name="splashStatusBarBG">#A3351C1C</color>
