@@ -161,7 +161,7 @@ class ImageHandlingFragment : BaseFragment() {
 		toolbar.setSaveListener { saveImage() }
 
 		deletionPublisher
-				.observeOn(exifThread)
+				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(AndroidSchedulers.mainThread())
 				.doOnNext {
 					viewModel.exifFiles.value?.get(vpImageCollection.currentItem)?.removeAttribute(context!!, it.item.title)
