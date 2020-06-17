@@ -160,43 +160,59 @@ class ImageHandlingFragment : BaseFragment() {
 		toolbar.setShareListener { shareImage() }
 		toolbar.setSaveListener { saveImage() }
 
-		deletionPublisher
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(AndroidSchedulers.mainThread())
-				.doOnNext {
-					viewModel.exifFiles.value?.get(vpImageCollection.currentItem)?.removeAttribute(context!!, it.item.title)
-				}
-				.doOnError {
-					Timber.e(it)
-					if (it is IOException)
-						showInvalidFormatError()
-					else
-						Crashlytics.logException(it)
-				}
-				.map { }
-				.onErrorReturn { }
-				.disposeBy(onDestroy)
-				.subscribe()
-
-		clickPublisher
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribeOn(AndroidSchedulers.mainThread())
-				.doOnNext {
-					val attr = ExifAttribute(it.item.title, it.item.value)
-					startActivityForResult(
-							ExifEditActivity.getStartIntent(context!!, attr),
-							REQUEST_ATTR_EDIT
-					)
-				}
-				.doOnError(Timber::e)
-				.map { }
-				.onErrorReturn { }
-				.disposeBy(onDestroy)
-				.subscribe()
+		clickListener()
+		deletionListener()
 
 		setupViewPager()
 		setupRecycler()
 		updateAdapters()
+	}
+
+	private fun deletionListener() {
+		deletionPublisher
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(AndroidSchedulers.mainThread())
+				.doOnNext {
+					Do.safe(
+							{
+								viewModel.exifFiles.value
+										?.get(vpImageCollection.currentItem)
+										?.removeAttribute(context!!, it.item.title)
+							},
+							{
+								Timber.e(it)
+								if (it !is IOException)
+									Crashlytics.logException(it)
+							}
+					)
+				}
+				.map { }
+				.doOnError(Timber::e)
+				.onErrorReturn { }
+				.disposeBy(onDestroy)
+				.doOnComplete { deletionListener() }
+				.subscribe()
+	}
+
+	private fun clickListener() {
+		clickPublisher
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(AndroidSchedulers.mainThread())
+				.doOnNext {
+					Do safe {
+						val attr = ExifAttribute(it.item.title, it.item.value)
+						startActivityForResult(
+								ExifEditActivity.getStartIntent(context!!, attr),
+								REQUEST_ATTR_EDIT
+						)
+					}
+				}
+				.map { }
+				.doOnError(Timber::e)
+				.onErrorReturn { }
+				.disposeBy(onDestroy)
+				.doOnComplete { clickListener() }
+				.subscribe()
 	}
 
 	private fun setupToolbar() {
