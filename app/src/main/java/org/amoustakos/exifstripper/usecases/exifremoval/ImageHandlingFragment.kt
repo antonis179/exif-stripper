@@ -512,7 +512,10 @@ class ImageHandlingFragment : BaseFragment() {
 		)
 	}
 
-	private fun getCurrentItem(): ExifRemovalFile? = viewModel.exifFiles.value?.get(vpImageCollection.currentItem)
+	private fun getCurrentItem(): ExifRemovalFile? {
+		if (viewModel.exifFiles.value?.isNullOrEmpty() == true) return null
+		return viewModel.exifFiles.value?.get(vpImageCollection.currentItem)
+	}
 
 	private fun handleUris(data: Intent?) {
 		val uris = mutableListOf<Uri>()
@@ -570,6 +573,7 @@ class ImageHandlingFragment : BaseFragment() {
 
 					updateAdapters()
 				}
+				.doOnSuccess { setLoading(false) }
 				.doOnError {
 					Timber.e(it)
 					Crashlytics.logException(it)
@@ -577,7 +581,6 @@ class ImageHandlingFragment : BaseFragment() {
 					showGenericError()
 				}
 				.onErrorReturn { ResponseWrapperList() }
-				.doOnSuccess { setLoading(false) }
 				.disposeBy(onDestroy)
 				.subscribe()
 	}
