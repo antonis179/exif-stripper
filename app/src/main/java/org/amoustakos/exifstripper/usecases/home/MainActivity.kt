@@ -107,7 +107,7 @@ class MainActivity : BaseActivity() {
 
 	private fun loadFragment(fragment: Fragment, tag: String?) {
 		val fragmentTransaction = supportFragmentManager.beginTransaction()
-		fragmentTransaction.replace(R.id.fl_container, fragment, tag)
+		fragmentTransaction.replace(R.id.frag_container, fragment, tag)
 		fragmentTransaction.commit()
 	}
 
@@ -142,21 +142,18 @@ class MainActivity : BaseActivity() {
 	private fun selectFragment(savedInstanceState: Bundle?) {
 
 		if (savedInstanceState == null) {
-			val uris: ArrayList<Uri>? = when {
-
-				intent?.action == Intent.ACTION_SEND -> {
+			val uris: ArrayList<Uri>? = when (intent?.action) {
+				Intent.ACTION_SEND -> {
 					if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
 						val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
 						uri?.let { arrayListOf(it) }
 					} else null
 				}
-
-				intent?.action == Intent.ACTION_SEND_MULTIPLE -> {
+				Intent.ACTION_SEND_MULTIPLE -> {
 					if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
 						intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
 					} else null
 				}
-
 				else -> null
 			}
 
