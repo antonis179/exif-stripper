@@ -43,6 +43,7 @@ import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImagePagerA
 import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImageViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.views.ImageHandlingToolbar
+import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.exif.ExifFile
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
@@ -138,27 +139,29 @@ class ImageHandlingFragment : BaseFragment() {
 						errors
 					}
 					.observeOn(AndroidSchedulers.mainThread())
+					.doOnSuccess { setLoading(false) }
 					.doOnSuccess {
 						if (it.isNotEmpty()) {
 							if (it.filterIsInstance(IOException::class.java).isNotEmpty())
 								showInvalidFormatError()
 							else
 								showGenericError()
+						} else {
+							if (SettingsUtil.getAutosave()) saveImages()
 						}
 					}
+					.map {}
 					.doOnError {
 						Timber.e(it)
 						Crashlytics.logException(it)
 						showGenericError()
 					}
-					.map {}
 					.onErrorReturn {}
-					.doOnSuccess { setLoading(false) }
 					.disposeBy(onDestroy)
 					.subscribe()
 		}
 		toolbar.setShareListener { shareImage() }
-		toolbar.setSaveListener { saveImage() }
+		toolbar.setSaveListener { saveImages() }
 
 		clickListener()
 		deletionListener()
@@ -362,7 +365,7 @@ class ImageHandlingFragment : BaseFragment() {
 		})
 	}
 
-	private fun saveImage() {
+	private fun saveImages() {
 		Do.safe({
 			context?.let { ctx ->
 				Single.fromCallable {}

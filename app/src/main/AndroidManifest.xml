@@ -72,6 +72,13 @@
 			android:launchMode="singleInstance"
 			android:theme="@style/AppTheme.NoActionBar"/>
 
+		<activity
+			android:name=".usecases.settings.SettingsActivity"
+			android:parentActivityName=".usecases.home.MainActivity"
+			android:label="@string/title_activity_settings"
+			android:launchMode="singleInstance"
+			android:theme="@style/AppTheme.NoActionBar"/>
+
 
 		<!-- Metadata -->
 

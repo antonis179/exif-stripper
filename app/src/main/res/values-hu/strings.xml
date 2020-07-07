@@ -36,4 +36,6 @@
 	<string name="title_activity_exif_edit">Attribútum szerkesztése</string>
 	<string name="et_hint_exif_value">Érték</string>
 	<string name="error_msg_write_format_invalid">Az írást csak JPEG és WEBP (részleges támogatás) formátumok támogatják</string>
+	<string name="settings">Beállítások</string>
+	<string name="settings_autosave_title">Automatikus mentés</string>
 </resources>

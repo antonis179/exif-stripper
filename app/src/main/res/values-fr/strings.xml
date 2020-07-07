@@ -36,4 +36,6 @@
 	<string name="title_activity_exif_edit">Modifier l\'attribut</string>
 	<string name="et_hint_exif_value">Valeur</string>
 	<string name="error_msg_write_format_invalid">L\'écriture n\'est prise en charge que pour les formats JPEG et WEBP (prise en charge partielle)</string>
+	<string name="settings">Paramètres</string>
+	<string name="settings_autosave_title">Sauvegarde automatique</string>
 </resources>

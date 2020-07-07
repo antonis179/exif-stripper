@@ -8,6 +8,7 @@ import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
+import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
 import org.amoustakos.exifstripper.utils.exif.ExifFile
 import org.amoustakos.utils.android.kotlin.Do
 import timber.log.Timber
@@ -36,7 +37,9 @@ class Environment (
             AnalyticsUtil.enableAnalytics(context)
     }
 
-    private fun initPrefs() {}
+    private fun initPrefs() {
+	    SettingsUtil.setInitialValues(context)
+    }
 
     private fun initLog() {
         if (BuildConfig.DEBUG)

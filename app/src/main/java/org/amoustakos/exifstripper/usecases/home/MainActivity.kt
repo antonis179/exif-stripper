@@ -21,6 +21,7 @@ import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.donations.DonationsActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
+import org.amoustakos.exifstripper.usecases.settings.SettingsActivity
 import org.amoustakos.utils.android.kotlin.Do
 
 
@@ -87,11 +88,19 @@ class MainActivity : BaseActivity() {
 
 		navView.setNavigationItemSelectedListener { item ->
 			when (item.itemId) {
+
 				R.id.nav_donations -> {
 					startActivity(Intent(this, DonationsActivity::class.java))
 					if (isDrawerOpen()) closeDrawer()
 					false
 				}
+
+				R.id.nav_settings -> {
+					startActivity(Intent(this, SettingsActivity::class.java))
+					if (isDrawerOpen()) closeDrawer()
+					false
+				}
+
 				else -> true
 			}
 		}

@@ -10,6 +10,7 @@
 	<string name="title_activity_exif_edit">Edit Attribute</string>
 	<string name="title_privacy_policy">Privacy Policy</string>
 	<string name="title_terms">Terms and Conditions</string>
+	<string name="title_activity_settings" translatable="false">@string/settings</string>
 
 	<!-- Toasts -->
 
@@ -56,6 +57,12 @@
 	<string name="nav_header_desc">Navigation header</string>
 
 	<string name="menu_donations">Donations</string>
+	<string name="menu_settings" translatable="false">@string/settings</string>
+
+	<!-- Settings -->
+
+	<string name="settings">Settings</string>
+	<string name="settings_autosave_title">Auto Save</string>
 
 
 	<!-- Errors -->

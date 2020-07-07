@@ -36,4 +36,6 @@
 	<string name="title_activity_exif_edit">Edit Atribut</string>
 	<string name="et_hint_exif_value">Nilai</string>
 	<string name="error_msg_write_format_invalid">Az írást csak JPEG és WEBP (részleges támogatás) formátumok támogatják</string>
+	<string name="settings">Tetapan</string>
+	<string name="settings_autosave_title">Simpan Auto</string>
 </resources>
