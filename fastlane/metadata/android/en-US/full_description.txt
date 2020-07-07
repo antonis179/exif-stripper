@@ -25,10 +25,11 @@ By downloading this app you agree to the privacy policy.
 • Edit metadata
 • Save or Share the stripped images
 • Share images to the app directly from your gallery
+• Auto save option after metadata removal
 
 <b>Under development:
 </b>
-• Translations for other languages (If you would like to contribute please do by a github issue or pull request!)
-• Option to monitor specific folders and automatically remove image meta-data as new images are taken
+• Translations for other languages
+• Save folder setting
 
 If you have a feature idea you would like to see in the app please let me know.

@@ -1,0 +1,1 @@
+* Added Settings screen with auto save setting. Select to auto save photos after metadata removal
