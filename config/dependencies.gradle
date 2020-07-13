@@ -55,7 +55,7 @@ project.ext {
 			androidx_core               : '1.2.0',
 			appcompat                   : '1.2.0-beta01',
 			support_design              : '1.2.0-beta01',
-			support_recycler            : '1.0.0',
+			support_recycler            : '1.1.0',
 			support_cardview            : '1.0.0',
 			constraint_layout           : '2.0.0-beta7',
 			lifecycle_extensions        : '2.2.0',
@@ -137,8 +137,8 @@ project.ext {
 			lifecycle_view_model_state  : "androidx.lifecycle:lifecycle-viewmodel-savedstate:${lib_versions.lifecycle_view_model_state}",
 
 			//UI
-			recyclerview_v7     : "androidx.recyclerview:recyclerview:${lib_versions.support}",
-			cardview_v7         : "androidx.cardview:cardview:${lib_versions.support}",
+			recyclerview        : "androidx.recyclerview:recyclerview:${lib_versions.support_recycler}",
+			cardview            : "androidx.cardview:cardview:${lib_versions.support_cardview}",
 			support_design      : "com.google.android.material:material:${lib_versions.support_design}",
 			constraint_layout   : "androidx.constraintlayout:constraintlayout:${lib_versions.constraint_layout}",
 			preferences         : "androidx.preference:preference:${lib_versions.preferences}",

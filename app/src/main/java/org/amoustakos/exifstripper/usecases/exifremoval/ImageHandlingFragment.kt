@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.crashlytics.android.Crashlytics
 import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.AppBarLayout.LayoutParams.*
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,17 +43,18 @@ import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImageViewDa
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.views.ImageHandlingToolbar
 import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
+import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FileUtils
+import org.amoustakos.exifstripper.utils.Orientation
 import org.amoustakos.exifstripper.utils.exif.ExifFile
+import org.amoustakos.exifstripper.utils.rx.disposer.disposeBy
+import org.amoustakos.exifstripper.utils.rx.disposer.onDestroy
+import org.amoustakos.exifstripper.utils.ui.ViewHideScrollListener
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 import org.amoustakos.exifstripper.view.recycler.Type
-import org.amoustakos.utils.android.kotlin.Do
-import org.amoustakos.utils.android.rx.disposer.disposeBy
-import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
 import java.io.IOException
-
 
 class ImageHandlingFragment : BaseFragment() {
 
@@ -120,7 +120,6 @@ class ImageHandlingFragment : BaseFragment() {
 
 		tvSelectImages.setOnClickListener(imageSelectionListener)
 		abSelectImages.setOnClickListener(imageSelectionListener)
-		vpImageCollection.setOnClickListener(imageSelectionListener)
 		btn_remove_all.setOnClickListener {
 			setLoading(true)
 			Single.fromCallable { }
@@ -244,14 +243,29 @@ class ImageHandlingFragment : BaseFragment() {
 		})
 	}
 
+	private fun setupRecycler() {
+		if (viewModel.attrAdapterData.value == null)
+			viewModel.attrAdapterData.value = mutableListOf()
+
+		attrAdapter = ExifAttributeAdapter(viewModel.attrAdapterData.value!!, listOf(
+				PublisherItem(deletionPublisher, Type.CLICK, DELETION_PUBLISHER_ID),
+				PublisherItem(clickPublisher, Type.CLICK, EDIT_PUBLISHER_ID)
+		))
+
+		rvExif.setHasFixedSize(true)
+		rvExif.adapter = attrAdapter
+
+		rvExif.addOnScrollListener(ViewHideScrollListener(btn_remove_all, orientation = Orientation.VERTICAL))
+	}
+
 	private fun setLoading(loading: Boolean) {
 		isLoading = loading
 		setState()
 	}
 
 	private fun setState() {
-		viewContent.visibility = if (isImageLoaded()) VISIBLE else GONE
-		rv_exif.visibility = if (isImageLoaded()) VISIBLE else GONE
+		content.visibility = if (isImageLoaded()) VISIBLE else GONE
+		rvExif.visibility = if (isImageLoaded()) VISIBLE else GONE
 		viewLoading.visibility = if (isLoading) VISIBLE else GONE
 		viewEmpty.visibility = if (isImageLoaded()) GONE else VISIBLE
 	}
@@ -265,11 +279,11 @@ class ImageHandlingFragment : BaseFragment() {
 	private fun toggleAppbar() {
 		if (!isImageLoaded()) {
 			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
-			p.scrollFlags = SCROLL_FLAG_NO_SCROLL
+			p.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
 			ctToolbar.layoutParams = p
 		} else {
 			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
-			p.scrollFlags = SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or SCROLL_FLAG_SCROLL
+			p.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
 			ctToolbar.layoutParams = p
 		}
 	}
@@ -277,7 +291,6 @@ class ImageHandlingFragment : BaseFragment() {
 	private fun refreshUI() {
 		toggleRemoveAllButton()
 		restoreActions()
-		notifyAdapters()
 		toggleAppbar()
 		setState()
 	}
@@ -312,34 +325,12 @@ class ImageHandlingFragment : BaseFragment() {
 		attrSubscription?.dispose()
 		attrSubscription = null
 		adapter?.replace(items)
+		adapter?.notifyDataSetChanged()
 	}
 
 	private fun refreshAttributeAdapter(items: List<ExifAttributeViewData>) {
 		attrAdapter?.replace(items)
-	}
-
-	private fun notifyAdapters() {
-		adapter?.notifyDataSetChanged()
-		if (!viewModel.exifFiles.value.isNullOrEmpty() && attrSubscription == null) {
-			val currentItem = vpImageCollection.currentItem
-			if (currentItem >= 0 && currentItem < viewModel.exifFiles.value!!.size)
-				onImageSelected(currentItem)
-			else
-				onImageSelected(0)
-		}
 		attrAdapter?.notifyDataSetChanged()
-	}
-
-	private fun setupRecycler() {
-		if (viewModel.attrAdapterData.value == null)
-			viewModel.attrAdapterData.value = mutableListOf()
-
-		attrAdapter = ExifAttributeAdapter(viewModel.attrAdapterData.value!!, listOf(
-				PublisherItem(deletionPublisher, Type.CLICK, DELETION_PUBLISHER_ID),
-				PublisherItem(clickPublisher, Type.CLICK, EDIT_PUBLISHER_ID)
-		))
-
-		rv_exif.adapter = attrAdapter
 	}
 
 	private fun shareImage() {
@@ -458,21 +449,28 @@ class ImageHandlingFragment : BaseFragment() {
 			attrSubscription?.dispose()
 
 			attrSubscription = image.exifAttributesSubject
-					.observeOn(Schedulers.computation())
+					.observeOn(updaterThread)
 					.map {
 						it.map { exifData -> ExifAttributeViewData(exifData.title, exifData.value) }
 					}
 					.observeOn(AndroidSchedulers.mainThread())
-					.doOnError(Timber::e)
-					.onErrorReturn { mutableListOf() }
 					.doOnNext { refreshAttributeAdapter(it) }
 					.doOnNext { refreshUI() }
+					.map{}
 					.doOnError(Timber::e)
-					.onErrorReturn { mutableListOf() }
+					.onErrorReturn{}
 					.disposeBy(onDestroy)
 					.subscribe()
 
-			context?.let { if (image.isLoaded) image.loadExifAttributes(it) }
+			Single.fromCallable{}
+					.observeOn(updaterThread)
+					.map {
+						context?.let { if (image.isLoaded) image.loadExifAttributes(it) }
+					}
+					.doOnError(Timber::e)
+					.onErrorReturn{}
+					.disposeBy(onDestroy)
+					.subscribe()
 		}, {
 			Timber.e(it)
 			Crashlytics.logException(it)

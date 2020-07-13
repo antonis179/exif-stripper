@@ -26,11 +26,13 @@ kapt {
 }
 
 dependencies {
-	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
+//	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
 	kapt annotation_processors.lifecycle
 
 	implementation libs_support.appcompat
+	implementation libs_support.recyclerview
+	implementation libs_support.cardview
 	implementation libs_support.androidx_ktx
 	implementation libs_support.support_design
 	implementation libs_support.lifecycle_java8

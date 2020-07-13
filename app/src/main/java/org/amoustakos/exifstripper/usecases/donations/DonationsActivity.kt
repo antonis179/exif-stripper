@@ -23,13 +23,13 @@ import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationViewData
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationsAdapter
 import org.amoustakos.exifstripper.usecases.home.MainActivity
+import org.amoustakos.exifstripper.utils.Do
+import org.amoustakos.exifstripper.utils.rx.disposer.disposeBy
+import org.amoustakos.exifstripper.utils.rx.disposer.onDestroy
 import org.amoustakos.exifstripper.view.recycler.ClickEvent
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
 import org.amoustakos.exifstripper.view.recycler.Type
 import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
-import org.amoustakos.utils.android.kotlin.Do
-import org.amoustakos.utils.android.rx.disposer.disposeBy
-import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
 
 

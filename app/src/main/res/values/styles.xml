@@ -30,8 +30,8 @@
 
 	<style name="ButtonPrimary" parent="Widget.MaterialComponents.Button">
 		<item name="android:layout_width">match_parent</item>
-		<item name="android:layout_height">60dp</item>
-		<item name="android:background">@color/primaryBtnAction</item>
+		<item name="android:layout_height">55dp</item>
+		<item name="android:background">@drawable/btn_shape</item>
 		<item name="backgroundTint">@color/primaryBtnAction</item>
 		<item name="android:textColor">@color/primaryCTAText</item>
 		<item name="rippleColor">@color/primary</item>
@@ -42,8 +42,8 @@
 
 	<style name="ButtonSecondary" parent="android:Widget.ActionButton">
 		<item name="android:layout_width">wrap_content</item>
-		<item name="android:layout_height">50dp</item>
-		<item name="android:background">@color/secondaryBtnAction</item>
+		<item name="android:layout_height">45dp</item>
+		<item name="android:background">@drawable/btn_shape</item>
 		<item name="backgroundTint">@color/secondaryBtnAction</item>
 		<item name="android:textColor">@color/primaryCTAText</item>
 		<item name="rippleColor">@color/primary</item>
@@ -55,7 +55,7 @@
 	<style name="ButtonAd" parent="android:Widget.ActionButton">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">55dp</item>
-		<item name="android:background">@color/adBtnAction</item>
+		<item name="android:background">@drawable/btn_shape</item>
 		<item name="backgroundTint">@color/adBtnAction</item>
 		<item name="android:textColor">@color/secondaryCTAText</item>
 		<item name="rippleColor">@color/gray</item>

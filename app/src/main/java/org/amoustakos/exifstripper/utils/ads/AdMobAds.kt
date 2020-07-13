@@ -5,7 +5,7 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import org.amoustakos.exifstripper.BuildConfig
-import org.amoustakos.utils.android.kotlin.Do
+import org.amoustakos.exifstripper.utils.Do
 import timber.log.Timber
 
 object AdMobAds {

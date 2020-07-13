@@ -35,10 +35,11 @@
 	<dimen name="content_width_max">500dp</dimen>
 
 	<!-- Recyclers -->
-	<dimen name="card_exif_attribute_height">65dp</dimen>
+	<dimen name="card_exif_attribute_height">60dp</dimen>
+	<dimen name="card_exif_attribute_delete_size">48dp</dimen>
 
 	<!-- View Pagers -->
-	<dimen name="image_view_pager_max_height">350dp</dimen>
+	<dimen name="image_view_pager_max_height">325dp</dimen>
 
 	<!-- Donations -->
 	<dimen name="donationCardMaxWidth">450dp</dimen>

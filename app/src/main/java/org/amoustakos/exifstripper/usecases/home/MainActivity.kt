@@ -22,7 +22,7 @@ import org.amoustakos.exifstripper.usecases.donations.DonationsActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.usecases.settings.SettingsActivity
-import org.amoustakos.utils.android.kotlin.Do
+import org.amoustakos.exifstripper.utils.Do
 
 
 class MainActivity : BaseActivity() {

@@ -11,9 +11,9 @@ import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
+import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.exif.errors.InvalidFormatException
-import org.amoustakos.utils.android.kotlin.Do
 import timber.log.Timber
 import java.io.File
 import java.io.IOException

@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.activity_privacy_terms.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.utils.FileUtils
+import org.amoustakos.exifstripper.utils.rx.disposer.disposeBy
+import org.amoustakos.exifstripper.utils.rx.disposer.onDestroy
 import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
-import org.amoustakos.utils.android.rx.disposer.disposeBy
-import org.amoustakos.utils.android.rx.disposer.onDestroy
 import timber.log.Timber
 
 

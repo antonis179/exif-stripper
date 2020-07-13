@@ -3,12 +3,13 @@ package org.amoustakos.exifstripper.usecases.exifremoval.adapters
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.row_vp_image.view.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.view.recycler.BaseViewHolder
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
-import org.amoustakos.utils.android.kotlin.Do
 import timber.log.Timber
 
 class ExifImageViewHolder(
@@ -29,8 +30,9 @@ class ExifImageViewHolder(
 			Glide
 					.with(itemView.context)
 					.load(mItem?.path)
+					.downsample(DownsampleStrategy.AT_MOST)
 					.override(1250)
-					.diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+					.diskCacheStrategy(DiskCacheStrategy.ALL)
 					.dontAnimate()
 					.into(itemView.image)
 		}, {

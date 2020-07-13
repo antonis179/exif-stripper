@@ -32,7 +32,8 @@
 
 
 	<!-- Recyclers -->
-	<dimen name="card_exif_attribute_height">80dp</dimen>
+	<dimen name="card_exif_attribute_height">70dp</dimen>
+	<dimen name="card_exif_attribute_delete_size">58dp</dimen>
 
 	<!-- View Pagers -->
 	<dimen name="image_view_pager_max_height">450dp</dimen>

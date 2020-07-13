@@ -39,14 +39,9 @@ class ExifAttributeViewHolder(
 
 	override fun loadItem(item: ExifAttributeViewData) {
 		super.loadItem(item)
-		loadExifAttribute()
-	}
-
-	private fun loadExifAttribute() {
 		itemView.tv_title.text = mItem?.title
 		itemView.tv_value.text = mItem?.value
 	}
-
 
 	companion object {
 		const val DELETION_PUBLISHER_ID = "delete_publisher"
