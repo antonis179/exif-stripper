@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="primary">#BC5F04</color>
-	<color name="primaryDark">#2B0504</color>
-	<color name="accent">#F4442E</color>
+	<color name="primary">#941b0c</color>
+	<color name="primaryDark">#4A1206</color>
+	<color name="accent">#FDBC41</color>
 
-	<color name="secondary">#B32F20</color>
-	<color name="secondaryDark">#691B13</color>
+	<color name="secondary">#bc3908</color>
+	<color name="secondaryDark">#611E04</color>
 
 	<color name="transparent">#00000000</color>
 
@@ -30,10 +30,10 @@
 	<color name="gray_light">#b9b9b9</color>
 
 	<!-- Image -->
-	<color name="indicator">@color/white</color>
+	<color name="indicator">@color/accent</color>
 
 	<!-- Backgrounds -->
-	<color name="primaryBackground">#313131</color>
+	<color name="primaryBackground">#2B2928</color>
 	<color name="loadingBackground">#A6000000</color>
 
 	<!-- System -->
@@ -41,7 +41,7 @@
 
 	<!-- Navigation -->
 	<color name="navHeaderStartColor">@color/primary</color>
-	<color name="navHeaderCenterColor">#8D4404</color>
+	<color name="navHeaderCenterColor">#611208</color>
 	<color name="navHeaderEndColor">@color/primaryDark</color>
 
 </resources>
