@@ -361,7 +361,7 @@ class ImageHandlingFragment : BaseFragment() {
 			context?.let { ctx ->
 				Single.fromCallable {}
 						.observeOn(Schedulers.computation())
-						.map { viewModel.exifFiles.value?.forEach { it.saveToSigned(ctx) } }
+						.map { viewModel.exifFiles.value?.forEach { it.saveToStripped(ctx) } }
 						.observeOn(AndroidSchedulers.mainThread())
 						.doOnSuccess {
 							reset()

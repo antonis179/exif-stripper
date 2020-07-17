@@ -52,7 +52,7 @@ open class ExifFile() : Parcelable {
 	}
 
 
-	private var file: File? = null
+	protected var file: File? = null
 	private var exifAttributes: List<ExifAttributeData> = ArrayList()
 	val exifAttributesSubject: PublishSubject<List<ExifAttributeData>> = PublishSubject.create()
 
