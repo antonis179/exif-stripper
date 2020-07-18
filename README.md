@@ -1,4 +1,3 @@
-<a href="https://www.buymeacoffee.com/AoCpEcg" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
 
 # Exif Stripper #
@@ -6,6 +5,15 @@
 Exif Stripper removes private information from your photos stored as image metadata (exif) so you can share them safely!
 
 Download from [Play Store](https://play.google.com/store/apps/details?id=org.amoustakos.exifstripper)
+
+## Support ##
+
+If this project helped you please consider donating via one of the following ways:
+
+<a href="https://www.buymeacoffee.com/AoCpEcg" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
+- BTC: **19rqnHTiZNxeXVSCB2cckJeC92rm23nNrc**
+- Paypal: **<https://www.paypal.me/neo179>**
 
 
 ## Setup ##
@@ -43,11 +51,3 @@ More info [here](https://github.com/ben-manes/gradle-versions-plugin)
 The project specifies a local gradle.properties file which you should adjust to fit your specs.
 Options `org.gradle.jvmargs` and `org.gradle.parallel.threads` are commented as you should set these
 in your global `gradle.properties` file
-
-## Donations ##
-
-So you liked my code and want to buy me coffee and pizza? That's awesome!
-
-- BTC: **19rqnHTiZNxeXVSCB2cckJeC92rm23nNrc**
-- Paypal: **<https://www.paypal.me/neo179>**
-- Buy me a coffee: **<https://www.buymeacoffee.com/AoCpEcg>**
