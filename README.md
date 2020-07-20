@@ -12,8 +12,9 @@ If this project helped you please consider donating via one of the following way
 
 <a href="https://www.buymeacoffee.com/AoCpEcg" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
 
-- BTC: **19rqnHTiZNxeXVSCB2cckJeC92rm23nNrc**
 - Paypal: **<https://www.paypal.me/neo179>**
+- BTC: **19rqnHTiZNxeXVSCB2cckJeC92rm23nNrc**
+- ETH: **0x5F0F643F5dB5cC2E4ff91F16F13f225f441dd4Df**
 
 
 ## Setup ##
