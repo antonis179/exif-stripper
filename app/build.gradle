@@ -30,32 +30,18 @@ dependencies {
 
 	kapt annotation_processors.lifecycle
 
-	implementation libs_support.appcompat
-	implementation libs_support.recyclerview
-	implementation libs_support.cardview
-	implementation libs_support.androidx_ktx
-	implementation libs_support.support_design
-	implementation libs_support.lifecycle_java8
-	implementation libs_support.lifecycle_runtime
-	implementation libs_support.lifecycle_extensions
-	implementation libs_support.lifecycle_view_model_state
-	implementation libs_support.constraint_layout
-	implementation libs_support.play_billing
-
-	implementation libs_play_services.play_gcm
-	implementation libs_firebase.crashlytics
-	implementation libs_firebase.firebase_core
-	implementation libs_firebase.firebaseAnalytics
+	implementation libs_support.values()
+	implementation libs_firebase.values()
 	implementation libs_logging.values()
-
-	//Ads
-	implementation libs_play_services.play_ads
-	implementation (libs_ads.appodeal) { exclude group: 'com.appodeal.ads.sdk.networks', module: 'vungle' }
-
 	implementation libs_image.values()
-
 	implementation libs_kotlin.values()
 	implementation libs_rx.values()
+
+	//Ads
+	implementation libs_play_services.values()
+	implementation (libs_ads.appodeal) { exclude group: 'com.appodeal.ads.sdk.networks', module: 'vungle' }
+
+	coreLibraryDesugaring libs_desugaring.core_desugaring
 }
 
 apply plugin: applyPlugins.google_gms

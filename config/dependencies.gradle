@@ -66,6 +66,9 @@ project.ext {
 			preferences                 : '1.1.0',
 			play_billing                : '3.0.0',
 
+			//Desugaring
+			core_desugaring             : '1.0.9',
+
 			//Annotation processors - injection - RX
 //			dagger                      : '2.20',
 			rx_java                     : '2.2.19',
@@ -104,9 +107,6 @@ project.ext {
 			glide                       : '4.11.0',
 			exif                        : '1.2.0',
 
-			//Multidex
-//			multidex                    : '2.0.0',
-
 			circleindicator             : '2.1.4',
 
 			//Appodeal
@@ -125,7 +125,6 @@ project.ext {
 	]
 
 	libs_support = [
-//			multidex            : "androidx.multidex:multidex:${lib_versions.multidex}",
 			appcompat           : "androidx.appcompat:appcompat:${lib_versions.appcompat}",
 			androidx_core       : "androidx.core:core:${lib_versions.androidx_core}",
 			androidx_ktx        : "androidx.core:core-ktx:${lib_versions.androidx_ktx}",
@@ -141,8 +140,12 @@ project.ext {
 			cardview            : "androidx.cardview:cardview:${lib_versions.support_cardview}",
 			support_design      : "com.google.android.material:material:${lib_versions.support_design}",
 			constraint_layout   : "androidx.constraintlayout:constraintlayout:${lib_versions.constraint_layout}",
-			preferences         : "androidx.preference:preference:${lib_versions.preferences}",
+//			preferences         : "androidx.preference:preference:${lib_versions.preferences}",
 			play_billing        : "com.android.billingclient:billing:${lib_versions.play_billing}"
+	]
+
+	libs_desugaring = [
+			core_desugaring     : "com.android.tools:desugar_jdk_libs:${lib_versions.core_desugaring}"
 	]
 
 	libs_play_services = [
@@ -159,7 +162,7 @@ project.ext {
 			//Analytics
 			firebaseAnalytics   : "com.google.firebase:firebase-analytics:${lib_versions.firebaseAnalytics}",
 			firebase_core       : "com.google.firebase:firebase-core:${lib_versions.firebase_core}",
-			firebase_perf       : "com.google.firebase:firebase-perf:${lib_versions.firebase_performance}",
+//			firebase_perf       : "com.google.firebase:firebase-perf:${lib_versions.firebase_performance}",
 			crashlytics         : "com.crashlytics.sdk.android:crashlytics:${lib_versions.crashlytics}",
 
 			//Job dispatcher
@@ -167,7 +170,7 @@ project.ext {
 
 			//FCM
 //			fcm                 : "com.google.firebase:firebase-messaging:${lib_versions.firebase_cloud_messaging}",
-			firebase_ads        : "com.google.firebase:firebase-ads:${lib_versions.firebase_ads}",
+//			firebase_ads        : "com.google.firebase:firebase-ads:${lib_versions.firebase_ads}",
 	]
 
 	libs_local_io = [
