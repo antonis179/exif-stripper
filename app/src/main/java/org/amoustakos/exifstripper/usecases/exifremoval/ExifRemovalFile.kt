@@ -10,7 +10,7 @@ import android.os.Environment
 import android.os.Parcel
 import android.os.Parcelable
 import android.provider.MediaStore
-import com.crashlytics.android.Crashlytics
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.exif.ExifFile
@@ -57,7 +57,7 @@ class ExifRemovalFile : ExifFile, Parcelable {
 						path: ${Environment.DIRECTORY_PICTURES}/$PATH_STRIPPED
 						fileExists: ${file?.exists()}
 					""".trimIndent())
-					Crashlytics.logException(exc)
+					AnalyticsUtil.logException(exc)
 					null
 				}
 		)

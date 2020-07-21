@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.View
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.gms.ads.rewarded.RewardedAd
@@ -23,6 +22,7 @@ import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationViewData
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationsAdapter
 import org.amoustakos.exifstripper.usecases.home.MainActivity
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.rx.disposer.disposeBy
 import org.amoustakos.exifstripper.utils.rx.disposer.onDestroy
@@ -104,10 +104,7 @@ class DonationsActivity : BaseActivity() {
 			val browserIntent = Intent(ACTION_VIEW, Uri.parse("https://github.com/antonis179/exif-stripper"))
 			Do.safe(
 					{ startActivity(browserIntent) },
-					{
-						Timber.e(it)
-						Crashlytics.logException(it)
-					}
+					{ AnalyticsUtil.logException(it) }
 			)
 		}
 
@@ -116,12 +113,10 @@ class DonationsActivity : BaseActivity() {
 	}
 
 	private fun loadBilling() {
-		Do.safe({
-			initBilling()
-		}, {
-			Crashlytics.logException(it)
-			Timber.e(it)
-		})
+		Do.safe(
+				{ initBilling()	},
+				{ AnalyticsUtil.logException(it) }
+		)
 	}
 
 	private fun setupRecycler(viewData: MutableList<DonationViewData>) {
@@ -196,7 +191,7 @@ class DonationsActivity : BaseActivity() {
 					.build()
 			billingClient.consumeAsync(consumeParams) { billingResult, purchaseToken ->
 				if (billingResult.responseCode != OK) {
-					Crashlytics.log("Failed to process purchase: ${purchase.orderId}. Token: $purchaseToken")
+					AnalyticsUtil.logMessage("Failed to process purchase: ${purchase.orderId}. Token: $purchaseToken")
 				} else {
 					showReward()
 				}
@@ -208,8 +203,7 @@ class DonationsActivity : BaseActivity() {
 
 	private fun makeAndLoadRewardedAd() {
 		Do.safe({loadAdMobRewardedAd()},{
-			Timber.e(it)
-			Crashlytics.logException(it)
+			AnalyticsUtil.logException(it)
 		})
 	}
 

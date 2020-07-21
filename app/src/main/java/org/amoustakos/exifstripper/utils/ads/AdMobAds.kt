@@ -1,12 +1,10 @@
 package org.amoustakos.exifstripper.utils.ads
-
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import org.amoustakos.exifstripper.BuildConfig
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
-import timber.log.Timber
 
 object AdMobAds {
 
@@ -17,8 +15,7 @@ object AdMobAds {
 			view.loadAd(AdRequest.Builder().build())
 			view.adListener = listener
 		}, {
-			Timber.e(it)
-			Crashlytics.logException(it)
+			AnalyticsUtil.logException(it)
 		})
 	}
 

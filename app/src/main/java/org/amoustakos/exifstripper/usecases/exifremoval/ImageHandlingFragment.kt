@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
-import com.crashlytics.android.Crashlytics
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.Single
@@ -42,6 +41,7 @@ import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImagePagerA
 import org.amoustakos.exifstripper.usecases.exifremoval.adapters.ExifImageViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.usecases.exifremoval.views.ImageHandlingToolbar
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FileUtils
@@ -151,8 +151,7 @@ class ImageHandlingFragment : BaseFragment() {
 					}
 					.map {}
 					.doOnError {
-						Timber.e(it)
-						Crashlytics.logException(it)
+						AnalyticsUtil.logException(it)
 						showGenericError()
 					}
 					.onErrorReturn {}
@@ -184,7 +183,7 @@ class ImageHandlingFragment : BaseFragment() {
 							{
 								Timber.e(it)
 								if (it !is IOException)
-									Crashlytics.logException(it)
+									AnalyticsUtil.logException(it, true)
 							}
 					)
 				}
@@ -313,8 +312,7 @@ class ImageHandlingFragment : BaseFragment() {
 					refreshUI()
 				}
 				.doOnError {
-					Timber.e(it)
-					Crashlytics.logException(it)
+					AnalyticsUtil.logException(it)
 				}
 				.onErrorReturn { mutableListOf() }
 				.disposeBy(lifecycle.onDestroy)
@@ -351,8 +349,7 @@ class ImageHandlingFragment : BaseFragment() {
 				}
 			}
 		}, {
-			Timber.e(it)
-			Crashlytics.logException(it)
+			AnalyticsUtil.logException(it)
 		})
 	}
 
@@ -368,8 +365,7 @@ class ImageHandlingFragment : BaseFragment() {
 							notifyStored()
 						}
 						.doOnError {
-							Timber.e(it)
-							Crashlytics.logException(it)
+							AnalyticsUtil.logException(it)
 							showError(getString(R.string.error_msg_storage_issue))
 						}
 						.onErrorReturn { }
@@ -377,8 +373,7 @@ class ImageHandlingFragment : BaseFragment() {
 						.subscribe()
 			}
 		}, {
-			Timber.e(it)
-			Crashlytics.logException(it)
+			AnalyticsUtil.logException(it)
 		})
 	}
 
@@ -472,8 +467,7 @@ class ImageHandlingFragment : BaseFragment() {
 					.disposeBy(onDestroy)
 					.subscribe()
 		}, {
-			Timber.e(it)
-			Crashlytics.logException(it)
+			AnalyticsUtil.logException(it)
 		})
 	}
 
@@ -576,8 +570,7 @@ class ImageHandlingFragment : BaseFragment() {
 				}
 				.doOnSuccess { setLoading(false) }
 				.doOnError {
-					Timber.e(it)
-					Crashlytics.logException(it)
+					AnalyticsUtil.logException(it)
 					reset()
 					showGenericError()
 				}

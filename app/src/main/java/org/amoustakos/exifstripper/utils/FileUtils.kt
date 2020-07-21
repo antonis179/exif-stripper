@@ -6,8 +6,8 @@ import android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION
 import android.net.Uri
 import android.os.StatFs
 import android.webkit.MimeTypeMap
-import com.crashlytics.android.Crashlytics
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType.WILDCARD
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import timber.log.Timber
 import java.io.*
 import kotlin.experimental.and
@@ -58,15 +58,13 @@ object FileUtils {
 				destinationFile.setExecutable(true)
 				return destinationFile
 			} catch (e: IOException) {
-				Timber.e(e)
-				Crashlytics.logException(e)
+				AnalyticsUtil.logException(e)
 			} finally {
 				source.close()
 				out?.close()
 			}
 		} catch (e: IOException) {
-			Timber.e(e)
-			Crashlytics.logException(e)
+			AnalyticsUtil.logException(e)
 		}
 		return null
 	}

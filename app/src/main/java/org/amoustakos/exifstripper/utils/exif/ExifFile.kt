@@ -6,11 +6,11 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.content.FileProvider
-import com.crashlytics.android.Crashlytics
 import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.exif.errors.InvalidFormatException
@@ -102,16 +102,14 @@ open class ExifFile() : Parcelable {
 		Do.safe({
 			clearFile(context, cachePath)
 		}, {
-			Crashlytics.logException(it)
-			Timber.e(it)
+			AnalyticsUtil.logException(it)
 		})
 
 		file =
 				Do.safe({
 					handler.getInputStream()?.let { FileUtils.createFile(it, cachePath) }
 				}, {
-					Crashlytics.logException(it)
-					Timber.e(it)
+					AnalyticsUtil.logException(it)
 					null
 				}) ?: return ResponseWrapper(LoadResult.CacheError)
 

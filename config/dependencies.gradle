@@ -20,7 +20,7 @@ project.ext {
 			kotlinAndroidExtentions   : 'kotlin-android-extensions',
 			realm                     : 'realm-android',
 			firebasePerformance       : 'com.google.firebase.firebase-perf',
-			fabric                    : 'io.fabric',
+			crashlytics                    : 'com.google.firebase.crashlytics',
 			dependencyUpdates         : 'com.github.ben-manes.versions',
 			google_gms                : 'com.google.gms.google-services'
 	]
@@ -31,7 +31,7 @@ project.ext {
 //			realm                   : '5.12.0',
 			firebase_gms            : '4.3.3',
 //			firebase_performance    : '1.3.1',
-			fabric                  : '1.31.2',
+			crashlytics                  : '2.2.0',
 			gradleVersions          : '0.28.0'
 	]
 
@@ -42,7 +42,7 @@ project.ext {
 //			realm                   : "io.realm:realm-gradle-plugin:${plugin_versions.realm}",
 			google_gms              : "com.google.gms:google-services:${plugin_versions.firebase_gms}",
 //			firebase_performance    : "com.google.firebase:perf-plugin:${plugin_versions.firebase_performance}",
-			fabric                  : "io.fabric.tools:gradle:${plugin_versions.fabric}",
+			crashlytics             : "com.google.firebase:firebase-crashlytics-gradle:${plugin_versions.crashlytics}",
 			gradleVersions          : "com.github.ben-manes:gradle-versions-plugin:${plugin_versions.gradleVersions}"
 	]
 
@@ -89,9 +89,9 @@ project.ext {
 			timber                      : '4.7.1',
 
 			//Analytics
-			crashlytics                 : '2.10.1',
+			crashlytics                 : '17.1.1',
 //			firebase_index              : '16.0.1',
-			firebase_core               : '17.4.3',
+			firebase_core               : '17.4.4',
 			firebase_performance        : '19.0.0',
 //			firebase_cloud_messaging    : '17.3.4',
 			firebase_ads                : '19.1.0',
@@ -160,10 +160,10 @@ project.ext {
 //			firebase_index      : "com.google.firebase:firebase-appindexing:${lib_versions.firebase_index}",
 
 			//Analytics
-			firebaseAnalytics   : "com.google.firebase:firebase-analytics:${lib_versions.firebaseAnalytics}",
+			firebaseAnalytics   : "com.google.firebase:firebase-analytics-ktx:${lib_versions.firebaseAnalytics}",
 			firebase_core       : "com.google.firebase:firebase-core:${lib_versions.firebase_core}",
 //			firebase_perf       : "com.google.firebase:firebase-perf:${lib_versions.firebase_performance}",
-			crashlytics         : "com.crashlytics.sdk.android:crashlytics:${lib_versions.crashlytics}",
+			crashlytics         : "com.google.firebase:firebase-crashlytics:${lib_versions.crashlytics}",
 
 			//Job dispatcher
 //			jobdispatcher       : "com.firebase:firebase-jobdispatcher:${lib_versions.job_dispatcher}",

@@ -4,7 +4,7 @@ apply from: "$project.rootDir/config/config.gradle"
 apply plugin: applyPlugins.kotlin
 apply plugin: applyPlugins.kapt
 apply plugin: applyPlugins.kotlinAndroidExtentions
-apply plugin: applyPlugins.fabric
+apply plugin: applyPlugins.crashlytics
 
 android {
 	defaultConfig {

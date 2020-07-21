@@ -4,9 +4,9 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
-import com.crashlytics.android.Crashlytics
 import kotlinx.android.synthetic.main.row_vp_image.view.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.view.recycler.BaseViewHolder
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
@@ -36,8 +36,7 @@ class ExifImageViewHolder(
 					.dontAnimate()
 					.into(itemView.image)
 		}, {
-			Timber.e(it)
-			Crashlytics.logException(it)
+			AnalyticsUtil.logException(it)
 		})
 	}
 }
