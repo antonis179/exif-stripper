@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import com.appodeal.ads.Appodeal
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_main.*
 import org.amoustakos.exifstripper.R
@@ -23,6 +22,7 @@ import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.usecases.settings.SettingsActivity
 import org.amoustakos.exifstripper.utils.Do
+import org.amoustakos.exifstripper.utils.ads.AdUtility
 
 
 class MainActivity : BaseActivity() {
@@ -50,22 +50,13 @@ class MainActivity : BaseActivity() {
 			Do safe { FirebaseAnalytics.getInstance(this).logEvent("privacy_terms_not_accepted", null) }
 			return
 		} else {
-			Do safe {
-				Appodeal.initialize(
-						this,
-						getString(R.string.appodeal_app_key),
-						Appodeal.BANNER_VIEW,
-						true
-				)
-				Appodeal.setBannerViewId(R.id.adFooterBanner)
-				Appodeal.show(this, Appodeal.BANNER_VIEW)
-			}
+			AdUtility.inflateFooterAdView(flAdFooter)
 		}
 	}
 
 	override fun onResume() {
 		super.onResume()
-		Appodeal.onResume(this, Appodeal.BANNER_VIEW)
+		AdUtility.onFooterResume(this)
 	}
 
 	override fun onResumeFragments() {

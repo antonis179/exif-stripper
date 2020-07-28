@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
-import com.appodeal.ads.Appodeal
 import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.android.synthetic.main.activity_exif_edit.*
 import kotlinx.android.synthetic.main.include_attribute_edit_fields.*
@@ -16,6 +15,7 @@ import org.amoustakos.exifstripper.io.model.ExifAttribute
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.utils.Do
+import org.amoustakos.exifstripper.utils.ads.AdUtility
 import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 
 class ExifEditActivity : BaseActivity() {
@@ -81,16 +81,14 @@ class ExifEditActivity : BaseActivity() {
 			return
 		} else {
 			Do safe {
-				Appodeal.initialize(
-						this,
-						getString(R.string.appodeal_app_key),
-						Appodeal.BANNER_VIEW,
-						true
-				)
-				Appodeal.setBannerViewId(R.id.adFooterBanner)
-				Appodeal.show(this, Appodeal.BANNER_VIEW)
+				AdUtility.inflateFooterAdView(flAdFooter)
 			}
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+		AdUtility.onFooterResume(this)
 	}
 
 	private fun setupToolbar() {

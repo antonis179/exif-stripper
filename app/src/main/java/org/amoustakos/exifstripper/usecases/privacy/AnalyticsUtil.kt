@@ -27,5 +27,8 @@ object AnalyticsUtil {
         FirebaseCrashlytics.getInstance().log(message)
     }
 
+	fun logEvent(ctx: Context, name: String, message: String? = null) {
+		FirebaseAnalytics.getInstance(ctx).logEvent(name, null)
+	}
 
 }

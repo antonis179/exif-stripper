@@ -45,19 +45,17 @@
 		android:layout_gravity="center"
 		android:layout_margin="@dimen/margin_large"
 		android:text="@string/save"
-		app:layout_constraintBottom_toTopOf="@id/adFooterBanner"
+		app:layout_constraintBottom_toTopOf="@id/flAdFooter"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent" />
 
 
-	<com.appodeal.ads.BannerView
-		android:id="@+id/adFooterBanner"
-		android:layout_width="0dp"
+	<FrameLayout
+		android:id="@+id/flAdFooter"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:visibility="gone"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		tools:visibility="visible" />
+		app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

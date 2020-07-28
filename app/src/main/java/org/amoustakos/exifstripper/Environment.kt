@@ -10,6 +10,7 @@ import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
 import org.amoustakos.exifstripper.utils.Do
+import org.amoustakos.exifstripper.utils.FBRemoteConfigUtility
 import org.amoustakos.exifstripper.utils.exif.ExifFile
 import timber.log.Timber
 
@@ -18,6 +19,7 @@ class Environment (
 ) {
 
     init {
+        initRemoteConfig()
         initPrefs()
         initLog()
         cleanup()
@@ -49,6 +51,7 @@ class Environment (
     private fun initAds() {
 	    Appodeal.disableLocationPermissionCheck()
 	    Appodeal.disableWriteExternalStoragePermissionCheck()
+	    Appodeal.setBannerAnimation(true)
 	    Appodeal.set728x90Banners(true)
 
 	    if (BuildConfig.DEBUG) {
@@ -57,6 +60,10 @@ class Environment (
 	    }
 
 	    Appodeal.setAutoCache(Appodeal.BANNER_VIEW, true)
+    }
+
+    private fun initRemoteConfig() {
+        FBRemoteConfigUtility.initialize()
     }
 
     @SuppressLint("CheckResult")

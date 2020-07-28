@@ -9,13 +9,14 @@
 		style="@style/Card.ExifAttribute"
 		android:layout_width="0dp"
 		android:layout_height="@dimen/card_exif_attribute_height"
-		android:layout_marginEnd="@dimen/margin_small"
+		android:layout_marginEnd="@dimen/margin_normal"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toStartOf="@id/iv_delete"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintWidth_max="@dimen/content_width_max">
 
+		<!-- TODO: fix overlay on big texts -->
 		<androidx.constraintlayout.widget.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
@@ -40,7 +41,7 @@
 				app:layout_constraintEnd_toEndOf="@id/br_1"
 				app:layout_constraintStart_toStartOf="parent"
 				app:layout_constraintTop_toTopOf="parent"
-				tools:text="Exif attribute" />
+				tools:text="Exif attributgrgegregtrett" />
 
 			<TextView
 				android:id="@+id/tv_value"
@@ -56,7 +57,7 @@
 				app:layout_constraintEnd_toEndOf="parent"
 				app:layout_constraintStart_toEndOf="@id/br_1"
 				app:layout_constraintTop_toTopOf="parent"
-				tools:text="Exif attribute" />
+				tools:text="Exif attribute egrkrmgklejgklejglikeglikejhgilkregjilkeghjioeghniorgeh" />
 
 		</androidx.constraintlayout.widget.ConstraintLayout>
 
