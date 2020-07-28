@@ -44,7 +44,7 @@ object FBRemoteConfigUtility {
 		fetched = false
 		Firebase.remoteConfig.apply {
 			remoteConfigSettings {
-				minimumFetchIntervalInSeconds = 720
+				minimumFetchIntervalInSeconds = 60
 				setDefaultsAsync(defaults)
                         .addOnCompleteListener {
                             defaultsSet = it.isSuccessful
