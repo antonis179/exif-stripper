@@ -135,6 +135,18 @@ object FileUtils {
 		return totalBlocks * blockSize
 	}
 
+	fun findExternalCacheDir(context: Context): String? {
+		if (context.externalCacheDir != null)   return context.externalCacheDir!!.absolutePath
+
+		for (f in context.externalCacheDirs) {
+			if (f != null && f.exists())    return f.absolutePath
+		}
+
+		if (context.cacheDir != null)   return context.cacheDir!!.absolutePath
+
+		return null
+	}
+
 	// =========================================================================================
 	// URIs
 	// =========================================================================================

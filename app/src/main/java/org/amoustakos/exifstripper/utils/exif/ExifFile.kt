@@ -24,7 +24,14 @@ open class ExifFile() : Parcelable {
 		private const val CACHE_FOLDER = "/exif_cache/"
 		private const val IMAGE_PROVIDER = "imageprovider"
 
-		fun getCacheDirectory(context: Context) = "${context.externalCacheDir!!}$CACHE_FOLDER"
+		private var storedCacheFolder: String? = null
+
+		@Throws
+		fun getCacheDirectory(context: Context): String {
+			if (storedCacheFolder == null)  storedCacheFolder = FileUtils.findExternalCacheDir(context)
+
+			return "${storedCacheFolder!!}$CACHE_FOLDER"
+		}
 
 		fun getCacheFilePath(context: Context, name: String) = "${getCacheDirectory(context)}$name"
 

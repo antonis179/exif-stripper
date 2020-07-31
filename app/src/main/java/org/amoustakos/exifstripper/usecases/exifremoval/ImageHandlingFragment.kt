@@ -423,12 +423,17 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	private fun reset() {
-		Do safe {
-			context?.let { ExifFile.clearCache(it) }
-			viewModel.exifFiles.value?.clear()
-			updateAdapters()
-			toggleActions(false)
-		}
+		Do.safe(
+				{
+					context?.let { ExifFile.clearCache(it) }
+					viewModel.exifFiles.value?.clear()
+					updateAdapters()
+					toggleActions(false)
+				},
+				{
+					AnalyticsUtil.logException(it)
+				}
+		)
 	}
 
 	// =========================================================================================
