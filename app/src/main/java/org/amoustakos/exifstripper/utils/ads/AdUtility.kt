@@ -91,7 +91,7 @@ object AdUtility {
 
         //When everything has failed!
         if (!remoteConfigLoaded && !remoteConfigDefaultsSet) {
-            AnalyticsUtil.logEvent(viewGroup.context, "remote_conf_load_failed")
+            AnalyticsUtil.logEvent(viewGroup.context, "ads_defaulted_no_config")
             inflateAndLoadFooterAppodeal(viewGroup)
             return
         }

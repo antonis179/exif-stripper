@@ -3,6 +3,7 @@ package org.amoustakos.exifstripper.utils
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 
 object FBRemoteConfigUtility {
@@ -63,8 +64,8 @@ object FBRemoteConfigUtility {
         Firebase.remoteConfig.fetchAndActivate()
                 .addOnCompleteListener { fetched = it.isSuccessful }
                 .addOnSuccessListener { observers.forEach { it.onRemoteInit() } }
-                .addOnFailureListener { exc ->
-                    AnalyticsUtil.logException(exc)
+                .addOnFailureListener { _ ->
+	                AnalyticsUtil.logEvent(ExifApplication.appContext.get()!!, "remote_conf_load_failed")
                     observers.forEach { it.onFailRemote() }
                 }
     }
