@@ -1,2 +1,0 @@
-* Android 11 updates
-* Bug fixes
