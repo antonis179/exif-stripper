@@ -66,6 +66,7 @@ class ImageHandlingFragment : BaseFragment() {
 	private val imageSelectionListener: View.OnClickListener = View.OnClickListener { pickImage() }
 	private val deletionPublisher: PublishSubject<ClickEvent<ExifAttributeViewData>> = PublishSubject.create()
 	private val clickPublisher: PublishSubject<ClickEvent<ExifAttributeViewData>> = PublishSubject.create()
+	private val imageSelectionPublisher: PublishSubject<ClickEvent<ExifImageViewData>> = PublishSubject.create()
 
 	private var attrSubscription: Disposable? = null
 
@@ -118,8 +119,9 @@ class ImageHandlingFragment : BaseFragment() {
 
 		init(savedInstanceState)
 
-		tvSelectImages.setOnClickListener(imageSelectionListener)
 		abSelectImages.setOnClickListener(imageSelectionListener)
+		ciImageIndicator.setOnClickListener(imageSelectionListener)
+
 		btn_remove_all.setOnClickListener {
 			setLoading(true)
 			Single.fromCallable { }
@@ -162,6 +164,7 @@ class ImageHandlingFragment : BaseFragment() {
 		toolbar.setSaveListener { saveImages() }
 
 		clickListener()
+		imageClickListener()
 		deletionListener()
 
 		setupViewPager()
@@ -216,6 +219,21 @@ class ImageHandlingFragment : BaseFragment() {
 				.subscribe()
 	}
 
+	private fun imageClickListener() {
+		imageSelectionPublisher
+				.observeOn(AndroidSchedulers.mainThread())
+				.subscribeOn(AndroidSchedulers.mainThread())
+				.doOnNext {
+					imageSelectionListener.onClick(vpImageCollection)
+				}
+				.map { }
+				.doOnError(Timber::e)
+				.onErrorReturn { }
+				.disposeBy(onDestroy)
+				.doOnComplete { imageClickListener() }
+				.subscribe()
+	}
+
 	private fun setupToolbar() {
 		setupViewComponent(toolbar)
 		setHasOptionsMenu(true)
@@ -228,7 +246,10 @@ class ImageHandlingFragment : BaseFragment() {
 			if (viewModel.adapterData.value == null)
 				viewModel.adapterData.value = mutableListOf()
 
-			adapter = ExifImagePagerAdapter(viewModel.adapterData.value!!)
+			adapter = ExifImagePagerAdapter(
+					viewModel.adapterData.value!!,
+					listOf(PublisherItem(imageSelectionPublisher, Type.CLICK))
+			)
 		}
 		vpImageCollection.adapter = adapter
 		ciImageIndicator.setViewPager(vpImageCollection)
@@ -456,19 +477,19 @@ class ImageHandlingFragment : BaseFragment() {
 					.observeOn(AndroidSchedulers.mainThread())
 					.doOnNext { refreshAttributeAdapter(it) }
 					.doOnNext { refreshUI() }
-					.map{}
+					.map {}
 					.doOnError(Timber::e)
-					.onErrorReturn{}
+					.onErrorReturn {}
 					.disposeBy(onDestroy)
 					.subscribe()
 
-			Single.fromCallable{}
+			Single.fromCallable {}
 					.observeOn(updaterThread)
 					.map {
 						context?.let { if (image.isLoaded) image.loadExifAttributes(it) }
 					}
 					.doOnError(Timber::e)
-					.onErrorReturn{}
+					.onErrorReturn {}
 					.disposeBy(onDestroy)
 					.subscribe()
 		}, {
@@ -483,14 +504,14 @@ class ImageHandlingFragment : BaseFragment() {
 		}
 
 		when (requestCode) {
-			REQUEST_IMAGE       -> handleUris(data)
-			REQUEST_ATTR_EDIT   -> updateAttribute(data)
+			REQUEST_IMAGE -> handleUris(data)
+			REQUEST_ATTR_EDIT -> updateAttribute(data)
 		}
 		super.onActivityResult(requestCode, resultCode, data)
 	}
 
 	private fun updateAttribute(data: Intent?) {
-		if (data == null || data.extras == null)   return
+		if (data == null || data.extras == null) return
 
 		val attr = ExifEditActivity.getAttributeFromIntent(data)
 		val item = getCurrentItem()

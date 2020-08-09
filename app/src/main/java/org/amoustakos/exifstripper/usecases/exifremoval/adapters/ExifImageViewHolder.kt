@@ -20,6 +20,10 @@ class ExifImageViewHolder(
 		publishers
 ) {
 
+	init {
+		itemView.setOnClickListener { onClick() }
+	}
+
 	override fun loadItem(item: ExifImageViewData) {
 		super.loadItem(item)
 		loadExifAttribute()
