@@ -3,6 +3,7 @@ package org.amoustakos.exifstripper.usecases.home
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -19,9 +20,11 @@ import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.usecases.donations.DonationsActivity
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.usecases.settings.SettingsActivity
 import org.amoustakos.exifstripper.utils.Do
+import org.amoustakos.exifstripper.utils.ads.AdLoadedListener
 import org.amoustakos.exifstripper.utils.ads.AdUtility
 
 
@@ -29,6 +32,15 @@ class MainActivity : BaseActivity() {
 
 	private var isDoubleBackToExitPressedOnce = false
 	private var drawerToggle: ActionBarDrawerToggle? = null
+
+	private val adLoadedListener = object : AdLoadedListener {
+		override fun onAdLoaded() {
+			Do safe {
+				val frag = supportFragmentManager.findFragmentByTag(TAG_FRAGMENT)
+				if (frag != null && frag is AdLoadedListener) frag.onAdLoaded()
+			}
+		}
+	}
 
 	// =========================================================================================
 	// View
@@ -50,13 +62,21 @@ class MainActivity : BaseActivity() {
 			Do safe { FirebaseAnalytics.getInstance(this).logEvent("privacy_terms_not_accepted", null) }
 			return
 		} else {
-			AdUtility.inflateFooterAdView(flAdFooter)
+			Do safeLogged {
+				AdUtility.registerCallback(adLoadedListener)
+				AdUtility.inflateFooterAdView(flAdFooter)
+			}
 		}
 	}
 
 	override fun onResume() {
 		super.onResume()
-		AdUtility.onFooterResume(this)
+		Do safeLogged  { AdUtility.onFooterResume(this) }
+	}
+
+	override fun onDestroy() {
+		Do safeLogged  { AdUtility.unRegisterCallback(adLoadedListener) }
+		super.onDestroy()
 	}
 
 	override fun onResumeFragments() {
@@ -97,7 +117,7 @@ class MainActivity : BaseActivity() {
 		}
 
 		drawerToggle?.isDrawerIndicatorEnabled = true
-		navDrawer.postDelayed({ drawerToggle?.syncState() }, 250 )
+		navDrawer.postDelayed({ drawerToggle?.syncState() }, 250)
 	}
 
 	override fun onConfigurationChanged(newConfig: Configuration) {
@@ -157,7 +177,7 @@ class MainActivity : BaseActivity() {
 				else -> null
 			}
 
-			loadFragment(ImageHandlingFragment.newInstance(uris), TAG_IMAGE_SELECTION)
+			loadFragment(ImageHandlingFragment.newInstance(uris), TAG_FRAGMENT)
 		}
 
 	}
@@ -170,10 +190,10 @@ class MainActivity : BaseActivity() {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		when (item.itemId) {
 			R.id.toolbar_policy -> showPrivacyPolicy()
-			R.id.toolbar_toc    -> showTerms()
-			R.id.toolbar_exit   -> finish()
+			R.id.toolbar_toc -> showTerms()
+			R.id.toolbar_exit -> finish()
 			android.R.id.home -> openDrawer()
-			else                -> return super.onOptionsItemSelected(item)
+			else -> return super.onOptionsItemSelected(item)
 		}
 
 		return true
@@ -181,7 +201,7 @@ class MainActivity : BaseActivity() {
 
 
 	companion object {
-		const val TAG_IMAGE_SELECTION = "tag_image_selection"
+		const val TAG_FRAGMENT = "FRAGMENT_TAG"
 
 		fun getIntent(ctx: Context): Intent {
 			return Intent(ctx, MainActivity::class.java)

@@ -46,6 +46,7 @@ import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.Orientation
+import org.amoustakos.exifstripper.utils.ads.AdLoadedListener
 import org.amoustakos.exifstripper.utils.exif.ExifFile
 import org.amoustakos.exifstripper.utils.rx.disposer.disposeBy
 import org.amoustakos.exifstripper.utils.rx.disposer.onDestroy
@@ -56,7 +57,7 @@ import org.amoustakos.exifstripper.view.recycler.Type
 import timber.log.Timber
 import java.io.IOException
 
-class ImageHandlingFragment : BaseFragment() {
+class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
 	private lateinit var viewModel: ExifViewModel
 
@@ -74,6 +75,8 @@ class ImageHandlingFragment : BaseFragment() {
 
 	private val updaterThread = Schedulers.newThread()
 	private val exifThread = Schedulers.newThread()
+
+	private var scrollListener: ViewHideScrollListener? = null
 
 	private var isLoading = false
 
@@ -275,7 +278,13 @@ class ImageHandlingFragment : BaseFragment() {
 		rvExif.setHasFixedSize(true)
 		rvExif.adapter = attrAdapter
 
-		rvExif.addOnScrollListener(ViewHideScrollListener(btn_remove_all, orientation = Orientation.VERTICAL))
+		scrollListener = ViewHideScrollListener(btn_remove_all, orientation = Orientation.VERTICAL)
+
+		rvExif.addOnScrollListener(scrollListener!!)
+	}
+
+	override fun onAdLoaded() {
+		Do safeLogged { if (isImageLoaded()) scrollListener?.forceShow() }
 	}
 
 	private fun setLoading(loading: Boolean) {
@@ -353,7 +362,7 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	private fun shareImage() {
-		Do.safe({
+		Do safeLogged {
 			context?.let { ctx ->
 				val uris: MutableList<Uri> = arrayListOf()
 
@@ -369,13 +378,11 @@ class ImageHandlingFragment : BaseFragment() {
 					startActivity(intent)
 				}
 			}
-		}, {
-			AnalyticsUtil.logException(it)
-		})
+		}
 	}
 
 	private fun saveImages() {
-		Do.safe({
+		Do safeLogged {
 			context?.let { ctx ->
 				Single.fromCallable {}
 						.observeOn(Schedulers.computation())
@@ -393,9 +400,7 @@ class ImageHandlingFragment : BaseFragment() {
 						.disposeBy(lifecycle.onDestroy)
 						.subscribe()
 			}
-		}, {
-			AnalyticsUtil.logException(it)
-		})
+		}
 	}
 
 	private fun isImageLoaded() = viewModel.exifFiles.value?.let {
@@ -444,17 +449,12 @@ class ImageHandlingFragment : BaseFragment() {
 	}
 
 	private fun reset() {
-		Do.safe(
-				{
-					context?.let { ExifFile.clearCache(it) }
-					viewModel.exifFiles.value?.clear()
-					updateAdapters()
-					toggleActions(false)
-				},
-				{
-					AnalyticsUtil.logException(it)
-				}
-		)
+		Do safeLogged {
+			context?.let { ExifFile.clearCache(it) }
+			viewModel.exifFiles.value?.clear()
+			updateAdapters()
+			toggleActions(false)
+		}
 	}
 
 	// =========================================================================================
@@ -462,7 +462,7 @@ class ImageHandlingFragment : BaseFragment() {
 	// =========================================================================================
 
 	private fun onImageSelected(position: Int) {
-		Do.safe({
+		Do safeLogged {
 			if (viewModel.exifFiles.value.isNullOrEmpty())
 				return
 
@@ -492,9 +492,7 @@ class ImageHandlingFragment : BaseFragment() {
 					.onErrorReturn {}
 					.disposeBy(onDestroy)
 					.subscribe()
-		}, {
-			AnalyticsUtil.logException(it)
-		})
+		}
 	}
 
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

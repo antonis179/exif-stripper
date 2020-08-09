@@ -66,6 +66,11 @@ class ViewHideScrollListener(
         }
     }
 
+    fun forceShow() {
+        animate(true)
+        resetDistance()
+    }
+
     private fun chooseAnimation(rv: RecyclerView?) {
         if (shouldHide(rv)) {
             animate(false)
@@ -91,7 +96,7 @@ class ViewHideScrollListener(
         var animator = view.animate()
                 .setInterpolator(DecelerateInterpolator(animFactor))
                 .setDuration(animTime)
-                .withStartAction { view.visibility = View.VISIBLE }
+                .withStartAction { view.visibility = VISIBLE }
                 .withEndAction { isAnimatorActive = false }
 
         animator =  if (isVertical())
@@ -107,17 +112,13 @@ class ViewHideScrollListener(
             return
         isAnimatorActive = true
 
-        val fabMargin = when {
-            view.layoutParams is RelativeLayout.LayoutParams ->
-                (view.layoutParams as RelativeLayout.LayoutParams).bottomMargin
-
-            view.layoutParams is LinearLayout.LayoutParams ->
-                (view.layoutParams as LinearLayout.LayoutParams).bottomMargin
-
+        val margin = when (view.layoutParams) {
+            is RelativeLayout.LayoutParams -> (view.layoutParams as RelativeLayout.LayoutParams).bottomMargin
+            is LinearLayout.LayoutParams -> (view.layoutParams as LinearLayout.LayoutParams).bottomMargin
             else -> 0
         }
 
-        val d = (view.height + fabMargin).toFloat()
+        val d = (view.height + margin).toFloat()
         var animator = view.animate()
                 .setInterpolator(AccelerateInterpolator(animFactor))
                 .setDuration(animTime)

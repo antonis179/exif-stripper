@@ -1,5 +1,6 @@
 package org.amoustakos.exifstripper.utils
 
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import timber.log.Timber
 
 /**
@@ -25,6 +26,18 @@ object Do {
 			any()
 		} catch (e: Exception) {
 			Timber.e(e)
+		}
+	}
+
+	/**
+	 * Can be used to run a block of code "safely" inside a try catch method.
+	 * Only errors extending [Exception] are caught.
+	 */
+	inline infix fun <reified T> safeLogged(any: () -> T) {
+		try {
+			any()
+		} catch (e: Exception) {
+			AnalyticsUtil.logException(e)
 		}
 	}
 
