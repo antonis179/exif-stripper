@@ -1,0 +1,1 @@
+* Significantly reduced app size
