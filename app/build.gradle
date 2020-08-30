@@ -39,7 +39,7 @@ dependencies {
 
 	//Ads
 	implementation libs_play_services.values()
-	implementation (libs_ads.appodeal) { exclude group: 'com.appodeal.ads.sdk.networks', module: 'vungle' }
+	implementation libs_ads.values()
 
 	coreLibraryDesugaring libs_desugaring.core_desugaring
 }

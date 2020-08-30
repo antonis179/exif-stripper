@@ -2,8 +2,6 @@ package org.amoustakos.exifstripper
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.appodeal.ads.Appodeal
-import com.appodeal.ads.utils.Log
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil

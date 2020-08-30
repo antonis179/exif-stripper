@@ -2,27 +2,21 @@ package org.amoustakos.exifstripper.utils.ads
 
 import android.app.Activity
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
-import com.appodeal.ads.Appodeal
-import com.appodeal.ads.utils.Log
 import com.google.android.gms.ads.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.amoustakos.exifstripper.BuildConfig
 import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FBRemoteConfigInitListener
 import org.amoustakos.exifstripper.utils.FBRemoteConfigUtility
-import org.amoustakos.exifstripper.utils.exif.Attributes
-import timber.log.Timber
 
 //TODO: ad load event logging + add bundle for event logging
 object AdUtility {
@@ -75,17 +69,17 @@ object AdUtility {
 		MobileAds.initialize(ExifApplication.appContext.get()) {}
 
 		//Appodeal
-		Appodeal.disableLocationPermissionCheck()
-		Appodeal.disableWriteExternalStoragePermissionCheck()
-		Appodeal.setBannerAnimation(true)
-		Appodeal.set728x90Banners(true)
-
-		if (BuildConfig.DEBUG) {
-			Appodeal.setLogLevel(Log.LogLevel.verbose)
-			Appodeal.setTesting(true)
-		}
-
-		Appodeal.setAutoCache(Appodeal.BANNER_VIEW, true)
+//		Appodeal.disableLocationPermissionCheck()
+//		Appodeal.disableWriteExternalStoragePermissionCheck()
+//		Appodeal.setBannerAnimation(true)
+//		Appodeal.set728x90Banners(true)
+//
+//		if (BuildConfig.DEBUG) {
+//			Appodeal.setLogLevel(Log.LogLevel.verbose)
+//			Appodeal.setTesting(true)
+//		}
+//
+//		Appodeal.setAutoCache(Appodeal.BANNER_VIEW, true)
 	}
 
 	fun registerCallback(callback: AdLoadedListener) {
@@ -128,7 +122,7 @@ object AdUtility {
 		//When everything has failed!
 		if (!remoteConfigLoaded && !remoteConfigDefaultsSet) {
 			AnalyticsUtil.logEvent(viewGroup.context, "ads_defaulted_no_config")
-			inflateAndLoadFooterAppodeal(viewGroup)
+			inflateAndLoadFooterAdmob(viewGroup)
 			return
 		}
 
@@ -144,7 +138,7 @@ object AdUtility {
 
 		Do exhaustive when (network) {
 			AdNetwork.AdMob -> inflateAndLoadFooterAdmob(viewGroup)
-			AdNetwork.Appodeal -> inflateAndLoadFooterAppodeal(viewGroup)
+			AdNetwork.Appodeal -> {} //inflateAndLoadFooterAppodeal(viewGroup)
 		}
 	}
 
@@ -154,7 +148,7 @@ object AdUtility {
 			AdNetwork.AdMob -> {
 			}
 			AdNetwork.Appodeal -> {
-				Appodeal.onResume(ctx, Appodeal.BANNER_VIEW)
+				//Appodeal.onResume(ctx, Appodeal.BANNER_VIEW)
 			}
 		}
 	}
@@ -206,25 +200,25 @@ object AdUtility {
 		}
 	}
 
-	private fun inflateAndLoadFooterAppodeal(viewGroup: ViewGroup) {
-		val ctx: Activity = viewGroup.context as Activity
-		viewGroup.removeAllViews()
-
-		LayoutInflater
-				.from(viewGroup.context)
-				.inflate(R.layout.ad_footer_appodeal, viewGroup, true)
-
-		Do safeLogged {
-			Appodeal.initialize(
-					ctx,
-					ctx.getString(R.string.appodeal_app_key),
-					Appodeal.BANNER_VIEW,
-					true
-			)
-			Appodeal.setBannerViewId(R.id.adFooter)
-			Appodeal.show(ctx, Appodeal.BANNER_VIEW)
-		}
-	}
+//	private fun inflateAndLoadFooterAppodeal(viewGroup: ViewGroup) {
+//		val ctx: Activity = viewGroup.context as Activity
+//		viewGroup.removeAllViews()
+//
+//		LayoutInflater
+//				.from(viewGroup.context)
+//				.inflate(R.layout.ad_footer_appodeal, viewGroup, true)
+//
+//		Do safeLogged {
+//			Appodeal.initialize(
+//					ctx,
+//					ctx.getString(R.string.appodeal_app_key),
+//					Appodeal.BANNER_VIEW,
+//					true
+//			)
+//			Appodeal.setBannerViewId(R.id.adFooter)
+//			Appodeal.show(ctx, Appodeal.BANNER_VIEW)
+//		}
+//	}
 
 	private fun admobSize(ctx: Activity, viewGroup: ViewGroup): AdSize {
 		val display = ctx.windowManager.defaultDisplay
