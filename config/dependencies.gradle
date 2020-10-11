@@ -8,7 +8,6 @@ project.ext {
 		maven { url 'https://jitpack.io' }
 		maven { url 'https://maven.fabric.io/public' }
 		maven { url 'https://dl.bintray.com/realm/maven' }
-//		maven { url "https://artifactory.appodeal.com/appodeal" }
 		jcenter()
 	}
 
@@ -26,7 +25,7 @@ project.ext {
 	]
 
 	plugin_versions = [
-			android                 : '4.0.1',
+			android                 : '4.0.2',
 			kotlin                  : '1.4.0',
 //			realm                   : '5.12.0',
 			firebase_gms            : '4.3.3',
@@ -109,9 +108,6 @@ project.ext {
 			exif                        : '1.2.0',
 
 			circleindicator             : '2.1.4'
-
-			//Appodeal
-//			appodeal                    : '2.7.1.1'
 	]
 
 	annotation_processors = [
@@ -218,7 +214,6 @@ project.ext {
 
 	libs_ads = [
 			play_ads            : "com.google.android.gms:play-services-ads:${lib_versions.play_services_ads}"
-//	        appodeal            : "com.appodeal.ads:sdk:${lib_versions.appodeal}"
 	]
 }
 
