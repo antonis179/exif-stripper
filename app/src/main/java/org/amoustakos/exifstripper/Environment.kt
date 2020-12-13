@@ -8,7 +8,6 @@ import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
 import org.amoustakos.exifstripper.utils.Do
-import org.amoustakos.exifstripper.utils.FBRemoteConfigUtility
 import org.amoustakos.exifstripper.utils.ads.AdUtility
 import org.amoustakos.exifstripper.utils.exif.ExifFile
 import timber.log.Timber
@@ -52,7 +51,7 @@ class Environment (
     }
 
     private fun initRemoteConfig() {
-        FBRemoteConfigUtility.initialize()
+//        FBRemoteConfigUtility.initialize()
     }
 
     @SuppressLint("CheckResult")

@@ -7,23 +7,18 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import com.google.android.gms.ads.*
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
-import org.amoustakos.exifstripper.utils.FBRemoteConfigInitListener
 import org.amoustakos.exifstripper.utils.FBRemoteConfigUtility
 
 //TODO: ad load event logging + add bundle for event logging
 object AdUtility {
 
-	private const val TIMEOUT = 10 * 1000
-	private val waitingThread = Schedulers.newThread()
-	private var subscription: Disposable? = null
+//	private const val TIMEOUT = 10 * 1000
+//	private val waitingThread = Schedulers.newThread()
+//	private var subscription: Disposable? = null
 
 	private var remoteConfigLoaded = false
 	private var remoteConfigDefaultsSet = false
@@ -31,31 +26,31 @@ object AdUtility {
 
 	private val callbacks = mutableListOf<AdLoadedListener>()
 
-	private val fbRemoteListener = object : FBRemoteConfigInitListener {
-		override fun onRemoteInit() {
-			remoteConfigLoaded = true
-		}
+//	private val fbRemoteListener = object : FBRemoteConfigInitListener {
+//		override fun onRemoteInit() {
+//			remoteConfigLoaded = true
+//		}
+//
+//		override fun onDefaultsLoaded() {
+//			remoteConfigDefaultsSet = true
+//		}
+//
+//		override fun onFailDefaults() {
+//			remoteConfigDefaultsSet = false
+//		}
+//
+//		override fun onFailRemote() {
+//			remoteConfigLoaded = false
+//		}
+//	}
 
-		override fun onDefaultsLoaded() {
-			remoteConfigDefaultsSet = true
-		}
 
-		override fun onFailDefaults() {
-			remoteConfigDefaultsSet = false
-		}
-
-		override fun onFailRemote() {
-			remoteConfigLoaded = false
-		}
-	}
-
-
-	private val DEFAULT_NETWORK = AdNetwork.Appodeal
+	private val DEFAULT_NETWORK = AdNetwork.AdMob
 
 
 	init {
 		Do safeLogged { initAds() }
-		FBRemoteConfigUtility.registerCallback(fbRemoteListener)
+//		FBRemoteConfigUtility.registerCallback(fbRemoteListener)
 	}
 
 	operator fun invoke() {}
@@ -90,56 +85,56 @@ object AdUtility {
 
 	@Synchronized
 	fun inflateFooterAdView(viewGroup: ViewGroup) {
-		if (!remoteConfigLoaded) {
-			if (subscription != null) {
-				subscription?.dispose()
-				subscription = null
-			}
-			subscription = Single.fromCallable {}
-					.observeOn(waitingThread)
-					.subscribeOn(AndroidSchedulers.mainThread())
-					.map {
-						var time = 0L
-						val step = 200L
-						//Wait some time for remote config to load
-						while (!remoteConfigLoaded && time < TIMEOUT) {
-							Thread.sleep(step)
-							time += step
-						}
-					}
-					.observeOn(AndroidSchedulers.mainThread())
-					.onErrorReturn { }
-					.doOnError { inflateFooterAdViewInner(viewGroup) }
-					.doOnSuccess { inflateFooterAdViewInner(viewGroup) }
-					.subscribe()
-		} else {
+//		if (!remoteConfigLoaded) {
+//			if (subscription != null) {
+//				subscription?.dispose()
+//				subscription = null
+//			}
+//			subscription = Single.fromCallable {}
+//					.observeOn(waitingThread)
+//					.subscribeOn(AndroidSchedulers.mainThread())
+//					.map {
+//						var time = 0L
+//						val step = 200L
+//						//Wait some time for remote config to load
+//						while (!remoteConfigLoaded && time < TIMEOUT) {
+//							Thread.sleep(step)
+//							time += step
+//						}
+//					}
+//					.observeOn(AndroidSchedulers.mainThread())
+//					.onErrorReturn { }
+//					.doOnError { inflateFooterAdViewInner(viewGroup) }
+//					.doOnSuccess { inflateFooterAdViewInner(viewGroup) }
+//					.subscribe()
+//		} else {
 			inflateFooterAdViewInner(viewGroup)
-		}
+//		}
 	}
 
 	private fun inflateFooterAdViewInner(viewGroup: ViewGroup) {
 
 		//When everything has failed!
-		if (!remoteConfigLoaded && !remoteConfigDefaultsSet) {
-			AnalyticsUtil.logEvent(viewGroup.context, "ads_defaulted_no_config")
+//		if (!remoteConfigLoaded && !remoteConfigDefaultsSet) {
+//			AnalyticsUtil.logEvent(viewGroup.context, "ads_defaulted_no_config")
 			inflateAndLoadFooterAdmob(viewGroup)
-			return
-		}
+//			return
+//		}
 
 		//If ads should not be shown
-		if (!FBRemoteConfigUtility.shouldShowAds()) {
-			AnalyticsUtil.logEvent(viewGroup.context, "ads_disabled")
-			return
-		}
+//		if (!FBRemoteConfigUtility.shouldShowAds()) {
+//			AnalyticsUtil.logEvent(viewGroup.context, "ads_disabled")
+//			return
+//		}
 
-		val network = getAdNetwork()
+//		val network = getAdNetwork()
 
-		AnalyticsUtil.logEvent(viewGroup.context, "loading_net_${network.name}")
+//		AnalyticsUtil.logEvent(viewGroup.context, "loading_net_${network.name}")
 
-		Do exhaustive when (network) {
-			AdNetwork.AdMob -> inflateAndLoadFooterAdmob(viewGroup)
-			AdNetwork.Appodeal -> {} //inflateAndLoadFooterAppodeal(viewGroup)
-		}
+//		Do exhaustive when (network) {
+//			AdNetwork.AdMob -> inflateAndLoadFooterAdmob(viewGroup)
+//			AdNetwork.Appodeal -> {} //inflateAndLoadFooterAppodeal(viewGroup)
+//		}
 	}
 
 
