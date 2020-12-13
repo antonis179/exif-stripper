@@ -1,16 +1,14 @@
 package org.amoustakos.exifstripper.usecases.exifremoval.adapters
 
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import coil.load
 import kotlinx.android.synthetic.main.row_vp_image.view.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.view.recycler.BaseViewHolder
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
-import timber.log.Timber
+import java.io.File
 
 class ExifImageViewHolder(
 		parent: ViewGroup,
@@ -26,19 +24,22 @@ class ExifImageViewHolder(
 
 	override fun loadItem(item: ExifImageViewData) {
 		super.loadItem(item)
-		loadExifAttribute()
+		loadImage()
 	}
 
-	private fun loadExifAttribute() {
+	private fun loadImage() {
 		Do.safe({
-			Glide
-					.with(itemView.context)
-					.load(mItem?.path)
-					.downsample(DownsampleStrategy.AT_MOST)
-					.override(1250)
-					.diskCacheStrategy(DiskCacheStrategy.ALL)
-					.dontAnimate()
-					.into(itemView.image)
+			//TODO: Remove if coil has no issues
+//			Glide
+//					.with(itemView.context)
+//					.load(mItem?.path)
+//					.downsample(DownsampleStrategy.AT_MOST)
+//					.override(1250)
+//					.diskCacheStrategy(DiskCacheStrategy.ALL)
+//					.dontAnimate()
+//					.into(itemView.image)
+
+			mItem?.path?.let { itemView.image.load(File(it)) }
 		}, {
 			AnalyticsUtil.logException(it)
 		})

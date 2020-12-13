@@ -103,7 +103,8 @@ project.ext {
 			event_bus                   : '3.1.1',
 
 			//Image
-			glide                       : '4.11.0',
+//			glide                       : '4.11.0',
+			coil                        : '1.1.0',
 			exif                        : '1.3.1',
 
 			circleindicator             : '2.1.4'
@@ -196,7 +197,8 @@ project.ext {
 	]
 
 	libs_image = [
-			glide               : "com.github.bumptech.glide:glide:${lib_versions.glide}",
+//			glide               : "com.github.bumptech.glide:glide:${lib_versions.glide}",
+			coil                : "io.coil-kt:coil:${lib_versions.coil}",
 			exif                : "androidx.exifinterface:exifinterface:${lib_versions.exif}",
 			circleindicator     : "me.relex:circleindicator:${lib_versions.circleindicator}"
 	]

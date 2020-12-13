@@ -39,7 +39,7 @@
 	<dimen name="card_exif_attribute_delete_size">48dp</dimen>
 
 	<!-- View Pagers -->
-	<dimen name="image_view_pager_max_height">325dp</dimen>
+	<dimen name="image_view_pager_height">250dp</dimen>
 
 	<!-- Donations -->
 	<dimen name="donationCardMaxWidth">450dp</dimen>

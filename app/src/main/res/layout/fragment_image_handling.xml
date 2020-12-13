@@ -42,13 +42,11 @@
                     <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/vpImageCollection"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_large"
+                            android:layout_height="@dimen/image_view_pager_height"
+                            android:layout_marginTop="@dimen/margin_normal"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHeight_max="@dimen/image_view_pager_max_height"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            tools:layout_height="@dimen/image_view_pager_max_height" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
