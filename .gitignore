@@ -8,6 +8,7 @@ fastlane/credentials/*
 
 # Built application files
 *.apk
+*.aab
 *.ap_
 
 # Files for the ART/Dalvik VM
@@ -45,6 +46,7 @@ captures/
 
 # Keystore files
 *.jks
+*.pepk
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
@@ -70,11 +72,13 @@ genLibs/
 !/gradle.properties
 
 
+###########   Common   ##########
+build/
+
 ###########   Swift   ##########
 
 
 ## Build generated
-build/
 DerivedData/
 
 ## Various settings

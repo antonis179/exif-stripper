@@ -30,10 +30,10 @@ platform :android do
   lane :alpha do |options|
     validate(options)
     gradle(task: "clean")
-    gradle(task: 'assemble',
+    gradle(task: 'bundle',
           flavor: flavor,
           build_type: 'Release')
-    supplyOptions[:apk] = "app/build/outputs/apk/" + flavor + "/release/app-" + flavor + "-release.apk"
+    supplyOptions[:aab] = "app/build/outputs/bundle/" + flavor + "Release/app-" + flavor + "-release.aab"
     supplyOptions[:track] = 'alpha'
     supplyOptions[:skip_upload_metadata] = true
     supplyOptions[:skip_upload_images] = true
@@ -45,6 +45,7 @@ platform :android do
   lane :beta do |options|
     validate(options)
     supplyOptions[:skip_upload_apk] = true
+    supplyOptions[:skip_upload_aab] = true
     supplyOptions[:skip_upload_changelogs] = true
     supplyOptions[:track] = 'alpha'
     supplyOptions[:track_promote_to] = 'beta'
@@ -55,6 +56,7 @@ platform :android do
   lane :release_10 do |options|
     validate(options)
     supplyOptions[:skip_upload_apk] = true
+    supplyOptions[:skip_upload_aab] = true
     supplyOptions[:skip_upload_changelogs] = true
     supplyOptions[:track] = 'beta'
     supplyOptions[:track_promote_to] = 'production'
@@ -66,6 +68,7 @@ platform :android do
     lane :release do |options|
       validate(options)
       supplyOptions[:skip_upload_apk] = true
+      supplyOptions[:skip_upload_aab] = true
       supplyOptions[:skip_upload_changelogs] = true
       supplyOptions[:track] = 'beta'
       supplyOptions[:track_promote_to] = 'production'
