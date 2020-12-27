@@ -1,6 +1,7 @@
 package org.amoustakos.exifstripper.usecases.privacy
 
 import android.content.Context
+import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.amoustakos.exifstripper.BuildConfig
@@ -14,7 +15,8 @@ object AnalyticsUtil {
 
 		FirebaseAnalytics.getInstance(ctx).setAnalyticsCollectionEnabled(true)
 		FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true)
-//        FirebasePerformance.getInstance().isPerformanceCollectionEnabled = true
+
+		FirebaseCrashlytics.getInstance().sendUnsentReports()
 	}
 
 	fun logException(e: Throwable, crashlyticsOnly: Boolean = false) {
@@ -28,7 +30,10 @@ object AnalyticsUtil {
     }
 
 	fun logEvent(ctx: Context, name: String, message: String? = null) {
-		FirebaseAnalytics.getInstance(ctx).logEvent(name, null)
+		FirebaseAnalytics.getInstance(ctx).logEvent(
+				name,
+				Bundle().apply { putString(name, message) }
+		)
 	}
 
 }

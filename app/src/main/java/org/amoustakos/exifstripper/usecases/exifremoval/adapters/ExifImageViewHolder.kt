@@ -29,16 +29,6 @@ class ExifImageViewHolder(
 
 	private fun loadImage() {
 		Do.safe({
-			//TODO: Remove if coil has no issues
-//			Glide
-//					.with(itemView.context)
-//					.load(mItem?.path)
-//					.downsample(DownsampleStrategy.AT_MOST)
-//					.override(1250)
-//					.diskCacheStrategy(DiskCacheStrategy.ALL)
-//					.dontAnimate()
-//					.into(itemView.image)
-
 			mItem?.path?.let { itemView.image.load(File(it)) }
 		}, {
 			AnalyticsUtil.logException(it)

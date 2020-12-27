@@ -29,7 +29,6 @@ project.ext {
 			kotlin                  : '1.4.20',
 //			realm                   : '5.12.0',
 			firebase_gms            : '4.3.4',
-//			firebase_performance    : '1.3.1',
 			crashlytics             : '2.4.1',
 			gradleVersions          : '0.36.0'
 	]
@@ -40,7 +39,6 @@ project.ext {
 			kotlin_android_ext      : "org.jetbrains.kotlin:kotlin-android-extensions:${plugin_versions.kotlin}",
 //			realm                   : "io.realm:realm-gradle-plugin:${plugin_versions.realm}",
 			google_gms              : "com.google.gms:google-services:${plugin_versions.firebase_gms}",
-//			firebase_performance    : "com.google.firebase:perf-plugin:${plugin_versions.firebase_performance}",
 			crashlytics             : "com.google.firebase:firebase-crashlytics-gradle:${plugin_versions.crashlytics}",
 			gradleVersions          : "com.github.ben-manes:gradle-versions-plugin:${plugin_versions.gradleVersions}"
 	]
@@ -72,7 +70,6 @@ project.ext {
 			rx_java                     : '2.2.20',
 			rx_kotlin                   : '2.4.0',
 			rx_android                  : '2.1.1',
-//			butterknife                 : '10.2.0',
 
 			//Realm
 //			realm_android_adapters      : '3.1.0',
@@ -90,7 +87,6 @@ project.ext {
 			crashlytics                 : '17.3.0',
 //			firebase_index              : '16.0.1',
 			firebase_core               : '18.0.0',
-			firebase_performance        : '19.0.0',
 //			firebase_cloud_messaging    : '17.3.4',
 			firebase_ads                : '19.1.0',
 			firebase_analytics          : '18.0.0',
@@ -113,7 +109,6 @@ project.ext {
 	annotation_processors = [
 		    lifecycle       : "androidx.lifecycle:lifecycle-compiler:${lib_versions.lifecycle}",
 //		    dagger          : "com.google.dagger:dagger-compiler:${lib_versions.dagger}",
-//		    butterknife     : "com.jakewharton:butterknife-compiler:${lib_versions.butterknife}"
 	]
 
 
@@ -158,7 +153,6 @@ project.ext {
 			firebase_analytics      : "com.google.firebase:firebase-analytics-ktx:${lib_versions.firebase_analytics}",
 			firebase_remote_config  : "com.google.firebase:firebase-config-ktx:${lib_versions.firebase_remote_config}",
 			firebase_core           : "com.google.firebase:firebase-core:${lib_versions.firebase_core}",
-//			firebase_perf           : "com.google.firebase:firebase-perf:${lib_versions.firebase_performance}",
 			crashlytics             : "com.google.firebase:firebase-crashlytics:${lib_versions.crashlytics}",
 
 			//Job dispatcher
@@ -193,7 +187,6 @@ project.ext {
 
 	libs_injection = [
 //			dagger              : "com.google.dagger:dagger:${lib_versions.dagger}",
-//			butterknife         : "com.jakewharton:butterknife:${lib_versions.butterknife}",
 	]
 
 	libs_image = [
