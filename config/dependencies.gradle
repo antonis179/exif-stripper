@@ -26,9 +26,9 @@ project.ext {
 
 	plugin_versions = [
 			android                 : '4.1.0',
-			kotlin                  : '1.4.20',
+			kotlin                  : '1.4.30',
 //			realm                   : '5.12.0',
-			firebase_gms            : '4.3.4',
+			firebase_gms            : '4.3.5',
 			crashlytics             : '2.4.1',
 			gradleVersions          : '0.36.0'
 	]
@@ -48,10 +48,10 @@ project.ext {
 			play_services_gcm           : '17.0.0',
 //			play_services_maps          : '17.0.0',
 //			play_services_location      : '17.0.0',
-			play_services_ads           : '19.5.0',
-			androidx_core               : '1.3.1',
+			play_services_ads           : '19.7.0',
+			androidx_core               : '1.3.2',
 			appcompat                   : '1.2.0',
-			support_design              : '1.2.0',
+			support_design              : '1.3.0',
 			support_recycler            : '1.1.0',
 			support_cardview            : '1.0.0',
 			constraint_layout           : '2.0.3',
@@ -84,13 +84,13 @@ project.ext {
 			timber                      : '4.7.1',
 
 			//Analytics
-			crashlytics                 : '17.3.0',
+			crashlytics                 : '17.3.1',
 //			firebase_index              : '16.0.1',
-			firebase_core               : '18.0.0',
+			firebase_core               : '18.0.2',
 //			firebase_cloud_messaging    : '17.3.4',
 			firebase_ads                : '19.1.0',
-			firebase_analytics          : '18.0.0',
-			firebase_remote_config      : '20.0.1',
+			firebase_analytics          : '18.0.2',
+			firebase_remote_config      : '20.0.3',
 
 			//Job dispatcher
 //			job_dispatcher              : '0.8.6',
@@ -100,10 +100,10 @@ project.ext {
 
 			//Image
 //			glide                       : '4.11.0',
-			coil                        : '1.1.0',
-			exif                        : '1.3.1',
+			coil                        : '1.1.1',
+			exif                        : '1.3.2',
 
-			circleindicator             : '2.1.4'
+			circleindicator             : '2.1.6'
 	]
 
 	annotation_processors = [
