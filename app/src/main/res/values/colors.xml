@@ -8,20 +8,20 @@
 	<color name="secondaryDark">#611E04</color>
 
 	<color name="transparent">#00000000</color>
+	<color name="white">#ffffff</color>
+
 
 	<!-- CTA -->
 	<color name="primaryCTAText">@color/textWhite</color>
 	<color name="secondaryCTAText">@color/textWhite</color>
 	<color name="primaryBtnAction">@color/secondary</color>
-	<color name="secondaryToolbarAction">#FFFFFF</color>
+	<color name="secondaryToolbarAction">@color/white</color>
 	<color name="secondaryBtnAction">@color/gray</color>
 	<color name="adBtnAction">@color/primary</color>
+	<color name="navItemColor">@color/white</color>
 
 	<!-- Text -->
-	<color name="textWhite">#ffffff</color>
-
-	<!-- White -->
-	<color name="white">#ffffff</color>
+	<color name="textWhite">@color/white</color>
 
 	<!-- Gray -->
 	<color name="gray_dark">#202020</color>
@@ -34,6 +34,7 @@
 
 	<!-- Backgrounds -->
 	<color name="primaryBackground">#2B2928</color>
+	<color name="navBackground">#3C3C3C</color>
 	<color name="loadingBackground">#A6000000</color>
 
 	<!-- System -->
