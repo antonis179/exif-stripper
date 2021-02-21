@@ -9,10 +9,8 @@ import android.view.MenuItem
 import android.view.View
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.BillingResponseCode.OK
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.rewarded.RewardItem
+import com.google.android.gms.ads.*
 import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdCallback
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
@@ -94,7 +92,7 @@ class DonationsActivity : BaseActivity() {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		when (item.itemId) {
 			android.R.id.home -> onBackPressed()
-			else              -> return super.onOptionsItemSelected(item)
+			else -> return super.onOptionsItemSelected(item)
 		}
 		return true
 	}
@@ -114,7 +112,7 @@ class DonationsActivity : BaseActivity() {
 
 	private fun loadBilling() {
 		Do.safe(
-				{ initBilling()	},
+				{ initBilling() },
 				{ AnalyticsUtil.logException(it) }
 		)
 	}
@@ -202,29 +200,24 @@ class DonationsActivity : BaseActivity() {
 	private fun getDonationIds() = BillingUtil.playIds
 
 	private fun makeAndLoadRewardedAd() {
-		Do.safe({loadAdMobRewardedAd()},{
+		Do.safe({ loadAdMobRewardedAd() }, {
 			AnalyticsUtil.logException(it)
 		})
 	}
 
 	private fun loadAdMobRewardedAd() {
 		val adId = getString(R.string.admob_rewarded)
-		rewardedAd = RewardedAd(this, adId)
 
-		rewardedAd?.loadAd(AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
-			override fun onRewardedAdFailedToLoad(p0: Int) {
-				super.onRewardedAdFailedToLoad(p0)
+		RewardedAd.load(this, adId, AdRequest.Builder().build(), object : RewardedAdLoadCallback() {
+			override fun onAdFailedToLoad(adError: LoadAdError) {
+				rewardedAd = null
 				btnAd.isEnabled = true
 			}
 
-			override fun onRewardedAdLoaded() {
-				super.onRewardedAdLoaded()
+			override fun onAdLoaded(ad: RewardedAd) {
+				rewardedAd = ad
 				btnAd.isEnabled = true
-				rewardedAd?.show(this@DonationsActivity, object : RewardedAdCallback() {
-					override fun onUserEarnedReward(p0: RewardItem) {
-						showReward()
-					}
-				})
+				rewardedAd?.show(this@DonationsActivity) { showReward() }
 			}
 		})
 	}
