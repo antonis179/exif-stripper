@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="title_image_select">Válassza a Fotó lehetőséget</string>
-	<string name="title_activity_donations">Adományoz</string>
 	<string name="title_privacy_policy">Adatvédelmi irányelvek</string>
 	<string name="title_terms">Felhasználási feltételek</string>
 	<string name="toast_back_to_exit">A kilépéshez kattintson ismét a Vissza gombra</string>
@@ -38,4 +37,5 @@
 	<string name="error_msg_write_format_invalid">Az írást csak JPEG és WEBP (részleges támogatás) formátumok támogatják</string>
 	<string name="settings">Beállítások</string>
 	<string name="settings_autosave_title">Automatikus mentés</string>
+	<string name="menu_home">Itthon</string>
 </resources>

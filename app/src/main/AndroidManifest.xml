@@ -54,26 +54,11 @@
 			android:theme="@style/AppTheme.NoActionBar" />
 
 		<activity
-			android:name=".usecases.donations.DonationsActivity"
-			android:label="@string/title_activity_donations"
-			android:launchMode="singleInstance"
-			android:parentActivityName=".usecases.home.MainActivity"
-			android:theme="@style/AppTheme.NoActionBar" />
-
-		<activity
 			android:name=".usecases.exifaddedit.ExifEditActivity"
 			android:label="@string/title_activity_exif_edit"
 			android:launchMode="singleInstance"
 			android:parentActivityName=".usecases.home.MainActivity"
 			android:theme="@style/AppTheme.NoActionBar" />
-
-		<activity
-			android:name=".usecases.settings.SettingsActivity"
-			android:label="@string/title_activity_settings"
-			android:launchMode="singleInstance"
-			android:parentActivityName=".usecases.home.MainActivity"
-			android:theme="@style/AppTheme.NoActionBar" />
-
 
 		<!-- Metadata -->
 

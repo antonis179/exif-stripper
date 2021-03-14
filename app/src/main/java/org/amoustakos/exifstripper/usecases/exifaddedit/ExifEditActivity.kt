@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.include_attribute_edit_fields.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.model.ExifAttribute
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
+import org.amoustakos.exifstripper.usecases.home.MainActivity
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.ads.AdUtility
@@ -99,12 +100,12 @@ class ExifEditActivity : BaseActivity() {
 		toolbar.setAsActionbar(this)
 	}
 
-//	override fun onBackPressed() {
-//		super.onBackPressed()
-//		val intent = MainActivity.getReturnIntent(this) //TODO
-//		startActivity(intent)
-//		finish()
-//	}
+	override fun onBackPressed() {
+		super.onBackPressed()
+		val intent = MainActivity.getReturnIntent(this) //TODO
+		startActivity(intent)
+		finish()
+	}
 
 
 	companion object {

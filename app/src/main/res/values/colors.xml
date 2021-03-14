@@ -18,7 +18,8 @@
 	<color name="secondaryToolbarAction">@color/white</color>
 	<color name="secondaryBtnAction">@color/gray</color>
 	<color name="adBtnAction">@color/primary</color>
-	<color name="navItemColor">@color/white</color>
+	<color name="navItemColorDisabled">@color/white</color>
+	<color name="navItemColorEnabled">@color/secondary</color>
 
 	<!-- Text -->
 	<color name="textWhite">@color/white</color>

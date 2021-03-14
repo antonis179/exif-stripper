@@ -9,7 +9,8 @@
 	android:background="?attr/colorPrimary"
 	android:theme="@style/AppTheme.AppBarOverlay"
 	app:layout_collapseMode="pin"
-	app:popupTheme="@style/AppTheme.PopupOverlay">
+	app:popupTheme="@style/AppTheme.PopupOverlay"
+	tools:showIn="@layout/fragment_donations">
 
 	<androidx.constraintlayout.widget.ConstraintLayout
 		android:layout_width="match_parent"

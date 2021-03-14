@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="title_image_select">Seleccione Foto</string>
-	<string name="title_activity_donations">Donar</string>
 	<string name="title_privacy_policy">Política de privacidad</string>
 	<string name="title_terms">Términos y Condiciones</string>
 	<string name="toast_back_to_exit">Haga clic nuevamente para salir</string>
@@ -38,4 +37,5 @@
 	<string name="error_msg_write_format_invalid">La escritura solo es compatible con los formatos JPEG y WEBP (soporte parcial)</string>
 	<string name="settings">Configuraciones</string>
 	<string name="settings_autosave_title">Guardado automático</string>
+	<string name="menu_home">Hogar</string>
 </resources>

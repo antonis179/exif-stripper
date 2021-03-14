@@ -5,9 +5,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/primaryBackground"
-	android:fitsSystemWindows="true"
-	tools:context=".usecases.home.MainActivity"
-	tools:openDrawer="start">
+	tools:context=".usecases.home.MainActivity">
 
 	<androidx.fragment.app.FragmentContainerView
 		android:id="@+id/frag_container"
@@ -31,8 +29,8 @@
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		app:backgroundTint="@color/navBackground"
-		app:itemTextColor="@color/navItemColor"
-		app:itemIconTint="@color/navItemColor"
+		app:itemTextColor="@color/bottom_nav_color"
+		app:itemIconTint="@color/bottom_nav_color"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"

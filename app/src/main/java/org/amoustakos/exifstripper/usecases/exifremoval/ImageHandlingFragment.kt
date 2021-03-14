@@ -578,8 +578,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 							ExifFile.LoadResult.UriError -> getString(R.string.error_msg_uri_issue_external)
 							ExifFile.LoadResult.CacheError -> getString(R.string.error_msg_generic)
 							ExifFile.LoadResult.FormatError -> getString(R.string.error_msg_format)
-							ExifFile.LoadResult.Success -> null
-							null -> null
+							else -> null
 						}?.let { msg ->
 							errorMessages.add(msg)
 						}

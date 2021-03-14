@@ -1,57 +1,36 @@
 package org.amoustakos.exifstripper.usecases.settings
 
 import android.os.Bundle
-import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_settings.*
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.fragment_settings.*
 import org.amoustakos.exifstripper.R
-import org.amoustakos.exifstripper.ui.activities.BaseActivity
-import org.amoustakos.exifstripper.usecases.home.MainActivity
+import org.amoustakos.exifstripper.ui.fragments.BaseFragment
 import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 
-
-class SettingsActivity : BaseActivity() {
+class SettingsFragment : BaseFragment() {
 
 	private val toolbar = BasicToolbar(R.id.toolbar)
 
-	// =========================================================================================
-	// View
-	// =========================================================================================
-
-	override fun layoutId() = R.layout.activity_settings
+	override fun layoutId() = R.layout.fragment_settings
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		retainInstance = true
+	}
+
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
 		setupToolbar()
-
 		setupAutoSave()
-	}
-
-	override fun onBackPressed() {
-		super.onBackPressed()
-		val intent = MainActivity.getReturnIntent(this)
-		startActivity(intent)
-		finish()
-	}
-
-	override fun onOptionsItemSelected(item: MenuItem): Boolean {
-		when (item.itemId) {
-			android.R.id.home -> onBackPressed()
-			else              -> return super.onOptionsItemSelected(item)
-		}
-		return true
 	}
 
 	private fun setupToolbar() {
 		setupViewComponent(toolbar)
-		toolbar.toggleBackButton(true)
-		toolbar.showHome(true)
-		toolbar.setTitle(R.string.title_activity_settings)
+		toolbar.setTitle(R.string.app_name)
+		toolbar.setAsActionbar(activity as AppCompatActivity)
 	}
 
-
-	// =========================================================================================
-	// Autosave
-	// =========================================================================================
 
 	private fun setupAutoSave() {
 		chkAutoSave.isChecked = SettingsUtil.getAutosave()
@@ -80,5 +59,11 @@ class SettingsActivity : BaseActivity() {
 //		}
 //	}
 
+
+	companion object {
+		fun newInstance(): SettingsFragment {
+			return SettingsFragment()
+		}
+	}
 
 }

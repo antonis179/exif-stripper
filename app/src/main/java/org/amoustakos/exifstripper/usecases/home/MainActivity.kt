@@ -16,13 +16,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
-import org.amoustakos.exifstripper.usecases.donations.DonationsActivity
+import org.amoustakos.exifstripper.usecases.donations.DonationsFragment
 import org.amoustakos.exifstripper.usecases.exifremoval.ImageHandlingFragment
 import org.amoustakos.exifstripper.usecases.privacy.GdprUtil
-import org.amoustakos.exifstripper.usecases.settings.SettingsActivity
+import org.amoustakos.exifstripper.usecases.settings.SettingsFragment
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.ads.AdLoadedListener
 import org.amoustakos.exifstripper.utils.ads.AdUtility
+import kotlin.reflect.KClass
+import kotlin.reflect.jvm.jvmName
 
 
 class MainActivity : BaseActivity() {
@@ -32,7 +34,7 @@ class MainActivity : BaseActivity() {
 	private val adLoadedListener = object : AdLoadedListener {
 		override fun onAdLoaded() {
 			Do safe {
-				val frag = supportFragmentManager.findFragmentByTag(TAG_FRAGMENT)
+				val frag = supportFragmentManager.findFragmentByTag(TAG_HOME_FRAGMENT)
 				if (frag != null && frag is AdLoadedListener) frag.onAdLoaded()
 			}
 		}
@@ -50,7 +52,7 @@ class MainActivity : BaseActivity() {
 		setupBottomNav()
 		setupAds()
 
-		selectFragment(savedInstanceState)
+		loadHomeFragment(savedInstanceState)
 	}
 
 	@SuppressLint("MissingPermission")
@@ -82,16 +84,20 @@ class MainActivity : BaseActivity() {
 	// =========================================================================================
 
 	private fun setupBottomNav() {
-		navBottom.selectedItemId = -1
+		navBottom.selectedItemId = R.id.nav_home
 		navBottom.setOnNavigationItemSelectedListener { item ->
 			when(item.itemId) {
+				R.id.nav_home -> {
+					loadHomeFragment(null)
+					true
+				}
 				R.id.nav_donations -> {
-					startActivity(Intent(this, DonationsActivity::class.java))
+					loadDonationsFragment()
 					true
 				}
 
 				R.id.nav_settings -> {
-					startActivity(Intent(this, SettingsActivity::class.java))
+					loadSettingsFragment()
 					true
 				}
 
@@ -100,15 +106,10 @@ class MainActivity : BaseActivity() {
 		}
 	}
 
-	private fun loadFragment(fragment: Fragment, tag: String?) {
-		val fragmentTransaction = supportFragmentManager.beginTransaction()
-		fragmentTransaction.replace(R.id.frag_container, fragment, tag)
-		fragmentTransaction.commit()
-	}
-
 	override fun onBackPressed() {
-		if (isDoubleBackToExitPressedOnce) {
+		if (supportFragmentManager.backStackEntryCount > 1 || isDoubleBackToExitPressedOnce) {
 			super.onBackPressed()
+			navBottom.selectedItemId = getSelectionId()
 			return
 		}
 		isDoubleBackToExitPressedOnce = true
@@ -120,27 +121,63 @@ class MainActivity : BaseActivity() {
 	// Menu
 	// =========================================================================================
 
-	private fun selectFragment(savedInstanceState: Bundle?) {
+	private fun replaceFragment(fragment: Fragment, tag: String?) {
+		val backStateName = getFragmentName(fragment::class)
 
-		if (savedInstanceState == null) {
-			val uris: ArrayList<Uri>? = when (intent?.action) {
-				Intent.ACTION_SEND -> {
-					if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
-						val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
-						uri?.let { arrayListOf(it) }
-					} else null
-				}
-				Intent.ACTION_SEND_MULTIPLE -> {
-					if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
-						intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
-					} else null
-				}
+		if (getTopFragmentName() == backStateName) return //Fragment already at top.
+		if (supportFragmentManager.popBackStackImmediate(backStateName, 0)) return //Try popping
+
+		supportFragmentManager.beginTransaction().apply {
+			replace(R.id.frag_container, fragment, tag)
+			addToBackStack(backStateName)
+			commit()
+		}
+	}
+
+	private fun getSelectionId() = when(getTopFragmentName()) {
+		getFragmentName(ImageHandlingFragment::class) -> R.id.nav_home
+		getFragmentName(DonationsFragment::class) -> R.id.nav_donations
+		getFragmentName(SettingsFragment::class) -> R.id.nav_settings
+		else -> -1
+	}
+
+	private fun getTopFragmentName(): String? {
+		if (supportFragmentManager.backStackEntryCount == 0) return null
+		return supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount-1).name
+	}
+
+	private fun getFragmentName(clss: KClass<*>) = clss.jvmName
+
+	private fun loadHomeFragment(savedInstanceState: Bundle?) {
+		val uris: ArrayList<Uri>? = if (savedInstanceState == null) {
+			 when (intent?.action) {
+				 Intent.ACTION_SEND -> {
+					 if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
+						 val uri = intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM)
+						 uri?.let { arrayListOf(it) }
+					 } else null
+				 }
+				 Intent.ACTION_SEND_MULTIPLE -> {
+					 if (intent.type?.startsWith(ContentType.Image.TYPE) == true) {
+						 intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM)
+					 } else null
+				 }
 				else -> null
 			}
+		} else null
 
-			loadFragment(ImageHandlingFragment.newInstance(uris), TAG_FRAGMENT)
-		}
+		val loadedFragment = supportFragmentManager.findFragmentByTag(TAG_HOME_FRAGMENT) ?: ImageHandlingFragment.newInstance(uris)
+		replaceFragment(loadedFragment, TAG_HOME_FRAGMENT)
+	}
 
+	private fun loadDonationsFragment() {
+		val loadedFragment = supportFragmentManager.findFragmentByTag(TAG_DONATIONS_FRAGMENT) ?: DonationsFragment.newInstance()
+		replaceFragment(loadedFragment, TAG_DONATIONS_FRAGMENT)
+	}
+
+	private fun loadSettingsFragment() {
+		val loadedFragment = supportFragmentManager.findFragmentByTag(TAG_SETTINGS_FRAGMENT) ?: SettingsFragment.newInstance()
+		replaceFragment(loadedFragment, TAG_SETTINGS_FRAGMENT)
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -161,7 +198,9 @@ class MainActivity : BaseActivity() {
 
 
 	companion object {
-		const val TAG_FRAGMENT = "FRAGMENT_TAG"
+		const val TAG_HOME_FRAGMENT = "FRAGMENT_HOME_TAG"
+		const val TAG_DONATIONS_FRAGMENT = "FRAGMENT_DONATIONS_TAG"
+		const val TAG_SETTINGS_FRAGMENT = "FRAGMENT_SETTINGS_TAG"
 
 		fun getIntent(ctx: Context): Intent {
 			return Intent(ctx, MainActivity::class.java)

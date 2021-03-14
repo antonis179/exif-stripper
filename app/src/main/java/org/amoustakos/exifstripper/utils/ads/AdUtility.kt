@@ -16,12 +16,8 @@ import org.amoustakos.exifstripper.utils.FBRemoteConfigUtility
 //TODO: ad load event logging + add bundle for event logging
 object AdUtility {
 
-//	private const val TIMEOUT = 10 * 1000
-//	private val waitingThread = Schedulers.newThread()
-//	private var subscription: Disposable? = null
-
-	private var remoteConfigLoaded = false
-	private var remoteConfigDefaultsSet = false
+//	private var remoteConfigLoaded = false
+//	private var remoteConfigDefaultsSet = false
 	private var initialized = false
 
 	private val callbacks = mutableListOf<AdLoadedListener>()
@@ -62,19 +58,6 @@ object AdUtility {
 
 		//Admob
 		MobileAds.initialize(ExifApplication.appContext.get()) {}
-
-		//Appodeal
-//		Appodeal.disableLocationPermissionCheck()
-//		Appodeal.disableWriteExternalStoragePermissionCheck()
-//		Appodeal.setBannerAnimation(true)
-//		Appodeal.set728x90Banners(true)
-//
-//		if (BuildConfig.DEBUG) {
-//			Appodeal.setLogLevel(Log.LogLevel.verbose)
-//			Appodeal.setTesting(true)
-//		}
-//
-//		Appodeal.setAutoCache(Appodeal.BANNER_VIEW, true)
 	}
 
 	fun registerCallback(callback: AdLoadedListener) {
@@ -133,7 +116,6 @@ object AdUtility {
 
 //		Do exhaustive when (network) {
 //			AdNetwork.AdMob -> inflateAndLoadFooterAdmob(viewGroup)
-//			AdNetwork.Appodeal -> {} //inflateAndLoadFooterAppodeal(viewGroup)
 //		}
 	}
 
@@ -141,9 +123,6 @@ object AdUtility {
 	fun onFooterResume(ctx: Activity) {
 		Do exhaustive when (getAdNetwork()) {
 			AdNetwork.AdMob -> {
-			}
-			AdNetwork.Appodeal -> {
-				//Appodeal.onResume(ctx, Appodeal.BANNER_VIEW)
 			}
 		}
 	}
@@ -195,26 +174,6 @@ object AdUtility {
 		}
 	}
 
-//	private fun inflateAndLoadFooterAppodeal(viewGroup: ViewGroup) {
-//		val ctx: Activity = viewGroup.context as Activity
-//		viewGroup.removeAllViews()
-//
-//		LayoutInflater
-//				.from(viewGroup.context)
-//				.inflate(R.layout.ad_footer_appodeal, viewGroup, true)
-//
-//		Do safeLogged {
-//			Appodeal.initialize(
-//					ctx,
-//					ctx.getString(R.string.appodeal_app_key),
-//					Appodeal.BANNER_VIEW,
-//					true
-//			)
-//			Appodeal.setBannerViewId(R.id.adFooter)
-//			Appodeal.show(ctx, Appodeal.BANNER_VIEW)
-//		}
-//	}
-
 	private fun admobSize(ctx: Activity, viewGroup: ViewGroup): AdSize {
 		val display = ctx.windowManager.defaultDisplay
 		val outMetrics = DisplayMetrics()
@@ -242,13 +201,11 @@ sealed class AdNetwork(val name: String) {
 	companion object {
 		fun forString(s: String, default: AdNetwork): AdNetwork = (Do exhaustive when (s) {
 			AdMob.name -> AdMob
-			Appodeal.name -> Appodeal
 			else -> default
 		})!!
 	}
 
 	object AdMob : AdNetwork("ADMOB")
-	object Appodeal : AdNetwork("APPODEAL")
 }
 
 

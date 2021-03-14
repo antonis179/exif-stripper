@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="title_image_select">Sélectionnez une photo</string>
-	<string name="title_activity_donations">Faire un don</string>
 	<string name="title_privacy_policy">Politique de confidentialité</string>
 	<string name="title_terms">Termes et conditions</string>
 	<string name="toast_back_to_exit">Cliquez à nouveau pour quitter</string>
@@ -38,4 +37,5 @@
 	<string name="error_msg_write_format_invalid">L\'écriture n\'est prise en charge que pour les formats JPEG et WEBP (prise en charge partielle)</string>
 	<string name="settings">Paramètres</string>
 	<string name="settings_autosave_title">Sauvegarde automatique</string>
+	<string name="menu_home">Maison</string>
 </resources>

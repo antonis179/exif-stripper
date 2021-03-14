@@ -6,7 +6,6 @@
 	<string name="title_activity_splash" translatable="false">@string/app_name</string>
 	<string name="title_activity_main" translatable="false">@string/app_name</string>
 	<string name="title_image_select">Select Photo</string>
-	<string name="title_activity_donations">Donate</string>
 	<string name="title_activity_exif_edit">Edit Attribute</string>
 	<string name="title_privacy_policy">Privacy Policy</string>
 	<string name="title_terms">Terms and Conditions</string>
@@ -56,6 +55,7 @@
 	<string name="navigation_drawer_close">Close navigation drawer</string>
 	<string name="nav_header_desc">Navigation header</string>
 
+	<string name="menu_home">Home</string>
 	<string name="menu_donations">Donations</string>
 	<string name="menu_settings" translatable="false">@string/settings</string>
 
