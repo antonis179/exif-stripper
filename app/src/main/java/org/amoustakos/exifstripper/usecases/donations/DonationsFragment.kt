@@ -112,18 +112,27 @@ class DonationsFragment : BaseFragment() {
 	}
 
 	private fun showPlayDonations(skuDetailsList: List<SkuDetails>) {
-		skuDetails = skuDetailsList
+		Do.safe(
+				{
+                    if (this.isDetached || activity == null) return //TODO
 
-		val viewData = skuDetailsList.mapIndexed { index, sku ->
-			DonationViewData(
-					index,
-					PlayBilling.getTitleForId(sku.sku, requireActivity()),
-					sku.description,
-					sku.price
-			)
-		}.toMutableList()
+                    skuDetails = skuDetailsList
 
-		setupRecycler(viewData)
+                    val viewData = skuDetailsList.mapIndexed { index, sku ->
+                        DonationViewData(
+                                index,
+                                PlayBilling.getTitleForId(sku.sku, requireActivity()),
+                                sku.description,
+                                sku.price
+                        )
+                    }.toMutableList()
+
+                    setupRecycler(viewData)
+                },
+				{
+					AnalyticsUtil.logException(it)
+				}
+		)
 	}
 
 

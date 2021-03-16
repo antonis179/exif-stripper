@@ -11,7 +11,9 @@ import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import java.lang.ref.WeakReference
 
-
+/*
+ * TODO: bind to lifecycle to avoid crashes
+ */
 class PlayBilling(
 		private val activity: WeakReference<Activity>
 ) {
