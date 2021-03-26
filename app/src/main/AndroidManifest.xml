@@ -22,13 +22,13 @@
 
 		<!-- Activities -->
 		<activity
-			android:name=".usecases.privacy.PrivacyActivity"
+			android:name=".screens.privacy.PrivacyActivity"
 			android:label="@string/title_activity_splash"
 			android:launchMode="singleInstance"
 			android:theme="@style/AppTheme.NoActionBar" />
 
 		<activity
-			android:name=".usecases.home.MainActivity"
+			android:name=".screens.home.MainActivity"
 			android:label="@string/title_activity_main"
 			android:launchMode="singleInstance"
 			android:theme="@style/AppTheme.NoActionBar">
@@ -48,16 +48,16 @@
 
 
 		<activity
-			android:name=".usecases.privacy.PrivacyTermsActivity"
+			android:name=".screens.privacy.PrivacyTermsActivity"
 			android:label="@string/title_privacy_policy"
 			android:launchMode="singleInstance"
 			android:theme="@style/AppTheme.NoActionBar" />
 
 		<activity
-			android:name=".usecases.exifaddedit.ExifEditActivity"
+			android:name=".screens.exifaddedit.ExifEditActivity"
 			android:label="@string/title_activity_exif_edit"
 			android:launchMode="singleInstance"
-			android:parentActivityName=".usecases.home.MainActivity"
+			android:parentActivityName=".screens.home.MainActivity"
 			android:theme="@style/AppTheme.NoActionBar" />
 
 		<!-- Metadata -->

@@ -1,6 +1,6 @@
 package org.amoustakos.exifstripper.utils
 
-import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
+import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
 import timber.log.Timber
 
 /**

@@ -25,12 +25,11 @@ project.ext {
 	]
 
 	plugin_versions = [
-			android                 : '4.1.0',
+			android                 : '4.1.3',
 			kotlin                  : '1.4.30',
-//			realm                   : '5.12.0',
 			firebase_gms            : '4.3.5',
-			crashlytics             : '2.4.1',
-			gradleVersions          : '0.36.0'
+			crashlytics             : '2.5.2',
+			gradleVersions          : '0.38.0'
 	]
 
 	gradle_plugins = [
@@ -46,61 +45,48 @@ project.ext {
 	lib_versions = [
 			//Support
 			play_services_gcm           : '17.0.0',
-//			play_services_maps          : '17.0.0',
-//			play_services_location      : '17.0.0',
-			play_services_ads           : '19.7.0',
+			play_services_ads           : '19.8.0',
 			androidx_core               : '1.3.2',
 			appcompat                   : '1.2.0',
 			support_design              : '1.3.0',
 			support_recycler            : '1.1.0',
 			support_cardview            : '1.0.0',
 			constraint_layout           : '2.0.3',
-			lifecycle_extensions        : '2.2.0',
-			lifecycle                   : '2.2.0',
-			lifecycle_runtime           : '2.2.0',
-			lifecycle_view_model_state  : '2.2.0',
+			lifecycle                   : '2.3.1',
+			lifecycle_runtime           : '2.3.1',
+			lifecycle_view_model        : '2.3.1',
+			lifecycle_view_model_state  : '2.3.1',
 			preferences                 : '1.1.0',
 			material                    : '1.3.0',
-			play_billing                : '3.0.2',
+			play_billing                : '3.0.3',
 
 			//Desugaring
 			core_desugaring             : '1.0.9',
 
 			//Annotation processors - injection - RX
-//			dagger                      : '2.20',
-			rx_java                     : '2.2.20',
+			rx_java                     : '2.2.21',
 			rx_kotlin                   : '2.4.0',
 			rx_android                  : '2.1.1',
-
-			//Realm
-//			realm_android_adapters      : '3.1.0',
-//			kotlin_realm_ext            : '2.5.0',
 
 			//Net
 //			retrofit                    : '2.5.0',
 //			gson                        : '2.8.5',
-			okhttp                      : '4.2.0',
+//			okhttp                      : '4.2.0',
 
 			//Logging
 			timber                      : '4.7.1',
 
 			//Analytics
-			crashlytics                 : '17.3.1',
-//			firebase_index              : '16.0.1',
+			crashlytics                 : '17.4.1',
 			firebase_core               : '18.0.2',
-//			firebase_cloud_messaging    : '17.3.4',
 			firebase_ads                : '19.1.0',
 			firebase_analytics          : '18.0.2',
-			firebase_remote_config      : '20.0.3',
-
-			//Job dispatcher
-//			job_dispatcher              : '0.8.6',
+			firebase_remote_config      : '20.0.4',
 
 			//Bus
 			event_bus                   : '3.1.1',
 
 			//Image
-//			glide                       : '4.11.0',
 			coil                        : '1.1.1',
 			exif                        : '1.3.2',
 
@@ -108,13 +94,12 @@ project.ext {
 	]
 
 	annotation_processors = [
-		    lifecycle       : "androidx.lifecycle:lifecycle-compiler:${lib_versions.lifecycle}",
-//		    dagger          : "com.google.dagger:dagger-compiler:${lib_versions.dagger}",
+		    lifecycle       : "androidx.lifecycle:lifecycle-compiler:${lib_versions.lifecycle}"
 	]
 
 
 	libs_mapping = [
-			gson                : "com.google.code.gson:gson:${lib_versions.gson}",
+			gson                : "com.google.code.gson:gson:${lib_versions.gson}"
 	]
 
 	libs_support = [
@@ -123,8 +108,8 @@ project.ext {
 
 			//Lifecycle
 			lifecycle_java8             : "androidx.lifecycle:lifecycle-common-java8:${lib_versions.lifecycle}",
-			lifecycle_runtime           : "androidx.lifecycle:lifecycle-runtime:${lib_versions.lifecycle_runtime}",
-			lifecycle_extensions        : "androidx.lifecycle:lifecycle-extensions:${lib_versions.lifecycle_extensions}",
+			lifecycle_runtime           : "androidx.lifecycle:lifecycle-runtime-ktx:${lib_versions.lifecycle_runtime}",
+			lifecycle_view_model        : "androidx.lifecycle:lifecycle-viewmodel-ktx:${lib_versions.lifecycle_view_model}",
 			lifecycle_view_model_state  : "androidx.lifecycle:lifecycle-viewmodel-savedstate:${lib_versions.lifecycle_view_model_state}",
 
 			//UI
@@ -133,7 +118,6 @@ project.ext {
 			support_design      : "com.google.android.material:material:${lib_versions.support_design}",
 			constraint_layout   : "androidx.constraintlayout:constraintlayout:${lib_versions.constraint_layout}",
 			material            : "com.google.android.material:material:${lib_versions.material}",
-//			preferences         : "androidx.preference:preference:${lib_versions.preferences}",
 			play_billing        : "com.android.billingclient:billing:${lib_versions.play_billing}"
 	]
 
@@ -142,33 +126,18 @@ project.ext {
 	]
 
 	libs_play_services = [
-			play_gcm            : "com.google.android.gms:play-services-gcm:${lib_versions.play_services_gcm}",
-//			play_maps           : "com.google.android.gms:play-services-maps:${lib_versions.play_services_maps}",
-//			play_location       : "com.google.android.gms:play-services-location:${lib_versions.play_services_maps}",
+			play_gcm            : "com.google.android.gms:play-services-gcm:${lib_versions.play_services_gcm}"
 	]
 
 	libs_firebase = [
-			//Assistant
-//			firebase_index      : "com.google.firebase:firebase-appindexing:${lib_versions.firebase_index}",
-
 			//Analytics
 			firebase_analytics      : "com.google.firebase:firebase-analytics-ktx:${lib_versions.firebase_analytics}",
 			firebase_remote_config  : "com.google.firebase:firebase-config-ktx:${lib_versions.firebase_remote_config}",
 			firebase_core           : "com.google.firebase:firebase-core:${lib_versions.firebase_core}",
-			crashlytics             : "com.google.firebase:firebase-crashlytics:${lib_versions.crashlytics}",
-
-			//Job dispatcher
-//			jobdispatcher       : "com.firebase:firebase-jobdispatcher:${lib_versions.job_dispatcher}",
-
-			//FCM
-//			fcm                 : "com.google.firebase:firebase-messaging:${lib_versions.firebase_cloud_messaging}",
-//			firebase_ads        : "com.google.firebase:firebase-ads:${lib_versions.firebase_ads}",
+			crashlytics             : "com.google.firebase:firebase-crashlytics:${lib_versions.crashlytics}"
 	]
 
 	libs_local_io = [
-//			realm               : "io.realm:realm-android-library:${plugin_versions.realm}",
-//			realm_adapters      : "io.realm:android-adapters:${lib_versions.realm_android_adapters}",
-//			realm_kotlin_ext    : "com.github.vicpinm:krealmextensions:${lib_versions.kotlin_realm_ext}",
 			event_bus           : "org.greenrobot:eventbus:${lib_versions.event_bus}"
 	]
 
@@ -178,7 +147,7 @@ project.ext {
 //			retrofit_gson       : "com.squareup.retrofit2:converter-gson:${lib_versions.retrofit}",
 //			retrofit_rx_java2   : "com.squareup.retrofit2:adapter-rxjava2:${lib_versions.retrofit}",
 //			okhttp_logging      : "com.squareup.okhttp3:logging-interceptor:${lib_versions.okhttp}",
-			okhttp              : "com.squareup.okhttp3:okhttp:${lib_versions.okhttp}"
+//			okhttp              : "com.squareup.okhttp3:okhttp:${lib_versions.okhttp}"
 	]
 
 	libs_rx = [
@@ -187,12 +156,7 @@ project.ext {
 			rx_android          : "io.reactivex.rxjava2:rxandroid:${lib_versions.rx_android}",
 	]
 
-	libs_injection = [
-//			dagger              : "com.google.dagger:dagger:${lib_versions.dagger}",
-	]
-
 	libs_image = [
-//			glide               : "com.github.bumptech.glide:glide:${lib_versions.glide}",
 			coil                : "io.coil-kt:coil:${lib_versions.coil}",
 			exif                : "androidx.exifinterface:exifinterface:${lib_versions.exif}",
 			circleindicator     : "me.relex:circleindicator:${lib_versions.circleindicator}"
