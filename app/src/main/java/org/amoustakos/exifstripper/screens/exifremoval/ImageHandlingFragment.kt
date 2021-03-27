@@ -1,7 +1,6 @@
 package org.amoustakos.exifstripper.screens.exifremoval
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -79,6 +78,9 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	private var scrollListener: ViewHideScrollListener? = null
 
 	private var isLoading = false
+
+	private val getImages = registerForActivityResult(GetImagesContract()) { handleUris(it) }
+	private val editAttribute = registerForActivityResult(EditAttributeContract()) { updateAttribute(it) }
 
 	// =========================================================================================
 	// View
@@ -218,10 +220,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 				.doOnNext {
 					Do safe {
 						val attr = ExifAttribute(it.item.title, it.item.value)
-						startActivityForResult(
-								ExifEditActivity.getStartIntent(requireContext(), attr),
-								REQUEST_ATTR_EDIT
-						)
+						editAttribute.launch(attr)
 					}
 				}
 				.map { }
@@ -303,7 +302,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	}
 
 	private fun setState() {
-		with (binding) {
+		with(binding) {
 			content.visibility = if (isImageLoaded()) VISIBLE else GONE
 			rvExif.visibility = if (isImageLoaded()) VISIBLE else GONE
 			viewLoading.root.visibility = if (isLoading) VISIBLE else GONE
@@ -511,19 +510,6 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 		}
 	}
 
-	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-		if (resultCode != Activity.RESULT_OK || context == null || activity == null) {
-			super.onActivityResult(requestCode, resultCode, data)
-			return
-		}
-
-		when (requestCode) {
-			REQUEST_IMAGE -> handleUris(data)
-			REQUEST_ATTR_EDIT -> updateAttribute(data)
-		}
-		super.onActivityResult(requestCode, resultCode, data)
-	}
-
 	private fun updateAttribute(data: Intent?) {
 		if (data == null || data.extras == null) return
 
@@ -619,17 +605,10 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	}
 
 	private fun pickImage() {
-		context?.let {
-			startActivityForResult(
-					FileUtils.createGetContentIntent(
-							it,
-							ContentType.Image.TYPE_GENERIC,
-							title = getString(R.string.title_image_select),
-							allowMultiple = true
-					),
-					REQUEST_IMAGE
-			)
-		}
+		getImages.launch(GetImagesData(
+				getString(R.string.title_image_select),
+				ContentType.Image.TYPE_GENERIC
+		))
 	}
 
 
@@ -672,8 +651,6 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
 	companion object {
 		private const val PERMISSION_REQUEST = 10566
-		private const val REQUEST_IMAGE = 10999
-		private const val REQUEST_ATTR_EDIT = 11000
 
 		private const val KEY_URI = "key_uri"
 
