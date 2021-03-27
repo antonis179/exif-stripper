@@ -366,6 +366,10 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 		attrSubscription = null
 		adapter?.replace(items)
 		adapter?.notifyDataSetChanged()
+
+		if (items.isNotEmpty()) {
+			onImageSelected(binding.vpImageCollection.currentItem)
+		}
 	}
 
 	private fun refreshAttributeAdapter(items: List<ExifAttributeViewData>) {
