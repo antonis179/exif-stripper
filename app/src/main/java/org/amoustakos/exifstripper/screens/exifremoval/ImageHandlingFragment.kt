@@ -69,6 +69,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	private val imageSelectionPublisher: PublishSubject<ClickEvent<ExifImageViewData>> = PublishSubject.create()
 
 	private var attrSubscription: Disposable? = null
+	private var imageSelectionSubscription: Disposable? = null
 
 	private lateinit var toolbar: ImageHandlingToolbar
 
@@ -232,7 +233,10 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	}
 
 	private fun imageClickListener() {
-		imageSelectionPublisher
+		imageSelectionSubscription?.dispose()
+		imageSelectionSubscription = null
+
+		imageSelectionSubscription = imageSelectionPublisher
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(AndroidSchedulers.mainThread())
 				.doOnNext {
