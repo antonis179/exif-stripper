@@ -9,18 +9,17 @@ import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 import org.amoustakos.exifstripper.view.toolbars.base.ToolbarView
 import java.lang.ref.WeakReference
 
-open class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarView {
+open class BasicToolbar(view: Toolbar) : ActivityViewComponent, ToolbarView {
 
 	operator fun invoke() = get()
 
 	protected var activity: WeakReference<AppCompatActivity?> = WeakReference(null)
-	protected var toolbar: Toolbar? = null
+	protected var toolbar: Toolbar = view
 	protected var title: TextView? = null
 
 
 	override fun setup(activity: Activity) {
-		toolbar = activity.findViewById(id)
-		title = toolbar?.findViewById(R.id.tvToolbarTitle)
+		title = toolbar.findViewById(R.id.tvToolbarTitle)
 
 		setAsActionbar(activity as AppCompatActivity)
 		this.activity = WeakReference(activity)
@@ -30,7 +29,7 @@ open class BasicToolbar(private val id: Int) : ActivityViewComponent, ToolbarVie
 	override fun get() = toolbar
 
 	override fun setAsActionbar(activity: AppCompatActivity) {
-		toolbar?.let { activity.setSupportActionBar(it) }
+		toolbar.let { activity.setSupportActionBar(it) }
 	}
 
 	override fun toggleBackButton(enabled: Boolean) {

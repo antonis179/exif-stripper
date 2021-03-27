@@ -7,13 +7,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
-import kotlinx.android.synthetic.main.activity_main.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.databinding.ActivityMainBinding
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.screens.donations.DonationsFragment
 import org.amoustakos.exifstripper.screens.exifremoval.ImageHandlingFragment
@@ -28,6 +29,8 @@ import kotlin.reflect.jvm.jvmName
 
 
 class MainActivity : BaseActivity() {
+
+	private lateinit var binding: ActivityMainBinding
 
 	private var isDoubleBackToExitPressedOnce = false
 
@@ -48,6 +51,8 @@ class MainActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
+		setContentView(binding.root)
 
 		setupBottomNav()
 		setupAds()
@@ -64,7 +69,7 @@ class MainActivity : BaseActivity() {
 		} else {
 			Do safeLogged {
 				AdUtility.registerCallback(adLoadedListener)
-				AdUtility.inflateFooterAdView(flAdFooter)
+				AdUtility.inflateFooterAdView(binding.flAdFooter)
 			}
 		}
 	}
@@ -84,8 +89,8 @@ class MainActivity : BaseActivity() {
 	// =========================================================================================
 
 	private fun setupBottomNav() {
-		navBottom.selectedItemId = R.id.nav_home
-		navBottom.setOnNavigationItemSelectedListener { item ->
+		binding.navBottom.selectedItemId = R.id.nav_home
+		binding.navBottom.setOnNavigationItemSelectedListener { item ->
 			when(item.itemId) {
 				R.id.nav_home -> {
 					loadHomeFragment(null)
@@ -109,7 +114,7 @@ class MainActivity : BaseActivity() {
 	override fun onBackPressed() {
 		if (supportFragmentManager.backStackEntryCount > 1 || isDoubleBackToExitPressedOnce) {
 			super.onBackPressed()
-			navBottom.selectedItemId = getSelectionId()
+			binding.navBottom.selectedItemId = getSelectionId()
 			return
 		}
 		isDoubleBackToExitPressedOnce = true

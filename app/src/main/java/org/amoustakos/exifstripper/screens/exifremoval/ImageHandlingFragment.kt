@@ -6,9 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +22,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_image_handling.*
-import kotlinx.android.synthetic.main.include_empty_screen.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.databinding.FragmentImageHandlingBinding
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.ResponseWrapperList
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
@@ -59,6 +56,9 @@ import java.io.IOException
 
 class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
+	private var _binding: FragmentImageHandlingBinding? = null
+	private val binding get() = _binding!!
+
 	private lateinit var viewModel: ExifViewModel
 
 	private var adapter: ExifImagePagerAdapter? = null
@@ -71,7 +71,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
 	private var attrSubscription: Disposable? = null
 
-	private val toolbar = ImageHandlingToolbar(R.id.toolbar)
+	private lateinit var toolbar: ImageHandlingToolbar
 
 	private val updaterThread = Schedulers.newThread()
 	private val exifThread = Schedulers.newThread()
@@ -86,9 +86,19 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
 	override fun layoutId() = R.layout.fragment_image_handling
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		retainInstance = true
+	override fun onCreateView(
+			inflater: LayoutInflater,
+			container: ViewGroup?,
+			savedInstanceState: Bundle?
+	): View {
+		_binding = FragmentImageHandlingBinding.inflate(inflater, container, false)
+		toolbar = ImageHandlingToolbar(binding.toolbar.toolbar)
+		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
 	}
 
 	private fun init(savedInstanceState: Bundle?) {
@@ -109,7 +119,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	}
 
 	private fun notifyStored() {
-		Snackbar.make(content, R.string.notif_stored, 5000).show()
+		Snackbar.make(binding.content, R.string.notif_stored, 5000).show()
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -122,10 +132,10 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
 		init(savedInstanceState)
 
-		abSelectImages.setOnClickListener(imageSelectionListener)
-		ciImageIndicator.setOnClickListener(imageSelectionListener)
+		binding.viewEmpty.abSelectImages.setOnClickListener(imageSelectionListener)
+		binding.ciImageIndicator.setOnClickListener(imageSelectionListener)
 
-		btn_remove_all.setOnClickListener {
+		binding.btnRemoveAll.setOnClickListener {
 			setLoading(true)
 			Single.fromCallable { }
 					.observeOn(exifThread)
@@ -183,8 +193,8 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 					Do.safe(
 							{
 								viewModel.exifFiles.value
-										?.get(vpImageCollection.currentItem)
-										?.removeAttribute(context!!, it.item.title)
+										?.get(binding.vpImageCollection.currentItem)
+										?.removeAttribute(requireContext(), it.item.title)
 							},
 							{
 								Timber.e(it)
@@ -209,7 +219,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 					Do safe {
 						val attr = ExifAttribute(it.item.title, it.item.value)
 						startActivityForResult(
-								ExifEditActivity.getStartIntent(context!!, attr),
+								ExifEditActivity.getStartIntent(requireContext(), attr),
 								REQUEST_ATTR_EDIT
 						)
 					}
@@ -227,7 +237,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 				.observeOn(AndroidSchedulers.mainThread())
 				.subscribeOn(AndroidSchedulers.mainThread())
 				.doOnNext {
-					imageSelectionListener.onClick(vpImageCollection)
+					imageSelectionListener.onClick(binding.vpImageCollection)
 				}
 				.map { }
 				.doOnError(Timber::e)
@@ -254,11 +264,11 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 					listOf(PublisherItem(imageSelectionPublisher, Type.CLICK))
 			)
 		}
-		vpImageCollection.adapter = adapter
-		ciImageIndicator.setViewPager(vpImageCollection)
-		adapter?.registerAdapterDataObserver(ciImageIndicator.adapterDataObserver)
+		binding.vpImageCollection.adapter = adapter
+		binding.ciImageIndicator.setViewPager(binding.vpImageCollection)
+		adapter?.registerAdapterDataObserver(binding.ciImageIndicator.adapterDataObserver)
 
-		vpImageCollection!!.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+		binding.vpImageCollection.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 			override fun onPageSelected(position: Int) {
 				super.onPageSelected(position)
 				onImageSelected(position)
@@ -275,12 +285,12 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 				PublisherItem(clickPublisher, Type.CLICK, EDIT_PUBLISHER_ID)
 		))
 
-		rvExif.setHasFixedSize(true)
-		rvExif.adapter = attrAdapter
+		binding.rvExif.setHasFixedSize(true)
+		binding.rvExif.adapter = attrAdapter
 
-		scrollListener = ViewHideScrollListener(btn_remove_all, orientation = Orientation.VERTICAL)
+		scrollListener = ViewHideScrollListener(binding.btnRemoveAll, orientation = Orientation.VERTICAL)
 
-		rvExif.addOnScrollListener(scrollListener!!)
+		binding.rvExif.addOnScrollListener(scrollListener!!)
 	}
 
 	override fun onAdLoaded() {
@@ -293,10 +303,12 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	}
 
 	private fun setState() {
-		content.visibility = if (isImageLoaded()) VISIBLE else GONE
-		rvExif.visibility = if (isImageLoaded()) VISIBLE else GONE
-		viewLoading.visibility = if (isLoading) VISIBLE else GONE
-		viewEmpty.visibility = if (isImageLoaded()) GONE else VISIBLE
+		with (binding) {
+			content.visibility = if (isImageLoaded()) VISIBLE else GONE
+			rvExif.visibility = if (isImageLoaded()) VISIBLE else GONE
+			viewLoading.root.visibility = if (isLoading) VISIBLE else GONE
+			viewEmpty.root.visibility = if (isImageLoaded()) GONE else VISIBLE
+		}
 	}
 
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -307,13 +319,13 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
 	private fun toggleAppbar() {
 		if (!isImageLoaded()) {
-			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
+			val p = binding.ctToolbar.layoutParams as AppBarLayout.LayoutParams
 			p.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL
-			ctToolbar.layoutParams = p
+			binding.ctToolbar.layoutParams = p
 		} else {
-			val p = ctToolbar.layoutParams as AppBarLayout.LayoutParams
+			val p = binding.ctToolbar.layoutParams as AppBarLayout.LayoutParams
 			p.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
-			ctToolbar.layoutParams = p
+			binding.ctToolbar.layoutParams = p
 		}
 	}
 
@@ -331,8 +343,8 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 					if (context == null) {
 						mutableListOf()
 					} else {
-						it.filter { file -> file.getPath(context!!) != null }.map { exifFile ->
-							ExifImageViewData(exifFile.getPath(context!!)!!)
+						it.filter { file -> file.getPath(requireContext()) != null }.map { exifFile ->
+							ExifImageViewData(exifFile.getPath(requireContext())!!)
 						}
 					}
 				}
@@ -423,7 +435,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	}
 
 	private fun showSnackbarError(msg: String) {
-		Snackbar.make(content, msg, Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok) {}.show()
+		Snackbar.make(binding.content, msg, Snackbar.LENGTH_INDEFINITE).setAction(android.R.string.ok) {}.show()
 	}
 
 	// =========================================================================================
@@ -431,7 +443,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 	// =========================================================================================
 
 	private fun toggleRemoveAllButton() {
-		btn_remove_all.visibility = if (isImageLoaded()) VISIBLE else GONE
+		binding.btnRemoveAll.visibility = if (isImageLoaded()) VISIBLE else GONE
 	}
 
 	@Synchronized
@@ -520,7 +532,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 		}
 
 		Do.safe(
-				{ item.setAttribute(context!!, attr.key, attr.value) },
+				{ item.setAttribute(requireContext(), attr.key, attr.value) },
 				{
 					Timber.e(it)
 					if (it is IOException)
@@ -533,7 +545,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 
 	private fun getCurrentItem(): ExifRemovalFile? {
 		if (viewModel.exifFiles.value?.isNullOrEmpty() == true) return null
-		return viewModel.exifFiles.value?.get(vpImageCollection.currentItem)
+		return viewModel.exifFiles.value?.get(binding.vpImageCollection.currentItem)
 	}
 
 	private fun handleUris(data: Intent?) {

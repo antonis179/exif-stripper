@@ -102,8 +102,8 @@
             tools:visibility="visible" />
 
     <include
-            android:id="@+id/viewEmpty"
             layout="@layout/include_empty_screen"
+            android:id="@+id/viewEmpty"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="?attr/actionBarSize"
@@ -114,8 +114,8 @@
             app:layout_constraintTop_toTopOf="@id/main_content" />
 
     <include
-            android:id="@+id/viewLoading"
             layout="@layout/include_loading_screen"
+            android:id="@+id/viewLoading"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="?attr/actionBarSize"

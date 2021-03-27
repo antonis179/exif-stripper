@@ -1,7 +1,8 @@
 package org.amoustakos.exifstripper.screens.donations.adapters
 
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.row_donation_card.view.*
+import android.widget.Button
+import android.widget.TextView
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.view.recycler.BaseViewHolder
 import org.amoustakos.exifstripper.view.recycler.PublisherItem
@@ -14,17 +15,19 @@ class DonationViewHolder(
 		publishers
 ) {
 
+	private val btnBuy: Button = itemView.findViewById(R.id.btnBuy)
+	private val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
+	private val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
+
 	init {
-		itemView.btnBuy.setOnClickListener { onClick() }
+		btnBuy.setOnClickListener { onClick() }
 	}
 
 	override fun loadItem(item: DonationViewData) {
 		super.loadItem(item)
 
-		with(itemView) {
-			tvTitle.text = item.title
-			tvDescription.text = item.description
-			btnBuy.text = item.price
-		}
+		tvTitle.text = item.title
+		tvDescription.text = item.description
+		btnBuy.text = item.price
 	}
 }

@@ -16,7 +16,7 @@ project.ext {
 			library                   : 'com.android.library',
 			kotlin                    : 'kotlin-android',
 			kapt                      : 'kotlin-kapt',
-			kotlinAndroidExtentions   : 'kotlin-android-extensions',
+			kotlinParcelize           : 'kotlin-parcelize',
 			realm                     : 'realm-android',
 			firebasePerformance       : 'com.google.firebase.firebase-perf',
 			crashlytics               : 'com.google.firebase.crashlytics',
@@ -47,6 +47,7 @@ project.ext {
 			play_services_gcm           : '17.0.0',
 			play_services_ads           : '19.8.0',
 			androidx_core               : '1.3.2',
+			androidx_fragment           : '1.3.2',
 			appcompat                   : '1.2.0',
 			support_design              : '1.3.0',
 			support_recycler            : '1.1.0',
@@ -105,6 +106,7 @@ project.ext {
 	libs_support = [
 			appcompat           : "androidx.appcompat:appcompat:${lib_versions.appcompat}",
 			androidx_core       : "androidx.core:core-ktx:${lib_versions.androidx_core}",
+			fragment            : "androidx.fragment:fragment:${lib_versions.androidx_fragment}",
 
 			//Lifecycle
 			lifecycle_java8             : "androidx.lifecycle:lifecycle-common-java8:${lib_versions.lifecycle}",

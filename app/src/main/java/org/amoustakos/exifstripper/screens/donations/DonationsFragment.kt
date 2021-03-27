@@ -4,13 +4,15 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.SkuDetails
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_donations.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.databinding.FragmentDonationsBinding
 import org.amoustakos.exifstripper.screens.donations.adapters.DonationViewData
 import org.amoustakos.exifstripper.screens.donations.adapters.DonationsAdapter
 import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
@@ -27,7 +29,10 @@ import java.lang.ref.WeakReference
 
 class DonationsFragment : BaseFragment() {
 
-	private val toolbar = BasicToolbar(R.id.toolbar)
+	private var _binding: FragmentDonationsBinding? = null
+	private val binding get() = _binding!!
+
+	private lateinit var toolbar: BasicToolbar
 	private var adapter: DonationsAdapter? = null
 	private lateinit var billing: PlayBilling
 	private var skuDetails: List<SkuDetails>? = null
@@ -36,9 +41,19 @@ class DonationsFragment : BaseFragment() {
 
 	override fun layoutId() = R.layout.fragment_donations
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		retainInstance = true
+	override fun onCreateView(
+			inflater: LayoutInflater,
+			container: ViewGroup?,
+			savedInstanceState: Bundle?
+	): View {
+		_binding = FragmentDonationsBinding.inflate(inflater, container, false)
+		toolbar = BasicToolbar(binding.toolbar.toolbar)
+		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,8 +75,8 @@ class DonationsFragment : BaseFragment() {
 
 		loadBilling()
 
-		btnAd.setOnClickListener {
-			btnAd.isEnabled = false
+		binding.btnAd.setOnClickListener {
+			binding.btnAd.isEnabled = false
 			makeAndLoadRewardedAd()
 		}
 	}
@@ -80,8 +95,7 @@ class DonationsFragment : BaseFragment() {
 					{ AnalyticsUtil.logException(it) }
 			)
 		}
-		ivGithub.setOnClickListener(listener)
-		tvGithub.setOnClickListener(listener)
+		binding.tvGithub.setOnClickListener(listener)
 	}
 
 	private fun loadBilling() {
@@ -100,7 +114,7 @@ class DonationsFragment : BaseFragment() {
 		if (adapter != null) {
 			adapter?.replace(viewData)
 			adapter?.notifyDataSetChanged()
-			rvDonations.adapter = adapter
+			binding.rvDonations.adapter = adapter
 			return
 		}
 
@@ -108,7 +122,7 @@ class DonationsFragment : BaseFragment() {
 				PublisherItem(purchasePublisher, Type.CLICK)
 		))
 
-		rvDonations.adapter = adapter
+		binding.rvDonations.adapter = adapter
 	}
 
 	private fun showPlayDonations(skuDetailsList: List<SkuDetails>) {
@@ -139,7 +153,10 @@ class DonationsFragment : BaseFragment() {
 	private fun makeAndLoadRewardedAd() {
 		Do.safe(
 				{
-					billing.loadAdMobRewardedAd({ btnAd.isEnabled = true }, { btnAd.isEnabled = true })
+					billing.loadAdMobRewardedAd(
+							{ binding.btnAd.isEnabled = true },
+							{ binding.btnAd.isEnabled = true }
+					)
 				},
 				{
 					AnalyticsUtil.logException(it)

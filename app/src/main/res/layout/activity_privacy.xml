@@ -15,6 +15,7 @@
 		android:layout_height="wrap_content">
 
 		<include
+			android:id="@+id/toolbar"
 			layout="@layout/toolbar_main"
 			app:layout_collapseMode="pin"/>
 	</com.google.android.material.appbar.AppBarLayout>

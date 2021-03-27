@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.SavedStateViewModelFactory
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.analytics.FirebaseAnalytics
-import kotlinx.android.synthetic.main.activity_exif_edit.*
-import kotlinx.android.synthetic.main.include_attribute_edit_fields.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.databinding.ActivityExifEditBinding
 import org.amoustakos.exifstripper.io.model.ExifAttribute
 import org.amoustakos.exifstripper.screens.home.MainActivity
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
@@ -21,7 +21,9 @@ import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 
 class ExifEditActivity : BaseActivity() {
 
-	private val toolbar = BasicToolbar(R.id.toolbar)
+
+	private lateinit var binding: ActivityExifEditBinding
+	private lateinit var toolbar: BasicToolbar
 	private lateinit var viewModel: ExifEditViewModel
 
 	// =========================================================================================
@@ -32,8 +34,11 @@ class ExifEditActivity : BaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		binding = ActivityExifEditBinding.inflate(LayoutInflater.from(this))
+		setContentView(binding.root)
+		toolbar = BasicToolbar(binding.toolbar.toolbar)
 
-		btnSaveAttribute.setOnClickListener {
+		binding.btnSaveAttribute.setOnClickListener {
 			setResult(true)
 			finish()
 		}
@@ -48,7 +53,7 @@ class ExifEditActivity : BaseActivity() {
 
 		loadData()
 
-		etValue.doOnTextChanged { text, _, _, _ ->
+		binding.attrField.etValue.doOnTextChanged { text, _, _, _ ->
 			viewModel.exifAttribute.value?.value = text?.toString()
 		}
 	}
@@ -61,8 +66,8 @@ class ExifEditActivity : BaseActivity() {
 
 		viewModel.exifAttribute.value = attr
 
-		tvTitle.text = attr.key
-		etValue.setText(attr.value)
+		binding.attrField.tvTitle.text = attr.key
+		binding.attrField.etValue.setText(attr.value)
 	}
 
 	private fun setResult(save: Boolean) {
@@ -82,7 +87,7 @@ class ExifEditActivity : BaseActivity() {
 			return
 		} else {
 			Do safe {
-				AdUtility.inflateFooterAdView(flAdFooter)
+				AdUtility.inflateFooterAdView(binding.flAdFooter)
 			}
 		}
 	}

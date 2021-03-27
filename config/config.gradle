@@ -82,7 +82,7 @@ project.ext {
 	]
 
 	ads = [
-			getAppodealKey  : {
+			getAppodealKey   : {
 				def props = project.ext.methods.getAds()
 				try {
 					return "${methods.getAttribute(props, "${key_config.appodeal_app_key}")}"
@@ -91,7 +91,7 @@ project.ext {
 				return ""
 			},
 
-			getAdmobPublisher   : {
+			getAdmobPublisher: {
 				def props = project.ext.methods.getAds()
 				try {
 					return "${methods.getAttribute(props, "${key_config.admob_publisher}")}"
@@ -123,6 +123,10 @@ project.ext {
 
 android {
 	compileSdkVersion build_params.compile_version
+
+	buildFeatures {
+		viewBinding true
+	}
 
 	defaultConfig {
 		versionCode app.version()

@@ -1,8 +1,8 @@
 package org.amoustakos.exifstripper.screens.exifremoval.adapters
 
 import android.view.ViewGroup
+import android.widget.ImageView
 import coil.load
-import kotlinx.android.synthetic.main.row_vp_image.view.*
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
@@ -18,6 +18,8 @@ class ExifImageViewHolder(
 		publishers
 ) {
 
+	private val image: ImageView = itemView.findViewById(R.id.image)
+
 	init {
 		itemView.setOnClickListener { onClick() }
 	}
@@ -29,7 +31,7 @@ class ExifImageViewHolder(
 
 	private fun loadImage() {
 		Do.safe({
-			mItem?.path?.let { itemView.image.load(File(it)) }
+			mItem?.path?.let { image.load(File(it)) }
 		}, {
 			AnalyticsUtil.logException(it)
 		})

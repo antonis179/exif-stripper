@@ -1,22 +1,38 @@
 package org.amoustakos.exifstripper.screens.settings
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.fragment_settings.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.databinding.FragmentSettingsBinding
 import org.amoustakos.exifstripper.ui.fragments.BaseFragment
 import org.amoustakos.exifstripper.view.toolbars.BasicToolbar
 
 class SettingsFragment : BaseFragment() {
 
-	private val toolbar = BasicToolbar(R.id.toolbar)
+	private var _binding: FragmentSettingsBinding? = null
+	private val binding get() = _binding!!
+
+	private lateinit var toolbar: BasicToolbar
+
 
 	override fun layoutId() = R.layout.fragment_settings
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		retainInstance = true
+	override fun onCreateView(
+			inflater: LayoutInflater,
+			container: ViewGroup?,
+			savedInstanceState: Bundle?
+	): View {
+		_binding = FragmentSettingsBinding.inflate(inflater, container, false)
+		toolbar = BasicToolbar(binding.toolbar.toolbar)
+		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -33,8 +49,8 @@ class SettingsFragment : BaseFragment() {
 
 
 	private fun setupAutoSave() {
-		chkAutoSave.isChecked = SettingsUtil.getAutosave()
-		chkAutoSave.setOnCheckedChangeListener { _, isChecked -> SettingsUtil.setAutosave(isChecked) }
+		binding.chkAutoSave.isChecked = SettingsUtil.getAutosave()
+		binding.chkAutoSave.setOnCheckedChangeListener { _, isChecked -> SettingsUtil.setAutosave(isChecked) }
 	}
 
 //	private fun setupFormat() {

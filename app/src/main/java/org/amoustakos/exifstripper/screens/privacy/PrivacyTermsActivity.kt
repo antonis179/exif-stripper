@@ -7,11 +7,12 @@ import android.os.Bundle
 import android.text.Html
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
+import android.view.LayoutInflater
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_privacy_terms.*
 import org.amoustakos.exifstripper.R
+import org.amoustakos.exifstripper.databinding.ActivityPrivacyTermsBinding
 import org.amoustakos.exifstripper.ui.activities.BaseActivity
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.rx.disposer.disposeBy
@@ -22,16 +23,21 @@ import timber.log.Timber
 
 class PrivacyTermsActivity : BaseActivity() {
 
+	private lateinit var binding: ActivityPrivacyTermsBinding
 	private lateinit var title: String
 	private var content: String? = null
 
-	private val toolbar = BasicToolbar(R.id.toolbar)
+	private lateinit var toolbar: BasicToolbar
 
 
 	override fun layoutId() = R.layout.activity_privacy_terms
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+		binding = ActivityPrivacyTermsBinding.inflate(LayoutInflater.from(this))
+		setContentView(binding.root)
+
+		toolbar = BasicToolbar(binding.toolbar.toolbar)
 
 		title = intent.getStringExtra(KEY_TITLE) ?: run { finish(); return }
 		setupToolbar()
@@ -74,8 +80,8 @@ class PrivacyTermsActivity : BaseActivity() {
 	}
 
 	private fun setLabelContent() {
-		tv_content.text = fromHtml(content!!)
-		tv_content.movementMethod = LinkMovementMethod.getInstance()
+		binding.tvContent.text = fromHtml(content!!)
+		binding.tvContent.movementMethod = LinkMovementMethod.getInstance()
 	}
 
 

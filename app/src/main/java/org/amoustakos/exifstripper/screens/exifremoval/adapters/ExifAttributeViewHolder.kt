@@ -1,7 +1,8 @@
 package org.amoustakos.exifstripper.screens.exifremoval.adapters
 
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.row_exif_attribute.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.screens.exifremoval.models.ExifAttributeViewData
 import org.amoustakos.exifstripper.view.recycler.BaseViewHolder
@@ -17,9 +18,13 @@ class ExifAttributeViewHolder(
 		publishers
 ) {
 
+	private val tvTitle: TextView = itemView.findViewById(R.id.tv_title)
+	private val tvValue: TextView = itemView.findViewById(R.id.tv_value)
+	private val ivDelete: ImageView = itemView.findViewById(R.id.iv_delete)
+
 	init {
 		itemView.setOnClickListener { onClick() }
-		itemView.iv_delete.setOnClickListener { onDelete() }
+		ivDelete.setOnClickListener { onDelete() }
 		itemView.setOnLongClickListener { onLongClick() }
 	}
 
@@ -39,8 +44,8 @@ class ExifAttributeViewHolder(
 
 	override fun loadItem(item: ExifAttributeViewData) {
 		super.loadItem(item)
-		itemView.tv_title.text = mItem?.title
-		itemView.tv_value.text = mItem?.value
+		tvTitle.text = mItem?.title
+		tvValue.text = mItem?.value
 	}
 
 	companion object {
