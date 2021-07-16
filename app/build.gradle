@@ -1,10 +1,10 @@
 apply plugin: applyPlugins.application
-apply from: "$project.rootDir/config/config.gradle"
-
 apply plugin: applyPlugins.kotlin
 apply plugin: applyPlugins.kapt
 apply plugin: applyPlugins.kotlinParcelize
 apply plugin: applyPlugins.crashlytics
+
+apply from: "$project.rootDir/config/config.gradle"
 
 android {
 	defaultConfig {
