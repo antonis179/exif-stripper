@@ -2,7 +2,6 @@ apply plugin: applyPlugins.application
 apply plugin: applyPlugins.kotlin
 apply plugin: applyPlugins.kapt
 apply plugin: applyPlugins.kotlinParcelize
-apply plugin: applyPlugins.crashlytics
 
 apply from: "$project.rootDir/config/config.gradle"
 
@@ -31,7 +30,13 @@ dependencies {
 	kapt annotation_processors.lifecycle
 
 	implementation libs_support.values()
-	implementation libs_firebase.values()
+
+	implementation platform(libs_firebase.firebase_bom)
+	implementation libs_firebase.firebase_analytics
+	implementation libs_firebase.firebase_remote_config
+	implementation libs_firebase.firebase_core
+	implementation libs_firebase.crashlytics
+
 	implementation libs_logging.values()
 	implementation libs_image.values()
 	implementation libs_kotlin.values()
@@ -45,3 +50,4 @@ dependencies {
 }
 
 apply plugin: applyPlugins.google_gms
+apply plugin: applyPlugins.crashlytics

@@ -1,9 +1,9 @@
 project.ext {
 
 	build_params = [
-			compile_version: 30,
+			compile_version: 31,
 			min_version    : 21,
-			target_version : 30
+			target_version : 31
 	]
 
 	key_config = [
@@ -52,9 +52,10 @@ project.ext {
 
 			getProperties          : { String filename, Boolean fromRoot ->
 				Properties props = new Properties()
-				props.load(
-						new FileInputStream(
-								"${rootDir}${if (fromRoot) "/" else "/_SENSITIVE_HIDE_FROM_GIT_/"}${filename}"))
+				String secondaryPath = "/_SENSITIVE_HIDE_FROM_GIT_/"
+				if (fromRoot) secondaryPath = "/"
+				String path = project.rootDir.path + secondaryPath + filename
+				props.load(new FileInputStream(path))
 				props
 			},
 
@@ -71,88 +72,106 @@ project.ext {
 
 	app = [
 			version    : {
-				def props = project.ext.methods.getEnv()
+				def props = methods.getEnv()
 				methods.getAttribute(props, "${key_config.app_version}") as Integer
 			},
 
 			versionName: {
-				def props = project.ext.methods.getEnv()
+				def props = methods.getEnv()
 				"${methods.getAttribute(props, "${key_config.app_version_name}")}"
 			}
 	]
 
 	ads = [
 			getAppodealKey   : {
-				def props = project.ext.methods.getAds()
 				try {
-					return "${methods.getAttribute(props, "${key_config.appodeal_app_key}")}"
-				} catch (Exception ignored) {
+					return methods.stringify(
+							methods.getAttribute(
+									methods.getAds(),
+									key_config.appodeal_app_key
+							)
+					)
+				} catch (Exception e) {
+					e.printStackTrace()
 				}
 				return ""
 			},
 
 			getAdmobPublisher: {
-				def props = project.ext.methods.getAds()
 				try {
-					return "${methods.getAttribute(props, "${key_config.admob_publisher}")}"
-				} catch (Exception ignored) {
+					return methods.stringify(
+							methods.getAttribute(
+									methods.getAds(),
+									key_config.admob_publisher
+							)
+					)
+				} catch (Exception e) {
+					e.printStackTrace()
 				}
 				return ""
 			},
 
 			getAdmobBanner   : { String footerNumber ->
-				def props = project.ext.methods.getAds()
 				try {
-					return "${methods.getAttribute(props, "${key_config.admob_banner}.$footerNumber")}"
-				} catch (Exception ignored) {
+					return methods.stringify(
+							methods.getAttribute(
+									methods.getAds(),
+									"${key_config.admob_banner}.$footerNumber"
+							)
+					)
+				} catch (Exception e) {
+					e.printStackTrace()
 				}
 				return ""
 			},
 
 			getAdmobRewarded : { String rewardedNumber ->
-				def props = project.ext.methods.getAds()
 				try {
-					return "${methods.getAttribute(props, "${key_config.admob_rewarded}.$rewardedNumber")}"
-				} catch (Exception ignored) {
+					return methods.stringify(
+							methods.getAttribute(
+									methods.getAds(),
+									"${key_config.admob_rewarded}.$rewardedNumber"
+							)
+					)
+				} catch (Exception e) {
+					e.printStackTrace()
 				}
 				return ""
 			}
 	]
 }
 
-
 android {
-	compileSdkVersion build_params.compile_version
+	compileSdk build_params.compile_version
 
 	buildFeatures {
 		viewBinding true
 	}
 
 	defaultConfig {
-		versionCode app.version()
-		versionName app.versionName()
+		versionCode project.ext.app.version()
+		versionName project.ext.app.versionName()
 
-		minSdkVersion build_params.min_version
-		targetSdkVersion build_params.target_version
-
+		minSdk build_params.min_version
+		targetSdk build_params.target_version
 
 		//AdMob
 
-		resValue "string", "admob_publisher", ads.getAdmobPublisher()
+		resValue "string", "admob_publisher", project.ext.ads.getAdmobPublisher()
 
 		//Appodeal
-		resValue "string", "appodeal_app_key", ads.getAppodealKey()
+		resValue "string", "appodeal_app_key", project.ext.ads.getAppodealKey()
 
 	}
 
 	signingConfigs {
-		def props = methods.getPasswords()
+		def props = project.ext.methods.getPasswords()
 
 		debug {
-			def loc = methods.getAttribute(props, "${key_config.debug_location}")
-			def pwd = methods.getAttribute(props, "${key_config.debug_pwd}")
-			def alias = methods.getAttribute(props, "${key_config.debug_alias}")
-			def aliasPwd = methods.getAttribute(props, "${key_config.debug_alias_pwd}")
+			def loc = project.ext.methods.getAttribute(props, "${project.ext.key_config.debug_location}")
+			def pwd = project.ext.methods.getAttribute(props, "${project.ext.key_config.debug_pwd}")
+			def alias = project.ext.methods.getAttribute(props, "${project.ext.key_config.debug_alias}")
+			def aliasPwd = project.ext.methods.getAttribute(props, "${project.ext.key_config.debug_alias_pwd}")
 
 			storeFile file(loc)
 			storePassword pwd
@@ -160,10 +179,10 @@ android {
 			keyPassword aliasPwd
 		}
 		release {
-			def loc = methods.getAttribute(props, "${key_config.release_location}")
-			def pwd = methods.getAttribute(props, "${key_config.release_pwd}")
-			def alias = methods.getAttribute(props, "${key_config.release_alias}")
-			def aliasPwd = methods.getAttribute(props, "${key_config.release_alias_pwd}")
+			def loc = project.ext.methods.getAttribute(props, "${project.ext.key_config.release_location}")
+			def pwd = project.ext.methods.getAttribute(props, "${project.ext.key_config.release_pwd}")
+			def alias = project.ext.methods.getAttribute(props, "${project.ext.key_config.release_alias}")
+			def aliasPwd = project.ext.methods.getAttribute(props, "${project.ext.key_config.release_alias_pwd}")
 
 			storeFile file(loc)
 			storePassword pwd
@@ -177,12 +196,11 @@ android {
 			debuggable true
 			signingConfig signingConfigs.debug
 
-			resValue "string", "admob_rewarded", ads.getAdmobRewarded("test")
-			resValue "string", "admob_footer_banner", ads.getAdmobBanner("test")
+			resValue "string", "admob_rewarded", project.ext.ads.getAdmobRewarded("test")
+			resValue "string", "admob_footer_banner", project.ext.ads.getAdmobBanner("test")
 		}
 		release {
 			debuggable false
-			useProguard true
 			minifyEnabled true
 			shrinkResources true
 
@@ -190,14 +208,9 @@ android {
 			proguardFiles getDefaultProguardFile('proguard-android.txt'),
 					"$project.rootDir/config/proguard-rules.pro"
 
-			resValue "string", "admob_rewarded", ads.getAdmobRewarded("1")
-			resValue "string", "admob_footer_banner", ads.getAdmobBanner("1")
+			resValue "string", "admob_rewarded", project.ext.ads.getAdmobRewarded("1")
+			resValue "string", "admob_footer_banner", project.ext.ads.getAdmobBanner("1")
 		}
-	}
-
-	dexOptions {
-		preDexLibraries true
-		dexInProcess true
 	}
 
 	compileOptions {
@@ -206,20 +219,8 @@ android {
 		targetCompatibility java_version
 	}
 
-	lintOptions {
-		abortOnError false
-
-		/*
-		 * Disables deep linking warnings.
-		 * If your app is indexable remove this and add deep links
-		 * to the activities you want to be crawlable
-		 */
-		disable 'GoogleAppIndexingWarning'
-
-		/*
-		 * lint checks for java/kotlin interoperability
-		 */
-		check 'Interoperability'
+	kotlinOptions {
+		jvmTarget = java_version
 	}
 
 }

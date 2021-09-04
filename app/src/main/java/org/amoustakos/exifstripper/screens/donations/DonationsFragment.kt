@@ -1,5 +1,6 @@
 package org.amoustakos.exifstripper.screens.donations
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
@@ -9,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.android.billingclient.api.SkuDetails
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.R
@@ -110,6 +113,7 @@ class DonationsFragment : BaseFragment() {
 		)
 	}
 
+	@SuppressLint("NotifyDataSetChanged")
 	private fun setupRecycler(viewData: MutableList<DonationViewData>) {
 		if (adapter != null) {
 			adapter?.replace(viewData)
@@ -141,7 +145,16 @@ class DonationsFragment : BaseFragment() {
                         )
                     }.toMutableList()
 
-                    setupRecycler(viewData)
+					Single.fromCallable { }
+						.observeOn(AndroidSchedulers.mainThread())
+						.subscribeOn(AndroidSchedulers.mainThread())
+						.map {
+							setupRecycler(viewData)
+						}
+						.doOnError { AnalyticsUtil.logException(it) }
+						.onErrorReturn {}
+						.disposeBy(onDestroy)
+						.subscribe()
                 },
 				{
 					AnalyticsUtil.logException(it)

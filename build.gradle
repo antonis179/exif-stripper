@@ -1,25 +1,15 @@
-apply from: "$project.rootDir/config/dependencies.gradle"
-
 buildscript {
 	//Needs to be applied here - buildscript executed first
 	apply from: "$project.rootDir/config/dependencies.gradle"
 
 	repositories repos
-	allprojects { repositories repos}
+	allprojects { repositories repos }
 
 	dependencies { classpath gradle_plugins.values() }
 }
 
-apply plugin: ext.applyPlugins.dependencyUpdates
-
-subprojects {
-
-	tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-		kotlinOptions {
-			jvmTarget = java_version
-		}
-	}
-}
+apply from: "$project.rootDir/config/dependencies.gradle"
+apply plugin: applyPlugins.dependencyUpdates
 
 task clean(type: Delete) {
 	delete rootProject.buildDir

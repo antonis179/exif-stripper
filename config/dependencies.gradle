@@ -1,9 +1,10 @@
 project.ext {
 
-	java_version = '1.8'
+	java_version = JavaVersion.VERSION_1_8
 
 	repos = {
 		google()
+		gradlePluginPortal()
 		mavenCentral()
 		maven { url 'https://jitpack.io' }
 		maven { url 'https://maven.fabric.io/public' }
@@ -16,7 +17,6 @@ project.ext {
 			kotlin                    : 'kotlin-android',
 			kapt                      : 'kotlin-kapt',
 			kotlinParcelize           : 'kotlin-parcelize',
-			realm                     : 'realm-android',
 			firebasePerformance       : 'com.google.firebase.firebase-perf',
 			crashlytics               : 'com.google.firebase.crashlytics',
 			dependencyUpdates         : 'com.github.ben-manes.versions',
@@ -24,18 +24,16 @@ project.ext {
 	]
 
 	plugin_versions = [
-			android                 : '4.2.2',
-			kotlin                  : '1.5.21',
-			firebase_gms            : '4.3.8',
+			android                 : '7.0.2',
+			kotlin                  : '1.5.30',
+			firebase_gms            : '4.3.10',
 			crashlytics             : '2.7.1',
-			gradleVersions          : '0.38.0'
+			gradleVersions          : '0.39.0'
 	]
 
 	gradle_plugins = [
 			android                 : "com.android.tools.build:gradle:${plugin_versions.android}",
 			kotlin                  : "org.jetbrains.kotlin:kotlin-gradle-plugin:${plugin_versions.kotlin}",
-			kotlin_android_ext      : "org.jetbrains.kotlin:kotlin-android-extensions:${plugin_versions.kotlin}",
-//			realm                   : "io.realm:realm-gradle-plugin:${plugin_versions.realm}",
 			google_gms              : "com.google.gms:google-services:${plugin_versions.firebase_gms}",
 			crashlytics             : "com.google.firebase:firebase-crashlytics-gradle:${plugin_versions.crashlytics}",
 			gradleVersions          : "com.github.ben-manes:gradle-versions-plugin:${plugin_versions.gradleVersions}"
@@ -51,7 +49,7 @@ project.ext {
 			support_design              : '1.3.0',
 			support_recycler            : '1.2.1',
 			support_cardview            : '1.0.0',
-			constraint_layout           : '2.0.3',
+			constraint_layout           : '2.1.0',
 			lifecycle                   : '2.3.1',
 			lifecycle_runtime           : '2.3.1',
 			lifecycle_view_model        : '2.3.1',
@@ -74,21 +72,17 @@ project.ext {
 //			okhttp                      : '4.2.0',
 
 			//Logging
-			timber                      : '4.7.1',
+			timber                      : '5.0.1',
 
 			//Analytics
-			crashlytics                 : '18.1.0',
-			firebase_core               : '19.0.0',
-			firebase_ads                : '19.1.0',
-			firebase_analytics          : '19.0.0',
-			firebase_remote_config      : '21.0.0',
+			firebase_bom                : '28.3.1',
 
 			//Bus
 			event_bus                   : '3.1.1',
 
 			//Image
-			coil                        : '1.3.0',
-			exif                        : '1.3.2',
+			coil                        : '1.3.2',
+			exif                        : '1.3.3',
 
 			circleindicator             : '2.1.6'
 	]
@@ -132,10 +126,11 @@ project.ext {
 
 	libs_firebase = [
 			//Analytics
-			firebase_analytics      : "com.google.firebase:firebase-analytics-ktx:${lib_versions.firebase_analytics}",
-			firebase_remote_config  : "com.google.firebase:firebase-config-ktx:${lib_versions.firebase_remote_config}",
-			firebase_core           : "com.google.firebase:firebase-core:${lib_versions.firebase_core}",
-			crashlytics             : "com.google.firebase:firebase-crashlytics:${lib_versions.crashlytics}"
+			firebase_bom            : "com.google.firebase:firebase-bom:${lib_versions.firebase_bom}",
+			firebase_analytics      : "com.google.firebase:firebase-analytics-ktx",
+			firebase_remote_config  : "com.google.firebase:firebase-config-ktx",
+			firebase_core           : "com.google.firebase:firebase-core",
+			crashlytics             : "com.google.firebase:firebase-crashlytics-ktx"
 	]
 
 	libs_local_io = [
@@ -169,7 +164,7 @@ project.ext {
 
 	libs_kotlin = [
 			kotlin_stdlib_java8 : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${plugin_versions.kotlin}",
-			kotlin_reflect      : "org.jetbrains.kotlin:kotlin-reflect:${plugin_versions.kotlin}",
+			kotlin_reflect      : "org.jetbrains.kotlin:kotlin-reflect:${plugin_versions.kotlin}"
 	]
 
 	libs_ads = [
