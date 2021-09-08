@@ -1,3 +1,0 @@
-* Fixed buggy image selection
-* Fixed issue that did not allow exif removal after rotation or screen switch
-* Updated libraries

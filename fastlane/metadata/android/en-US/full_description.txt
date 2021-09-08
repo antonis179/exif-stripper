@@ -27,9 +27,4 @@ By downloading this app you agree to the privacy policy.
 • Share images to the app directly from your gallery
 • Auto save option after metadata removal
 
-<b>Under development:
-</b>
-• Translations for other languages
-• Save folder setting
-
 If you have a feature idea you would like to see in the app please let me know.
