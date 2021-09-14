@@ -112,11 +112,17 @@ class MainActivity : BaseActivity() {
 	}
 
 	override fun onBackPressed() {
-		if (supportFragmentManager.backStackEntryCount > 1 || isDoubleBackToExitPressedOnce) {
+		if (supportFragmentManager.backStackEntryCount > 1) {
 			super.onBackPressed()
 			binding.navBottom.selectedItemId = getSelectionId()
 			return
 		}
+
+		if (isDoubleBackToExitPressedOnce) {
+			finishAffinity()
+			return
+		}
+
 		isDoubleBackToExitPressedOnce = true
 		Toast.makeText(this, getString(R.string.toast_back_to_exit), Toast.LENGTH_SHORT).show()
 		Handler(Looper.getMainLooper()).postDelayed({ isDoubleBackToExitPressedOnce = false }, 2000)
