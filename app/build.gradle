@@ -26,9 +26,6 @@ kapt {
 
 dependencies {
 //	implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
-
-	kapt annotation_processors.lifecycle
-
 	implementation libs_support.values()
 
 	implementation platform(libs_firebase.firebase_bom)
@@ -43,10 +40,11 @@ dependencies {
 	implementation libs_rx.values()
 
 	//Ads
-	implementation libs_play_services.values()
 	implementation libs_ads.values()
 
-	coreLibraryDesugaring libs_desugaring.core_desugaring
+	kapt annotation_processors.lifecycle
+
+	implementation libs_work.values()
 }
 
 apply plugin: applyPlugins.google_gms

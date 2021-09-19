@@ -25,7 +25,7 @@ project.ext {
 
 	plugin_versions = [
 			android                 : '7.0.2',
-			kotlin                  : '1.5.30',
+			kotlin                  : '1.5.31',
 			firebase_gms            : '4.3.10',
 			crashlytics             : '2.7.1',
 			gradleVersions          : '0.39.0'
@@ -41,12 +41,12 @@ project.ext {
 
 	lib_versions = [
 			//Support
-			play_services_gcm           : '17.0.0',
-			play_services_ads           : '20.2.0',
-			androidx_core               : '1.5.0',
-			androidx_fragment           : '1.3.2',
-			appcompat                   : '1.3.0',
-			support_design              : '1.3.0',
+			play_services_ads           : '20.3.0',
+			androidx_core               : '1.6.0',
+			androidx_fragment           : '1.3.6',
+			androidx_work               : '2.7.0-beta01',
+			appcompat                   : '1.3.1',
+			support_design              : '1.4.0',
 			support_recycler            : '1.2.1',
 			support_cardview            : '1.0.0',
 			constraint_layout           : '2.1.0',
@@ -57,9 +57,6 @@ project.ext {
 			preferences                 : '1.1.0',
 			material                    : '1.3.0',
 			play_billing                : '4.0.0',
-
-			//Desugaring
-			core_desugaring             : '1.0.9',
 
 			//Annotation processors - injection - RX
 			rx_java                     : '2.2.21',
@@ -75,7 +72,7 @@ project.ext {
 			timber                      : '5.0.1',
 
 			//Analytics
-			firebase_bom                : '28.3.1',
+			firebase_bom                : '28.4.1',
 
 			//Bus
 			event_bus                   : '3.1.1',
@@ -96,6 +93,17 @@ project.ext {
 			gson                : "com.google.code.gson:gson:${lib_versions.gson}"
 	]
 
+	libs_work = [
+			androidx_work       : "androidx.work:work-runtime-ktx:${lib_versions.androidx_work}"
+//			androidx_work_2     : "androidx.work:work-runtime:${lib_versions.androidx_work}",
+//			androidx_work_3     : "androidx.work:work-rxjava2:${lib_versions.androidx_work}",
+//			androidx_work_4     : "androidx.work:work-gcm:${lib_versions.androidx_work}",
+//			androidx_work_5     : "androidx.work:work-multiprocess:${lib_versions.androidx_work}"
+
+			//	// optional - Test helpers
+//	androidTestImplementation "androidx.work:work-testing:$work_version"
+	]
+
 	libs_support = [
 			appcompat           : "androidx.appcompat:appcompat:${lib_versions.appcompat}",
 			androidx_core       : "androidx.core:core-ktx:${lib_versions.androidx_core}",
@@ -114,14 +122,6 @@ project.ext {
 			constraint_layout   : "androidx.constraintlayout:constraintlayout:${lib_versions.constraint_layout}",
 			material            : "com.google.android.material:material:${lib_versions.material}",
 			play_billing        : "com.android.billingclient:billing:${lib_versions.play_billing}"
-	]
-
-	libs_desugaring = [
-			core_desugaring     : "com.android.tools:desugar_jdk_libs:${lib_versions.core_desugaring}"
-	]
-
-	libs_play_services = [
-			play_gcm            : "com.google.android.gms:play-services-gcm:${lib_versions.play_services_gcm}"
 	]
 
 	libs_firebase = [
