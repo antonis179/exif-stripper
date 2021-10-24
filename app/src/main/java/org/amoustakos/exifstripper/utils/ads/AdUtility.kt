@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import com.google.android.gms.ads.*
 import org.amoustakos.exifstripper.ExifApplication
 import org.amoustakos.exifstripper.R
-import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FBRemoteConfigUtility
 

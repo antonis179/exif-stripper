@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.StatFs
 import android.webkit.MimeTypeMap
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType.WILDCARD
-import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import timber.log.Timber
 import java.io.*
 import kotlin.experimental.and

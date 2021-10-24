@@ -10,7 +10,7 @@ import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.io.ResponseWrapper
 import org.amoustakos.exifstripper.io.file.schemehandlers.ContentType
 import org.amoustakos.exifstripper.io.file.schemehandlers.SchemeHandlerFactory
-import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.FileUtils
 import org.amoustakos.exifstripper.utils.exif.errors.InvalidFormatException

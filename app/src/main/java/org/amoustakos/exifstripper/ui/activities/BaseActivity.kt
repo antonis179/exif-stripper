@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import org.amoustakos.exifstripper.ExifApplication
-import org.amoustakos.exifstripper.screens.home.MainActivity
-import org.amoustakos.exifstripper.screens.privacy.PrivacyActivity
-import org.amoustakos.exifstripper.screens.privacy.PrivacyTermsActivity
+import org.amoustakos.exifstripper.usecases.home.MainActivity
+import org.amoustakos.exifstripper.usecases.privacy.PrivacyActivity
+import org.amoustakos.exifstripper.usecases.privacy.PrivacyTermsActivity
 import org.amoustakos.exifstripper.view.base.ActivityViewComponent
 
 abstract class BaseActivity : AppCompatActivity() {

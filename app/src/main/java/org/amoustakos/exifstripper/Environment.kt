@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
-import org.amoustakos.exifstripper.screens.settings.SettingsUtil
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
+import org.amoustakos.exifstripper.usecases.settings.SettingsUtil
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.ads.AdUtility
 import org.amoustakos.exifstripper.utils.exif.ExifFile

@@ -4,7 +4,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import org.amoustakos.exifstripper.ExifApplication
-import org.amoustakos.exifstripper.screens.privacy.AnalyticsUtil
+import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
 
 object FBRemoteConfigUtility {
 
