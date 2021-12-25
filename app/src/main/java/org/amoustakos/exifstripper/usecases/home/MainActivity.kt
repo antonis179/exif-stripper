@@ -90,7 +90,7 @@ class MainActivity : BaseActivity() {
 
 	private fun setupBottomNav() {
 		binding.navBottom.selectedItemId = R.id.nav_home
-		binding.navBottom.setOnNavigationItemSelectedListener { item ->
+		binding.navBottom.setOnItemSelectedListener { item ->
 			when(item.itemId) {
 				R.id.nav_home -> {
 					loadHomeFragment(null)

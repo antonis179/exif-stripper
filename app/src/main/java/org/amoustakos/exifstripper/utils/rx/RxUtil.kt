@@ -1,4 +1,4 @@
-package org.amoustakos.utils.android.rx
+package org.amoustakos.exifstripper.utils.rx
 
 import io.reactivex.FlowableTransformer
 import io.reactivex.ObservableTransformer
