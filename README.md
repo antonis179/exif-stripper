@@ -10,8 +10,6 @@ Download from [Play Store](https://play.google.com/store/apps/details?id=org.amo
 
 If this project helped you please consider donating via one of the following ways:
 
-<a href="https://www.buymeacoffee.com/AoCpEcg" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
-
 - Paypal: **<https://www.paypal.me/neo179>**
 - BTC: **19rqnHTiZNxeXVSCB2cckJeC92rm23nNrc**
 - ETH: **0x5F0F643F5dB5cC2E4ff91F16F13f225f441dd4Df**
