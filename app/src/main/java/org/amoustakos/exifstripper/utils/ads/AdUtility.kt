@@ -57,7 +57,7 @@ object AdUtility {
 		initialized = true
 
 		//Admob
-		MobileAds.initialize(ExifApplication.appContext.get()) {}
+		ExifApplication.appContext.get()?.let { MobileAds.initialize(it) {} }
 	}
 
 	fun registerCallback(callback: AdLoadedListener) {
@@ -134,7 +134,7 @@ object AdUtility {
 		val ad = AdView(ctx)
 		//TODO: add id to remote config
 		ad.adUnitId = ctx.getString(R.string.admob_footer_banner)
-		ad.adSize = admobSize(ctx, viewGroup)
+		ad.setAdSize(admobSize(ctx, viewGroup))
 		ad.layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
 
 		viewGroup.addView(ad)
@@ -154,7 +154,7 @@ object AdUtility {
 					AnalyticsUtil.logEvent(viewGroup.context, "ad_click_${AdNetwork.AdMob.name}")
 				}
 
-				override fun onAdFailedToLoad(p0: LoadAdError?) {
+				override fun onAdFailedToLoad(p0: LoadAdError) {
 					super.onAdFailedToLoad(p0)
 					AnalyticsUtil.logEvent(viewGroup.context, "ad_load_fail_${AdNetwork.AdMob.name}")
 				}

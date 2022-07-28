@@ -314,11 +314,13 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 		}
 	}
 
+	@Deprecated("Deprecated in Java")
 	override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 		menu.clear()
 		inflater.inflate(R.menu.toolbar, menu)
 		super.onCreateOptionsMenu(menu, inflater)
 	}
+
 
 	private fun toggleAppbar() {
 		if (!isImageLoaded()) {
@@ -635,6 +637,7 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 		}
 	}
 
+	@Deprecated("Deprecated in Java")
 	override fun onRequestPermissionsResult(
 			requestCode: Int,
 			permissions: Array<String>,
@@ -651,6 +654,8 @@ class ImageHandlingFragment : BaseFragment(), AdLoadedListener {
 			}
 		}
 	}
+
+
 
 
 	companion object {
