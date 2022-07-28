@@ -1,9 +1,9 @@
 project.ext {
 
 	build_params = [
-			compile_version: 31,
+			compile_version: 32,
 			min_version    : 21,
-			target_version : 31
+			target_version : 32
 	]
 
 	key_config = [
