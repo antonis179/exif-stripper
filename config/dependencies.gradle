@@ -72,13 +72,13 @@ project.ext {
 			timber                      : '5.0.1',
 
 			//Analytics
-			firebase_bom                : '30.3.1',
+			firebase_bom                : '30.3.2',
 
 			//Bus
-			event_bus                   : '3.1.1',
+//			event_bus                   : '3.1.1',
 
 			//Image
-			coil                        : '2.1.0',
+			coil                        : '2.2.0',
 			exif                        : '1.3.3',
 
 			circleindicator             : '2.1.6'
@@ -133,9 +133,9 @@ project.ext {
 			crashlytics             : "com.google.firebase:firebase-crashlytics-ktx"
 	]
 
-	libs_local_io = [
-			event_bus           : "org.greenrobot:eventbus:${lib_versions.event_bus}"
-	]
+//	libs_local_io = [
+//			event_bus           : "org.greenrobot:eventbus:${lib_versions.event_bus}"
+//	]
 
 	libs_remote_io = [
 //			retrofit            : "com.squareup.retrofit2:retrofit:${lib_versions.retrofit}",
