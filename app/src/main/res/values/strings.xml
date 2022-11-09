@@ -2,7 +2,7 @@
 
 	<!-- Titles	-->
 
-	<string name="app_name" translatable="false">Photo Stripper</string>
+	<string name="app_name" translatable="false">Meta Remover</string>
 	<string name="title_activity_splash" translatable="false">@string/app_name</string>
 	<string name="title_activity_main" translatable="false">@string/app_name</string>
 	<string name="title_image_select">Select Photo</string>
