@@ -24,7 +24,7 @@ project.ext {
 	]
 
 	plugin_versions = [
-			android                 : '7.2.1',
+			android                 : '7.3.1',
 			kotlin                  : '1.7.21',
 			firebase_gms            : '4.3.14',
 			crashlytics             : '2.9.1',
