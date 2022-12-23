@@ -41,13 +41,13 @@ project.ext {
 
 			getAttribute           : { Properties props, String key ->
 				String attribute = props.get(key)
-				methods.checkAttribute(attribute)
+				methods.checkAttribute(attribute, key)
 				attribute
 			},
 
-			checkAttribute         : { String attribute ->
+			checkAttribute         : { String attribute, String key ->
 				if (attribute == null || attribute.size() < 1)
-					throw new GradleException("Missing Attribute")
+					throw new GradleException("Missing Attribute $attribute for key $key")
 			},
 
 			getProperties          : { String filename, Boolean fromRoot ->
@@ -61,7 +61,7 @@ project.ext {
 
 			getStringifiedAttribute: { Properties props, String key ->
 				String attribute = props.get(key)
-				methods.checkAttribute(attribute)
+				methods.checkAttribute(attribute, key)
 				methods.stringify(attribute)
 			},
 
@@ -168,6 +168,8 @@ android {
 		def props = project.ext.methods.getPasswords()
 
 		debug {
+			ext.alwaysUpdateBuildId = false
+
 			def loc = project.ext.methods.getAttribute(props, "${project.ext.key_config.debug_location}")
 			def pwd = project.ext.methods.getAttribute(props, "${project.ext.key_config.debug_pwd}")
 			def alias = project.ext.methods.getAttribute(props, "${project.ext.key_config.debug_alias}")
