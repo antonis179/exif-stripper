@@ -11,7 +11,7 @@
 	<string name="label_toc">Términos y Condiciones</string>
 	<string name="label_privacy_policy">Política de privacidad</string>
 	<string name="label_accept">Aceptar</string>
-	<string name="title_donation"><b>¡Esta aplicación es de código abierto y gratuita y siempre lo será!</b> \n\nSi mi trabajo lo ayudó, considere donar viendo un anuncio o haciendo una compra en la aplicación a continuación (¡los desarrolladores también necesitan pizza!)</string>
+	<string name="title_donation"><b>¡Esta aplicación es de código abierto y gratuita y siempre lo será!</b></string>
 	<string name="label_donation_reward_text">Tu rock! ¡Gracias por tu apoyo!</string>
 	<string name="remove_all">Eliminar todo</string>
 	<string name="share_with">Compartir con</string>

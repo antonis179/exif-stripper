@@ -11,7 +11,7 @@
 	<string name="label_toc">Felhasználási feltételek</string>
 	<string name="label_privacy_policy">Adatvédelmi irányelvek</string>
 	<string name="label_accept">Elfogad</string>
-	<string name="title_donation"><b>Ez az alkalmazás nyílt forráskódú és ingyenes, és mindig ingyenes marad!</b> \n\nHa munkám segített, kérjük, fontolja meg az adományozást az alábbiakban szereplő hirdetés megnézése vagy alkalmazáson belüli vásárlás révén (a fejlesztőknek pizzára is szükségük van!)</string>
+	<string name="title_donation"><b>Ez az alkalmazás nyílt forráskódú és ingyenes, és mindig ingyenes marad!</b></string>
 	<string name="label_donation_reward_text">Király vagy!!! Köszönöm a tamogatásod!</string>
 	<string name="remove_all">Összes eltávolítása</string>
 	<string name="share_with">Oszd</string>

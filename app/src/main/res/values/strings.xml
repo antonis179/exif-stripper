@@ -31,7 +31,7 @@
 	<string name="label_toc">Terms and Conditions</string>
 	<string name="label_privacy_policy">Privacy Policy</string>
 	<string name="label_accept">Accept</string>
-	<string name="title_donation"><b>This application is open source and free and will always remain free!</b> \n\nIf my work helped you please consider donating by watching an ad or making an in-app purchase below (developers need pizza too!)</string>
+	<string name="title_donation"><b>This application is open source and free and will always remain free!</b></string>
 	<string name="label_donation_reward_text">You rock!!! Thank you for your support!</string>
 	<string name="github" translatable="false">GitHub</string>
 	<string name="et_hint_exif_value">Value</string>

@@ -11,7 +11,7 @@
 	<string name="label_toc">Geschäftsbedingungen</string>
 	<string name="label_privacy_policy">Datenschutz-Bestimmungen</string>
 	<string name="label_accept">Akzeptieren</string>
-	<string name="title_donation"><b>Diese Anwendung ist Open Source und kostenlos und wird immer kostenlos bleiben!</b> \n\nWenn meine Arbeit Ihnen geholfen hat, überlegen Sie bitte, ob Sie spenden möchten, indem Sie eine Anzeige ansehen oder eine In-App kaufen (Entwickler benötigen ebenfalls Pizza!).</string>
+	<string name="title_donation"><b>Diese Anwendung ist Open Source und kostenlos und wird immer kostenlos bleiben!</b></string>
 	<string name="label_donation_reward_text">Du rockst!!! Danke für Ihre Unterstützung!</string>
 	<string name="remove_all">Alles entfernen</string>
 	<string name="share_with">Teilen mit</string>
