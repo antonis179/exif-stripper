@@ -45,15 +45,6 @@
 				android:layout_gravity="center_horizontal"
 				android:orientation="horizontal">
 
-				<Button
-					android:id="@+id/btnAd"
-					style="@style/ButtonAd"
-					android:text="@string/watch_ad"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					/>
-
 				<ImageView
 					android:id="@+id/ivGithub"
 					android:layout_width="40dp"
@@ -61,10 +52,10 @@
 					android:scaleType="fitXY"
 					android:layout_marginStart="@dimen/margin_x_large"
 					android:src="@drawable/ic_github"
-					app:layout_constraintTop_toTopOf="@id/btnAd"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintStart_toEndOf="parent"
 					app:layout_constraintEnd_toStartOf="@id/tvGithub"
-					app:layout_constraintBottom_toBottomOf="@id/btnAd"
-					app:layout_constraintStart_toEndOf="@id/btnAd"
+					app:layout_constraintBottom_toBottomOf="parent"
 					tools:ignore="ContentDescription" />
 
 				<TextView

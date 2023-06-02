@@ -16,10 +16,10 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import org.amoustakos.exifstripper.R
 import org.amoustakos.exifstripper.databinding.FragmentDonationsBinding
+import org.amoustakos.exifstripper.ui.fragments.BaseFragment
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationViewData
 import org.amoustakos.exifstripper.usecases.donations.adapters.DonationsAdapter
 import org.amoustakos.exifstripper.usecases.privacy.AnalyticsUtil
-import org.amoustakos.exifstripper.ui.fragments.BaseFragment
 import org.amoustakos.exifstripper.utils.Do
 import org.amoustakos.exifstripper.utils.rx.disposer.disposeBy
 import org.amoustakos.exifstripper.utils.rx.disposer.onDestroy
@@ -78,10 +78,10 @@ class DonationsFragment : BaseFragment() {
 
 		loadBilling()
 
-		binding.btnAd.setOnClickListener {
-			binding.btnAd.isEnabled = false
-			makeAndLoadRewardedAd()
-		}
+//		binding.btnAd.setOnClickListener {
+//			binding.btnAd.isEnabled = false
+//			makeAndLoadRewardedAd()
+//		}
 	}
 
 	private fun setupToolbar() {
@@ -163,19 +163,19 @@ class DonationsFragment : BaseFragment() {
 	}
 
 
-	private fun makeAndLoadRewardedAd() {
-		Do.safe(
-				{
-					billing.loadAdMobRewardedAd(
-							{ binding.btnAd.isEnabled = true },
-							{ binding.btnAd.isEnabled = true }
-					)
-				},
-				{
-					AnalyticsUtil.logException(it)
-				}
-		)
-	}
+//	private fun makeAndLoadRewardedAd() {
+//		Do.safe(
+//				{
+//					billing.loadAdMobRewardedAd(
+//							{ binding.btnAd.isEnabled = true },
+//							{ binding.btnAd.isEnabled = true }
+//					)
+//				},
+//				{
+//					AnalyticsUtil.logException(it)
+//				}
+//		)
+//	}
 
 	private fun showReward() {
 		val dlg = AlertDialog.Builder(requireActivity()).create().apply {
