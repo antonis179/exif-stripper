@@ -1,9 +1,9 @@
 project.ext {
 
 	build_params = [
-			compile_version: 33,
-			min_version    : 21,
-			target_version : 33
+			compile_version: 34,
+			min_version    : 26,
+			target_version : 34
 	]
 
 	key_config = [
@@ -142,10 +142,12 @@ project.ext {
 }
 
 android {
+	namespace = "org.amoustakos.exifstripper"
 	compileSdk build_params.compile_version
 
 	buildFeatures {
 		viewBinding true
+		buildConfig true
 	}
 
 	defaultConfig {
