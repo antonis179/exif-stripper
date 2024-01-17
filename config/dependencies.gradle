@@ -56,7 +56,7 @@ project.ext {
 			lifecycle_view_model_state  : '2.5.0',
 			preferences                 : '1.1.0',
 			material                    : '1.3.0',
-			play_billing                : '5.1.0',
+			play_billing                : '6.1.0',
 
 			//Annotation processors - injection - RX
 			rx_java                     : '2.2.21',
@@ -121,7 +121,7 @@ project.ext {
 			support_design      : "com.google.android.material:material:${lib_versions.support_design}",
 			constraint_layout   : "androidx.constraintlayout:constraintlayout:${lib_versions.constraint_layout}",
 			material            : "com.google.android.material:material:${lib_versions.material}",
-			play_billing        : "com.android.billingclient:billing:${lib_versions.play_billing}"
+			play_billing        : "com.android.billingclient:billing-ktx:${lib_versions.play_billing}"
 	]
 
 	libs_firebase = [
